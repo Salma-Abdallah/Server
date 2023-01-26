@@ -3,7 +3,7 @@ import java.sql.Date;
 
 public class Client {
 
-    private String username;
+ private String username;
     private int id;
     private String email;
     private String phone_number;
@@ -20,7 +20,7 @@ public class Client {
         this.username = username;
     }
 
-    public String getUsername(String username) {
+    public String getUsername() {
         return username;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -29,7 +29,7 @@ public class Client {
         this.id = id;
     }
 
-    public int getid(int id) {
+    public int getid() {
         return id;
     }
 
@@ -38,7 +38,7 @@ public class Client {
         this.phone_number = phone_number;
     }
 
-    public String getPhone_number(String phone_number) {
+    public String getPhone_number() {
         return phone_number;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -47,7 +47,7 @@ public class Client {
         this.email = email;
     }
 
-    public String getEmail(String email) {
+    public String getEmail() {
         return email;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -56,7 +56,7 @@ public class Client {
         this.password = password;
     }
 
-    public String getPassword(String password) {
+    public String getPassword() {
         return password;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -65,7 +65,7 @@ public class Client {
         this.gender = gender;
     }
 
-    public String getGender(String gender) {
+    public String getGender() {
         return gender;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -74,7 +74,7 @@ public class Client {
         this.country = country;
     }
 
-    public String getCountry(String country) {
+    public String getCountry() {
         return country;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -83,7 +83,7 @@ public class Client {
         this.birth_date = birth_date;
     }
 
-    public Date getBirth_date(Date birth_date) {
+    public Date getBirth_date() {
         return birth_date;
     }
     /*------------------------------------------------------------------------------------------------ */
@@ -92,7 +92,7 @@ public class Client {
         this.online_status = online_status;
     }
 
-    public String getOnline_status(String online_status) {
+    public String getOnline_status() {
         return online_status;
     }
 
@@ -102,7 +102,7 @@ public class Client {
         this.bio = bio;
     }
 
-    public String getBio(String bio) {
+    public String getBio() {
         return bio;
     }
 
@@ -112,12 +112,18 @@ public class Client {
         this.image = image;
     }
 
-    public byte[] getImage(byte image[]) {
+    public byte[] getImage() {
         return image;
 
     }
     /*------------------------------------------------------------------------------------------------ */
 
-}
+    public String toString()
+    {
+        return "User [id=" + id + ", User Name=" + username + ", phone number=" + phone_number+ ",email= " + email+ ",passWord= " +password+ ",gender= " + gender+ ",country=" + country+ ",birth date= " +birth_date+ ",online Status="+online_status+",bio="+bio+",image=" +image+"]";
+    }
 
+
+
+}
 
