@@ -1,7 +1,7 @@
 package gov.iti.jets.models;
 import java.sql.Date;
 
-public class User {
+public class Client {
 
     private String username;
     private int id;
