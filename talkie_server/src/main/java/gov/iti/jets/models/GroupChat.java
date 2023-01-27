@@ -1,13 +1,13 @@
 package gov.iti.jets.models;
 
-public class UserGroup {
+public class GroupChat {
 
     private String name;
 
     private User user;
     private Chat chat;
     /*---------------------------------------------------------------------------------------------*/
-    public UserGroup(String name){
+    public GroupChat(String name){
         user.getId();
         chat.getId();
         this.name = name;
