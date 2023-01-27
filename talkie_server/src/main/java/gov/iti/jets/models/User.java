@@ -3,7 +3,7 @@ import java.sql.Date;
 
 
 
-public class Client {
+public class User {
     private String username;
     private int id;
     private String email;
@@ -17,8 +17,8 @@ public class Client {
     private byte picture[];
 
     /*------------------------------------------------------------------------------------------------ */
-    public Client(int userId,String username, String password, String phone_number, String email, String gender, String country,
-    Date birth_date, String online_status, String bio, byte[] impicture) {
+    public Client(int id,String username, String password, String phone_number, String email, String gender, String country,
+    Date birth_date, String online_status, String bio, byte[] picture) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -49,7 +49,7 @@ public class Client {
         this.id = id;
     }
 
-    public int getid() {
+    public int getId() {
         return id;
     }
 
@@ -99,7 +99,7 @@ public class Client {
     }
     /*------------------------------------------------------------------------------------------------ */
 
-    public void setBirth_date(Date birth_date) {
+    public void setBirth_date (Date birth_date) {
         this.birth_date = birth_date;
     }
 
@@ -145,57 +145,3 @@ public class Client {
     }
 
 }
-
-    public String getCountry() {
-        return country;
-    }
-    /*------------------------------------------------------------------------------------------------ */
-
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
-    }
-
-    public Date getBirth_date() {
-        return birth_date;
-    }
-    /*------------------------------------------------------------------------------------------------ */
-
-    public void setOnline_status(String online_status) {
-        this.online_status = online_status;
-    }
-
-    public String getOnline_status() {
-        return online_status;
-    }
-
-    /*------------------------------------------------------------------------------------------------ */
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    /*------------------------------------------------------------------------------------------------ */
-
-    public void setImage(byte image[]) {
-        this.image = image;
-    }
-
-    public byte[] getImage() {
-        return image;
-
-    }
-    /*------------------------------------------------------------------------------------------------ */
-
-    public String toString()
-    {
-        return "User [id=" + id + ", User Name=" + username + ", phone number=" + phone_number+ ",email= " + email+ ",passWord= " +password+ ",gender= " + gender+ ",country=" + country+ 	",birth date= " +birth_date+ ",online Status="+online_status+",bio="+bio+",image=" +image+"]";
-    }
-
-
-
-}
-
