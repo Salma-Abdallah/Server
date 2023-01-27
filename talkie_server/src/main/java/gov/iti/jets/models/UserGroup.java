@@ -35,15 +35,6 @@ public class UserGroup {
         return groupChatId;
     }
 
-    /*--------------------------------------------------------------------------------------------*/
-    public void setUser_id(int user_id) {
-        this.group_chat_id = group_chat_id;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
     /*-------------------------------------------------------------------------------------------------------------- */
 
 
@@ -51,7 +42,6 @@ public class UserGroup {
         this.user=user;
     }
 
-    /*-------------------------------------------------------------------------------------------------------------- */
     public User getUser() {
         return user;
     }
