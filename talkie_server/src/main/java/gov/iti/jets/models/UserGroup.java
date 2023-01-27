@@ -6,7 +6,10 @@ public class UserGroup {
     private int group_chat_id;
     private int user_id;
 
+    private Client client;
+
     public UserGroup(int user_id, int user_group_id, int group_chat_id) {
+        super();
         this.group_chat_id = group_chat_id;
         this.user_id = user_id;
         this.user_group_id = user_group_id;
@@ -37,6 +40,16 @@ public class UserGroup {
 
     public int getUser_id() {
         return user_id;
+    }
+
+    /*-------------------------------------------------------------------------------------------------------------- */
+    public void setClient(Client client) {
+        this.client=client;;
+    }
+    
+    /*-------------------------------------------------------------------------------------------------------------- */
+    public Client getClient() {
+        return client;
     }
 
     /*-----------------------------------------------------------------------------------------------*/
