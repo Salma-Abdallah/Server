@@ -1,9 +1,10 @@
 package gov.iti.jets.models;
 import java.sql.Date;
 
-public class Client {
 
- private String username;
+
+public class Client {
+    private String username;
     private int id;
     private String email;
     private String phone_number;
@@ -13,7 +14,26 @@ public class Client {
     private Date birth_date;
     private String online_status;
     private String bio;
-    private byte image[];
+    private byte picture[];
+
+    /*------------------------------------------------------------------------------------------------ */
+    public Client(int userId,String username, String password, String phone_number, String email, String gender, String country,
+    Date birth_date, String online_status, String bio, byte[] impicture) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.password = password;
+        this.gender = gender;
+        this.birth_date = birth_date;
+        this.country = country;
+        this.online_status = online_status;
+        this.bio = bio;
+        this.picture=picture;
+    }
+
+
+
     /*------------------------------------------------------------------------------------------------ */
 
     public void setUsername(String username) {
@@ -108,6 +128,58 @@ public class Client {
 
     /*------------------------------------------------------------------------------------------------ */
 
+    public void setImage(byte picture[]) {
+        this.picture = picture;
+    }
+
+    public byte[] getImage() {
+        return picture;
+
+    }
+    /*------------------------------------------------------------------------------------------------ */
+
+    public String toString() {
+        return "User [id=" + id + ", User Name=" + username + ", phone number=" + phone_number + ",email= " + email
+                + ",passWord= " + password + ",gender= " + gender + ",country=" + country + ",birth date= " + birth_date
+                + ",online Status=" + online_status + ",bio=" + bio + ",picture=" + picture + "]";
+    }
+
+}
+
+    public String getCountry() {
+        return country;
+    }
+    /*------------------------------------------------------------------------------------------------ */
+
+    public void setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+    /*------------------------------------------------------------------------------------------------ */
+
+    public void setOnline_status(String online_status) {
+        this.online_status = online_status;
+    }
+
+    public String getOnline_status() {
+        return online_status;
+    }
+
+    /*------------------------------------------------------------------------------------------------ */
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    /*------------------------------------------------------------------------------------------------ */
+
     public void setImage(byte image[]) {
         this.image = image;
     }
@@ -120,7 +192,7 @@ public class Client {
 
     public String toString()
     {
-        return "User [id=" + id + ", User Name=" + username + ", phone number=" + phone_number+ ",email= " + email+ ",passWord= " +password+ ",gender= " + gender+ ",country=" + country+ ",birth date= " +birth_date+ ",online Status="+online_status+",bio="+bio+",image=" +image+"]";
+        return "User [id=" + id + ", User Name=" + username + ", phone number=" + phone_number+ ",email= " + email+ ",passWord= " +password+ ",gender= " + gender+ ",country=" + country+ 	",birth date= " +birth_date+ ",online Status="+online_status+",bio="+bio+",image=" +image+"]";
     }
 
 
