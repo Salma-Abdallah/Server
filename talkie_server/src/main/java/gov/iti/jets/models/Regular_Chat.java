@@ -7,34 +7,34 @@ public class Regular_Chat {
 
 
     private int id;
-    private int first_participant_id;
-    private int second_participant_id;
+    private int firstParticipantId;
+    private int secondParticipantId;
 
-    public Regular_Chat( int first_participant_id, int second_participant_id){
+    public Regular_Chat( int firstParticipantId, int secondParticipantId){
 
-        user.getid();
-        chat.getid();
-        this.first_participant_id = first_participant_id;
-        this.second_participant_id = second_participant_id;
+        user.getId();
+        chat.getId();
+        this.firstParticipantId = firstParticipantId;
+        this.secondParticipantId= secondParticipantId;
     }
 
 
 
-    public void setFirst_participant_id(int first_participant_id) {
-        this.first_participant_id = first_participant_id;
+    public void setFirstParticipantId(int firstParticipantId) {
+        this.firstParticipantId = firstParticipantId;
     }
-    public int getFirst_participant_id() {
-        return first_participant_id;
+    public int getFirstParticipantId() {
+        return firstParticipantId;
     }
 
 
 
 
-    public void setSecond_participant_id(int secondParticipantId) {
-        this.second_participant_id = secondParticipantId;
+    public void setSecondParticipantId(int secondParticipantId) {
+        this.secondParticipantId = secondParticipantId;
     }
-    public int getSecond_participant_id() {
-        return second_participant_id;
+    public int getSecondParticipantId() {
+        return secondParticipantId;
     }
 
 

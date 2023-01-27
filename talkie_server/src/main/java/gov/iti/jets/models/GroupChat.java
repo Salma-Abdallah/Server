@@ -8,8 +8,8 @@ public class UserGroup {
     private Chat chat;
     /*---------------------------------------------------------------------------------------------*/
     public UserGroup(String name){
-        user.getId;
-        chat.getId;
+        user.getId();
+        chat.getId();
         this.name = name;
     }
     /*---------------------------------------------------------------------------------------------*/
@@ -29,10 +29,10 @@ public class UserGroup {
     }
     /*---------------------------------------------------------------------------------------------*/
     public void setChat(Chat chat) {
-        this.user=user;
+        this.chat=chat;
     }
     public Chat getChat() {
-        return Chat;
+        return chat;
     }
     /*---------------------------------------------------------------------------------------------*/
 

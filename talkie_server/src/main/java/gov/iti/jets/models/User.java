@@ -4,30 +4,30 @@ import java.sql.Date;
 
 
 public class User {
-    private String username;
+    private String userName;
     private int id;
     private String email;
-    private String phone_number;
-    private String password;
+    private String phoneNumber;
+    private String passWord;
     private String gender;
     private String country;
-    private Date birth_date;
-    private String online_status;
+    private Date birthDate;
+    private String onlineStatus;
     private String bio;
     private byte picture[];
 
     /*------------------------------------------------------------------------------------------------ */
-    public Client(int id,String username, String password, String phone_number, String email, String gender, String country,
-    Date birth_date, String online_status, String bio, byte[] picture) {
+    public User(int id, String userName, String passWord, String phoneNumber, String email, String gender, String country,
+    Date birthDate, String onlineStatus, String bio, byte[] picture) {
         this.id = id;
-        this.username = username;
+        this.userName = userName;
         this.email = email;
-        this.phone_number = phone_number;
-        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.passWord = passWord;
         this.gender = gender;
-        this.birth_date = birth_date;
+        this.birthDate = birthDate;
         this.country = country;
-        this.online_status = online_status;
+        this.onlineStatus = onlineStatus;
         this.bio = bio;
         this.picture=picture;
     }
@@ -36,12 +36,12 @@ public class User {
 
     /*------------------------------------------------------------------------------------------------ */
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
     /*------------------------------------------------------------------------------------------------ */
 
@@ -54,12 +54,12 @@ public class User {
     }
 
     /*------------------------------------------------------------------------------------------------ */
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
     /*------------------------------------------------------------------------------------------------ */
 
@@ -72,12 +72,12 @@ public class User {
     }
     /*------------------------------------------------------------------------------------------------ */
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
     /*------------------------------------------------------------------------------------------------ */
 
@@ -99,21 +99,21 @@ public class User {
     }
     /*------------------------------------------------------------------------------------------------ */
 
-    public void setBirth_date (Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate (Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public Date getBirthDate() {
+        return birthDate;
     }
     /*------------------------------------------------------------------------------------------------ */
 
-    public void setOnline_status(String online_status) {
-        this.online_status = online_status;
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
     }
 
-    public String getOnline_status() {
-        return online_status;
+    public String getOnlineStatus() {
+        return onlineStatus;
     }
 
     /*------------------------------------------------------------------------------------------------ */
@@ -128,20 +128,15 @@ public class User {
 
     /*------------------------------------------------------------------------------------------------ */
 
-    public void setImage(byte picture[]) {
+    public void setPicture(byte picture[]) {
         this.picture = picture;
     }
 
-    public byte[] getImage() {
+    public byte[] getPicture() {
         return picture;
 
     }
     /*------------------------------------------------------------------------------------------------ */
 
-    public String toString() {
-        return "User [id=" + id + ", User Name=" + username + ", phone number=" + phone_number + ",email= " + email
-                + ",passWord= " + password + ",gender= " + gender + ",country=" + country + ",birth date= " + birth_date
-                + ",online Status=" + online_status + ",bio=" + bio + ",picture=" + picture + "]";
-    }
 
 }
