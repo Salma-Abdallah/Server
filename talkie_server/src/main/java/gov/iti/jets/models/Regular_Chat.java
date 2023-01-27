@@ -62,7 +62,4 @@ public class Regular_Chat {
     public User getUser() {
         return user;
     }
-
-
-
 }

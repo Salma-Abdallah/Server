@@ -130,5 +130,20 @@ public class Messages {
         return id;
     }
 
+    public void setUser(User user) {
+        this.user=user;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat=chat;
+    }
+    public Chat getChat() {
+        return chat;
+    }
+
+
 
 }
