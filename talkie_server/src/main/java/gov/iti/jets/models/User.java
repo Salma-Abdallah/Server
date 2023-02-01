@@ -1,6 +1,6 @@
 package gov.iti.jets.models;
 import java.sql.Date;
-
+import java.sql.Timestamp;
 
 
 public class User {
@@ -15,9 +15,10 @@ public class User {
     private String onlineStatus;
     private String bio;
     private byte picture[];
+    private Timestamp creationTime;
 
     /*------------------------------------------------------------------------------------------------ */
-    public User(int id, String userName, String passWord, String phoneNumber, String email, String gender, String country,
+    public User(int id, String userName, Timestamp creationTime,String passWord, String phoneNumber, String email, String gender, String country,
     Date birthDate, String onlineStatus, String bio, byte[] picture) {
         this.id = id;
         this.userName = userName;
@@ -30,6 +31,8 @@ public class User {
         this.onlineStatus = onlineStatus;
         this.bio = bio;
         this.picture=picture;
+        this.creationTime = creationTime;
+
     }
 
 
@@ -138,5 +141,11 @@ public class User {
     }
     /*------------------------------------------------------------------------------------------------ */
 
+    public Timestamp getCreationTime() {
+        return creationTime;
+    }
 
+    public void setCreationTime(Timestamp creationTime) {
+        this.creationTime = creationTime;
+    }
 }

@@ -9,8 +9,7 @@ public class BlockList {
     private int id;
 
     public BlockList(int id){
-        user.getId();
-        blockedUser.getId();
+
         this.id = id;
     }
 
@@ -30,11 +29,11 @@ public class BlockList {
         return id;
     }
 
-    public void setBlockedUserId(User blockedUserId) {
-        this.blockedUserId = blockedUserId;
+    public void setBlockedUser(User blockedUser) {
+        this.blockedUser = blockedUser;
     }
 
-    public User getBlockedUserId() {
-        return blockedUserId;
+    public User getBlockedUser() {
+        return blockedUser;
     }
 }

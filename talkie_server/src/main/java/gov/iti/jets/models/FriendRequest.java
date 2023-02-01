@@ -8,8 +8,7 @@ public class FriendRequest {
     private int id;
 
     public FriendRequest(int id){
-        sender.getId();
-        receiver.getId();
+
         this.id = id;
     }
 

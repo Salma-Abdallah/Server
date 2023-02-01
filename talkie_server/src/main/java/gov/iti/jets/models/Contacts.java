@@ -11,8 +11,6 @@ public class Contacts {
 
 
     public Contacts(String category, int id){
-        userId.getId();
-        contactId.getId();
         this.category = category;
         this.id = id;
     }
@@ -33,7 +31,7 @@ public class Contacts {
         return category;
     }
 
-    public void setContactId(User contact) {
+    public void setContact(User contact) {
         this.contact = contact;
     }
 
@@ -46,6 +44,6 @@ public class Contacts {
     }
 
     public User getUser() {
-        return userId;
+        return user;
     }
 }
