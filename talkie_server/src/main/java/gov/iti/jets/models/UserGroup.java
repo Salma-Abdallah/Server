@@ -10,7 +10,6 @@ public class UserGroup {
     private User user;
 
     public UserGroup( int userGroupId, int groupChatId) {
-        user.getId();
 
         this.userGroupId = userGroupId;
         this.groupChatId = groupChatId;

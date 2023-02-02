@@ -1,5 +1,9 @@
 package gov.iti.jets.models;
 
+import com.mysql.cj.protocol.x.XMessage;
+
+import java.sql.Timestamp;
+
 public class Messages {
 
     private Chat chat;
@@ -17,13 +21,11 @@ public class Messages {
     private byte underLined;
 
 
-    private int sendAtHour;
-    private int sendAtMinute;
-    private int sendAtSecond;
+    private Timestamp messageTime;
+
     /*------------------------------------------------------------------------------------------*/
-    public Messages(int id, String content, String fontStyle, String fontColor, String textBackground, String fontWeight, double fontSize, byte underLined,int sendAtHour, int sendAtMinute, int sendAtSecond) {
-    chat.getId();
-    user.getId();
+    public Messages(int id, String content,Timestamp messageTime, String fontStyle, String fontColor, String textBackground, String fontWeight, double fontSize, byte underLined,int sendAtHour, int sendAtMinute, int sendAtSecond) {
+
     this.content = content;
     this.id = id;
     this.fontColor= fontColor;
@@ -32,9 +34,7 @@ public class Messages {
     this.fontWeight =fontWeight;
     this.fontSize = fontSize;
     this.underLined = underLined;
-    this.sendAtHour = sendAtHour;
-    this.sendAtMinute = sendAtMinute;
-    this.sendAtSecond= sendAtSecond;
+    this.messageTime = messageTime;
 
     }
 
@@ -76,27 +76,13 @@ public class Messages {
 
     /*---------------------------------------------------------------------------------------------------------*/
 
-    public void setTimehour(int hour){
-        sendAtHour = ((hour>=0 && hour<24) ? hour:0);
-    }
-    public void setTimeMinite(int minute) {
-        sendAtMinute = ((minute>=0 && minute<60)? minute:0);
-    }
-    public void setTimeSecond(int second) {
-
-        sendAtSecond = ((second >= 0 && second < 60) ? second : 0);
-    }
-    public String tosrtringHour(){
-        return String.format("%2d", sendAtHour);
-    }
-    public String tosrtringMinites() {
-        return String.format("%2d", sendAtMinute);
-    }
-    public String tosrtringSecond() {
-        return String.format("%2d", sendAtSecond);
+    public void setMessageTime(Timestamp messageTime) {
+        this.messageTime = messageTime;
     }
 
-
+    public Timestamp getMessageTime() {
+        return messageTime;
+    }
     /*---------------------------------------------------------------------------------------------------------*/
 
     public byte getUnderLined() {
@@ -129,6 +115,21 @@ public class Messages {
     public int getId() {
         return id;
     }
+
+    public void setUser(User user) {
+        this.user=user;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat=chat;
+    }
+    public Chat getChat() {
+        return chat;
+    }
+
 
 
 }

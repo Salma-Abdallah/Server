@@ -8,8 +8,7 @@ public class GroupChat {
     private Chat chat;
     /*---------------------------------------------------------------------------------------------*/
     public GroupChat(String name){
-        user.getId();
-        chat.getId();
+
         this.name = name;
     }
     /*---------------------------------------------------------------------------------------------*/
@@ -21,7 +20,7 @@ public class GroupChat {
         return name;
     }
     /*---------------------------------------------------------------------------------------------*/
-    public void setuser(User user) {
+    public void setUser(User user) {
         this.user=user;
     }
     public User getUser() {

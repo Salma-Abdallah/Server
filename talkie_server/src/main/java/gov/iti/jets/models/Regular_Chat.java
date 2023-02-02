@@ -12,8 +12,7 @@ public class Regular_Chat {
 
     public Regular_Chat( int firstParticipantId, int secondParticipantId){
 
-        user.getId();
-        chat.getId();
+
         this.firstParticipantId = firstParticipantId;
         this.secondParticipantId= secondParticipantId;
     }
@@ -62,7 +61,4 @@ public class Regular_Chat {
     public User getUser() {
         return user;
     }
-
-
-
 }
