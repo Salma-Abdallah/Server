@@ -1,8 +1,6 @@
 package gov.iti.jets.models;
 public class Regular_Chat {
 
-    private User user;
-    private Chat chat;
 
 
 
@@ -10,11 +8,12 @@ public class Regular_Chat {
     private int firstParticipantId;
     private int secondParticipantId;
 
-    public Regular_Chat( int firstParticipantId, int secondParticipantId){
+    public Regular_Chat( int firstParticipantId, int secondParticipantId, int id){
 
 
         this.firstParticipantId = firstParticipantId;
         this.secondParticipantId= secondParticipantId;
+        this.id = id;
     }
 
 
@@ -43,22 +42,5 @@ public class Regular_Chat {
     }
     public int getId() {
         return id;
-    }
-
-
-    public void setChat(Chat chat) {
-        this.chat=chat;
-    }
-    public Chat getChat() {
-        return chat;
-    }
-
-
-
-    public void setuser(User user) {
-        this.user=user;
-    }
-    public User getUser() {
-        return user;
     }
 }

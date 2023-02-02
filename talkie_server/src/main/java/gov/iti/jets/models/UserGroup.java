@@ -4,15 +4,16 @@ public class UserGroup {
 
     private int userGroupId;
     private int groupChatId;
+    private int userId;
 
 
 
-    private User user;
-
-    public UserGroup( int userGroupId, int groupChatId) {
+    public UserGroup( int userGroupId, int groupChatId, int userId) {
 
         this.userGroupId = userGroupId;
         this.groupChatId = groupChatId;
+        this.userId = userId;
+
         
     }
 
@@ -37,12 +38,11 @@ public class UserGroup {
     /*-------------------------------------------------------------------------------------------------------------- */
 
 
-    public void setUser(User user) {
-        this.user=user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
-
 }

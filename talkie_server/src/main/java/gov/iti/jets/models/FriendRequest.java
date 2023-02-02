@@ -2,30 +2,32 @@ package gov.iti.jets.models;
 
 public class FriendRequest {
 
-    private User sender;
-    private User receiver;
+    private int senderId;
+    private int receiverId;
 
     private int id;
 
-    public FriendRequest(int id){
+    public FriendRequest(int id, int senderId, int receiverId){
 
+        this.receiverId= receiverId;
+        this.senderId = senderId;
         this.id = id;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
     }
 
-    public User getSender() {
-        return sender;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public User getReceiver() {
-        return receiver;
+    public int getReceiverId() {
+        return receiverId;
     }
 
     public void setId(int id) {

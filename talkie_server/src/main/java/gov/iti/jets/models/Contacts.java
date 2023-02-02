@@ -2,16 +2,19 @@ package gov.iti.jets.models;
 
 public class Contacts {
 
-    private User user;
-    private User contact;
+
 
 
     private String category;
     private int id;
+    private int userID;
+    private int contactID;
 
 
-    public Contacts(String category, int id){
+    public Contacts(String category, int id, int userID, int contactID){
         this.category = category;
+        this.contactID = contactID;
+        this.userID = userID;
         this.id = id;
     }
 
@@ -31,19 +34,20 @@ public class Contacts {
         return category;
     }
 
-    public void setContact(User contact) {
-        this.contact = contact;
+
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
     }
 
-    public User getContact() {
-        return contact;
+    public int getContactID() {
+        return contactID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserID() {
+        return userID;
     }
 }
