@@ -6,9 +6,11 @@ import java.sql.Timestamp;
 
 public class Messages {
 
-    private Chat chat;
-    private User user;
 
+
+
+    private int userId;
+    private int chatId;
 
 
     private int id;
@@ -24,7 +26,7 @@ public class Messages {
     private Timestamp messageTime;
 
     /*------------------------------------------------------------------------------------------*/
-    public Messages(int id, String content,Timestamp messageTime, String fontStyle, String fontColor, String textBackground, String fontWeight, double fontSize, byte underLined,int sendAtHour, int sendAtMinute, int sendAtSecond) {
+    public Messages(int id, String content,int chatId,int userId,Timestamp messageTime, String fontStyle, String fontColor, String textBackground, String fontWeight, double fontSize, byte underLined,int sendAtHour, int sendAtMinute, int sendAtSecond) {
 
     this.content = content;
     this.id = id;
@@ -35,6 +37,8 @@ public class Messages {
     this.fontSize = fontSize;
     this.underLined = underLined;
     this.messageTime = messageTime;
+    this.userId = userId;
+    this.chatId = chatId;
 
     }
 
@@ -116,20 +120,19 @@ public class Messages {
         return id;
     }
 
-    public void setUser(User user) {
-        this.user=user;
-    }
-    public User getUser() {
-        return user;
+    public void setChatId(int chatId) {
+        this.chatId = chatId;
     }
 
-    public void setChat(Chat chat) {
-        this.chat=chat;
-    }
-    public Chat getChat() {
-        return chat;
+    public int getChatId() {
+        return chatId;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-
+    public int getUserId() {
+        return userId;
+    }
 }
