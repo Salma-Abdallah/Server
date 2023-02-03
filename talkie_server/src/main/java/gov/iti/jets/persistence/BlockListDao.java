@@ -1,60 +1,65 @@
 package gov.iti.jets.persistence;
 
 import gov.iti.jets.connection.DataSourceSingleton;
-import gov.iti.jets.models.User;
-
+import gov.iti.jets.entities.BlockListEntity;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlockListDao {
 
-    //TODO: Make a Connection per Query and close it right after using try with resources.
-        private static BlockListDao blockListDao = new BlockListDao();
-        private Connection connection;
-
-        BlockListDao() {
-            try {
-                connection = DataSourceSingleton.INSTANCE.getDataSource().getConnection();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+    public BlockListEntity save(BlockListEntity blockListEntity){
+        String query = """
+                            INSERT INTO block_list(user_id, blocked_user_id) VALUES(?, ?)
+                        """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
+                statement.setInt(1, blockListEntity.getUserId());
+                statement.setInt(2, blockListEntity.getBlockedUserId());
+                statement.executeUpdate();
+                return blockListEntity;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        public static BlockListDao getBlockListDao(){
-            return blockListDao;
-        }
-
-        //TODO: use prepared statement.
-        public List<User> getBlockListByUserID(int userId) {
-            List<User> users = new ArrayList<>();
-            //we need to check with real data
-            String query = """
-                SELECT u.* FROM users u
-                  INNER JOIN block_list bl
-                  ON bl.blocked_user_id = u.id and bl.user_id = """+userId+";";
-
-            try(PreparedStatement statement = connection.prepareStatement(query)){
-                ResultSet result = statement.executeQuery();
-                while (result.next()){
-                    int id = result.getInt("id");
-                    String userName = result.getString("username");
-                    String password = result.getString("password");
-                    String phoneNumber = result.getString("phone_number");
-                    String email = result.getString("email");
-                    String gender = result.getString("gender");
-                    String country = result.getString("country");
-                    Date birthDate = result.getDate("birth_date");
-                    String onlineStatus = result.getString("online_status");
-                    String bio = result.getString("bio");
-                    byte[] img = result.getBytes("picture");
-
-                    users.add(new User(id, userName, password, phoneNumber, email, gender, country, birthDate, onlineStatus, bio, img));
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return users;
-        }
-
     }
+    public List<BlockListEntity> findAllBlockedUsersByUserId(Integer userId) {
+        String query = """
+                            SELECT * FROM block_list WHERE user_id =  ?
+                        """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
+            List<BlockListEntity> blockListEntities = new ArrayList<>();
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int blockedUserId = resultSet.getInt("blocked_user_id");
+                blockListEntities.add(new BlockListEntity(id ,userId, blockedUserId));
+            }
+            return blockListEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<BlockListEntity> findAllBlockersByBlockedUserId(Integer blockedUserId){
+        String query = """
+                            SELECT * FROM block_list WHERE blocked_user_id =  ?
+                       """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)){
+            List<BlockListEntity> blockListEntities = new ArrayList<>();
+            statement.setInt(1, blockedUserId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int userId = resultSet.getInt("user_id");
+                blockListEntities.add(new BlockListEntity(id ,userId, blockedUserId));
+            }
+            return blockListEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
 

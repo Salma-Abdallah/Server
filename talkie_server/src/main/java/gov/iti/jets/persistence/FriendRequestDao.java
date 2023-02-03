@@ -1,54 +1,91 @@
 package gov.iti.jets.persistence;
 
 import gov.iti.jets.connection.DataSourceSingleton;
+import gov.iti.jets.entities.FriendRequestEntity;
+import gov.iti.jets.models.FriendRequest;
 import gov.iti.jets.models.User;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendRequestDao {
-    private static FriendRequestDao friendRequestDao = new FriendRequestDao();
-    private Connection connection;
 
-    FriendRequestDao() {
-        try {
-            connection = DataSourceSingleton.INSTANCE.getDataSource().getConnection();
+
+    public FriendRequestEntity save(FriendRequestEntity friendRequestEntity){
+        String query = """
+                            INSERT INTO friend_request(sender_id, receiver_id, status, sent_at) VALUES (?, ?, ?, ?)
+                        """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
+                statement.setInt(1, friendRequestEntity.getSenderId());
+                statement.setInt(2, friendRequestEntity.getReceiverId());
+                statement.setBoolean(3, friendRequestEntity.getStatus());
+                statement.setTimestamp(4, friendRequestEntity.getSentAt());
+                statement.executeUpdate();
+                return friendRequestEntity;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public static FriendRequestDao getFriendRequestDao(){
-        return friendRequestDao;
+    public List<FriendRequestEntity> findSentFriendRequestByUserID(Integer userId) {
+        String query = """
+                            SELECT id, receiver_id, status, sent_at
+                            FROM friend_request WHERE sender_id = ?
+                       """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, userId);
+            ResultSet result = statement.executeQuery();
+            List<FriendRequestEntity> friendRequests = new ArrayList<>();
+            while (result.next()){
+                int id = result.getInt("id");
+                int receiverId = result.getInt("receiver_id");
+                boolean requestStatus = result.getBoolean("status");
+                Timestamp sentAt = result.getTimestamp("sent_at");
+                friendRequests.add(new FriendRequestEntity(id, userId, receiverId, requestStatus, sentAt));
+            }
+            return friendRequests;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<User> getFriendRequestByUserID(int userId) {
-        List<User> users = new ArrayList<>();
+    public List<FriendRequestEntity> findReceivedFriendRequestByUserID(Integer userId) {
         String query = """
-                SELECT u.* FROM users u
-                  INNER JOIN friend_request f
-                  ON f.receiver_id = u.id and f.sender_id = """+userId+";";
-
-        try(PreparedStatement statement = connection.prepareStatement(query)){
+                           SELECT id, sender_id, status, sent_at
+                           FROM friend_request WHERE receiver_id = ?
+                       """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)){
+            List<FriendRequestEntity> friendRequests = new ArrayList<>();
+            statement.setInt(1, userId);
             ResultSet result = statement.executeQuery();
             while (result.next()){
                 int id = result.getInt("id");
-                String userName = result.getString("username");
-                String password = result.getString("password");
-                String phoneNumber = result.getString("phone_number");
-                String email = result.getString("email");
-                String gender = result.getString("gender");
-                String country = result.getString("country");
-                Date birthDate = result.getDate("birth_date");
-                String onlineStatus = result.getString("online_status");
-                String bio = result.getString("bio");
-                byte[] img = result.getBytes("picture");
-
-                users.add(new User(id, userName, password, phoneNumber, email, gender, country, birthDate, onlineStatus, bio, img));
+                int senderId = result.getInt("sender_id");
+                boolean requestStatus = result.getBoolean("status");
+                Timestamp sentAt = result.getTimestamp("sent_at");
+                friendRequests.add(new FriendRequestEntity(id, senderId, userId, requestStatus, sentAt));
             }
+            return friendRequests;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return users;
+    }
+    public int delete(FriendRequestEntity friendRequestEntity){
+        String query = """
+                            DELETE FROM friend_request WHERE sender_id = ? AND receiver_id = ?;
+                        """;
+        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, friendRequestEntity.getSenderId());
+            statement.setInt(2, friendRequestEntity.getReceiverId());
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

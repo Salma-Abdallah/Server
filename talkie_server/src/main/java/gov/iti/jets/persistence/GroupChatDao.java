@@ -1,71 +1,91 @@
 package gov.iti.jets.persistence;
 
 import gov.iti.jets.connection.DataSourceSingleton;
-import gov.iti.jets.models.GroupChat;
-import gov.iti.jets.models.User;
-
-import javax.swing.*;
+import gov.iti.jets.entities.GroupChatEntity;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class GroupChatDao {
 
-
-    //TODO: Edit Code depending on GroupChat Model
-    public List<GroupChat> getGroupsChatByOwnerID(int ownerId) {
-        List<GroupChat> groupChat = new ArrayList<>();
+    public GroupChatEntity save(GroupChatEntity groupChatEntity){
         String query = """
-                SELECT * FROM group_chat
-                where owner_id =?""";
+                            INSERT INTO group_chat(id, owner_id, name) values(?, ?, ?)
+                       """;
+        String uuid = UUID.randomUUID().toString();
+        ChatDao chatDao = new ChatDao();
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
 
-      try (Connection connection = DataSourceSingleton.INSTANCE.getDataSource().getConnection();
-           PreparedStatement statement = connection.prepareStatement(query)) {
-          statement.setInt(1,ownerId);
-          ResultSet result = statement.executeQuery();
-          while (result.next()) {
-              //groupChat.add(new GroupChat(result.getInt("id"), result.getString("name")));
-          }
-          connection.close();
-      } catch (SQLException e) {
-          throw new RuntimeException(e);
-      }
-      return groupChat;
-  }
+            statement.setString(1, chatDao.save(uuid));
+            statement.setInt(2, groupChatEntity.getOwnerId());
+            statement.setString(3, groupChatEntity.getName());
+            statement.executeUpdate();
 
-  public List<User> getUsersByGroupChatId(int groupId) {
-      List<User> users = new ArrayList<>();
-      String query = """
-                SELECT u.* FROM users u
-                  INNER JOIN user_group ug
-                  ON u.id = ug.user_id and ug.group_chat_id =?""";
+            return groupChatEntity;
+        } catch (SQLException e) {
+            chatDao.delete(uuid);
+            throw new RuntimeException(e);
+        }
+    }
 
-        try(Connection connection = DataSourceSingleton.INSTANCE.getDataSource().getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setInt(1,groupId);
+    public List<GroupChatEntity> findAllGroupChatsByOwnerId(Integer ownerId) {
+        List<GroupChatEntity> groupChatEntities = new ArrayList<>();
+        String query = """
+                           SELECT * FROM group_chat WHERE owner_id = ?
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, ownerId);
             ResultSet result = statement.executeQuery();
-            while (result.next()){
-                int id = result.getInt("id");
-                String userName = result.getString("username");
-                Timestamp time = result.getTimestamp("created_at");
-                String password = result.getString("password");
-                String phoneNumber = result.getString("phone_number");
-                String email = result.getString("email");
-                String gender = result.getString("gender");
-                String country = result.getString("country");
-                Date birthDate = result.getDate("birth_date");
-                String onlineStatus = result.getString("online_status");
-                String bio = result.getString("bio");
-                Blob bloImg = result.getBlob("picture");
-                byte[] img = bloImg.getBytes(1,(int)bloImg.length());
-
-                users.add(new User(id, userName,time, password, phoneNumber, email, gender, country, birthDate, onlineStatus, bio, img));
+            while (result.next()) {
+                String groupChatId = result.getString("id");
+                String groupName = result.getString("name");
+                groupChatEntities.add(new GroupChatEntity(groupChatId, ownerId, groupName));
             }
-            connection.close();
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+        }
+        return groupChatEntities;
+    }
+
+    public Optional<GroupChatEntity> findGroupChatByOwnerIdAndChatName(Integer ownerId, String name) {
+        String query = """
+                           SELECT * FROM group_chat WHERE owner_id = ? AND name = ?
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, ownerId);
+            statement.setString(2, name);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                String id = resultSet.getString("id");
+                return Optional.of(new GroupChatEntity(id, ownerId, name));
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return users;
     }
 
+    public int delete(String id){
+        String query = """
+                            DELETE FROM group_chat WHERE id = ?
+                        """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
+
+            statement.setString(1, id);
+            statement.executeUpdate();
+            return new ChatDao().delete(id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

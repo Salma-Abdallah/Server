@@ -1,11 +1,11 @@
-package gov.iti.jets.models;
+package gov.iti.jets.entities;
 
-public class GroupChat {
+public class GroupChatEntity {
     private String chatId;
-    private int ownerId;
+    private Integer ownerId;
     private String name;
 
-    public GroupChat(String chatId, int ownerId, String name) {
+    public GroupChatEntity(String chatId, Integer ownerId, String name) {
         this.chatId = chatId;
         this.ownerId = ownerId;
         this.name = name;
@@ -19,11 +19,11 @@ public class GroupChat {
         this.chatId = chatId;
     }
 
-    public int getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -33,5 +33,14 @@ public class GroupChat {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupChatEntity{" +
+                "chatId='" + chatId + '\'' +
+                ", ownerId=" + ownerId +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -1,13 +1,10 @@
-package gov.iti.jets.models;
-import java.sql.Date;
+package gov.iti.jets.entities;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 
-
-public class User {
-    private int id;
+public class UserEntity {
+    private Integer id;
     private String userName;
     private String phoneNumber;
     private String email;
@@ -21,9 +18,9 @@ public class User {
     private Timestamp createdAt;
     private String salt;
 
-    public User(int id, String userName, String phoneNumber, String email, String password,
-                String gender, String country, LocalDate birthDate, String onlineStatus,
-                String bio, String pictureUrl, Timestamp createdAt, String salt) {
+    public UserEntity(Integer id, String userName, String phoneNumber, String email, String password,
+                      String gender, String country, LocalDate birthDate, String onlineStatus,
+                      String bio, String pictureUrl, Timestamp createdAt, String salt) {
         this.id = id;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
@@ -39,11 +36,11 @@ public class User {
         this.salt = salt;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -146,7 +143,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserEntity{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
@@ -157,7 +154,7 @@ public class User {
                 ", birthDate=" + birthDate +
                 ", onlineStatus='" + onlineStatus + '\'' +
                 ", bio='" + bio + '\'' +
-                ", pictureUrl=" + pictureUrl +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 ", createdAt=" + createdAt +
                 ", salt='" + salt + '\'' +
                 '}';
