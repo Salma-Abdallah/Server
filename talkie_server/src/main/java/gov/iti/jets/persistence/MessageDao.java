@@ -5,6 +5,7 @@ import gov.iti.jets.entities.MessageEntity;
 import gov.iti.jets.entities.UserEntity;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +42,10 @@ public class MessageDao {
     }
     public List<MessageEntity> findMessagesByChatID(String chatId){
         String query = """
-                            SELECT *
-                            FROM messages
+                            SELECT u.id uId, m.id mId, u.*, m.*
+                            FROM messages m
+                            INNER JOIN users u
+                            ON u.id = m.author_id
                             WHERE chat_id = ?;
                        """;
         List<MessageEntity> messageEntities = new ArrayList<>();
@@ -51,10 +54,25 @@ public class MessageDao {
 
             statement.setString(1, chatId);
             ResultSet result = statement.executeQuery();
-
+            UserEntity author;
             while (result.next()){
-                int id = result.getInt("id");
-                UserEntity author = userDao.findUserById(result.getInt("author_id")).get();
+                int authorId = result.getInt("uId");
+                String userName = result.getString("username");
+                String phoneNumber = result.getString("phone_number");
+                String email = result.getString("email");
+                String password = result.getString("password");
+                String gender = result.getString("gender");
+                String country = result.getString("country");
+                LocalDate birthDate = result.getDate("birth_date").toLocalDate();
+                Timestamp createdAt = result.getTimestamp("created_at");
+                String onlineStatus = result.getString("online_status");
+                String bio = result.getString("bio");
+                String salt = result.getString("salt");
+                String imageUrl = result.getString("picture");
+
+                author = new UserEntity(authorId, userName, phoneNumber, email, password, gender, country, birthDate, onlineStatus, bio, imageUrl, createdAt, salt);
+
+                int id = result.getInt("mId");
                 String fontStyle = result.getString("font_style");
                 String fontColor = result.getString("font_color");
                 double fontSize = result.getDouble("font_size");

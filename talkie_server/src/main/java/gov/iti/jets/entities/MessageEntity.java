@@ -10,7 +10,6 @@ public class MessageEntity {
     UserDao userDao = new UserDao();
     private Integer id;
 
-    //private Integer authorId;
     private UserEntity author;
 
     private String chatId;
