@@ -1,13 +1,19 @@
 package gov.iti.jets.entities;
 
+import gov.iti.jets.persistence.UserDao;
+
 import java.sql.Timestamp;
+import java.util.Optional;
 
 public class MessageEntity {
 
-
+    UserDao userDao = new UserDao();
     private Integer id;
-    private Integer authorId;
-    private Integer chatId;
+
+    //private Integer authorId;
+    private UserEntity author;
+
+    private String chatId;
     private String fontStyle;
     private String fontColor;
     private double fontSize;
@@ -19,11 +25,11 @@ public class MessageEntity {
     private String content;
     private String fileUrl;
 
-    public MessageEntity(Integer id, Integer authorId, Integer chatId, String fontStyle, String fontColor,
+    public MessageEntity(Integer id, UserEntity author, String chatId, String fontStyle, String fontColor,
                          double fontSize, boolean bold, boolean italic, boolean underlined, String textBackground,
                          Timestamp sentAt, String content, String fileUrl) {
         this.id = id;
-        this.authorId = authorId;
+        this.author = author;
         this.chatId = chatId;
         this.fontStyle = fontStyle;
         this.fontColor = fontColor;
@@ -45,19 +51,19 @@ public class MessageEntity {
         this.id = id;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
+    public UserEntity getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
+    public void setAuthor(UserEntity author) {
+        this.author = author;
     }
 
-    public Integer getChatId() {
+    public String getChatId() {
         return chatId;
     }
 
-    public void setChatId(Integer chatId) {
+    public void setChatId(String chatId) {
         this.chatId = chatId;
     }
 
