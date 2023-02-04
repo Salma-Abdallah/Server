@@ -6,24 +6,18 @@ import java.time.LocalDateTime;
 public class FriendRequestEntity {
 
     private Integer id;
-    private Integer senderId;
-    private Integer receiverId;
+    private UserEntity sender;
+    private UserEntity receiver;
     private boolean status;
     private Timestamp sentAt;
 
-    public FriendRequestEntity(Integer id, Integer senderId, Integer receiverId, boolean status, Timestamp sentAt) {
+
+    public FriendRequestEntity(Integer id, UserEntity sender, UserEntity receiver, boolean status, Timestamp sentAt) {
         this.id = id;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+        this.sender = sender;
+        this.receiver = receiver;
         this.status = status;
         this.sentAt = sentAt;
-    }
-
-    public FriendRequestEntity(Integer senderId, Integer receiverId) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.status = false;
-        this.sentAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public Integer getId() {
@@ -34,21 +28,23 @@ public class FriendRequestEntity {
         this.id = id;
     }
 
-    public Integer getSenderId() {
-        return senderId;
+    public UserEntity getSender() {
+        return sender;
     }
 
-    public void setSenderId(Integer senderId) {
-        this.senderId = senderId;
-    }
-    public Integer getReceiverId() {
-        return receiverId;
-    }
-    public void setReceiverId(Integer receiverId) {
-        this.receiverId = receiverId;
+    public void setSender(UserEntity sender) {
+        this.sender = sender;
     }
 
-    public boolean getStatus() {
+    public UserEntity getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserEntity receiver) {
+        this.receiver = receiver;
+    }
+
+    public boolean isStatus() {
         return status;
     }
 
@@ -68,8 +64,8 @@ public class FriendRequestEntity {
     public String toString() {
         return "FriendRequestEntity{" +
                 "id=" + id +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
                 ", status=" + status +
                 ", sentAt=" + sentAt +
                 '}';

@@ -2,6 +2,8 @@ package gov.iti.jets.persistence;
 
 import gov.iti.jets.connection.DataSourceSingleton;
 import gov.iti.jets.entities.BlockListEntity;
+import gov.iti.jets.entities.UserEntity;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,41 +24,37 @@ public class BlockListDao {
             throw new RuntimeException(e);
         }
     }
-    public List<BlockListEntity> findAllBlockedUsersByUserId(Integer userId) {
+    public List<UserEntity> findAllBlockedUsersByUserId(Integer userId) {
         String query = """
-                            SELECT * FROM block_list WHERE user_id =  ?
+                            SELECT u.* FROM block_list bl
+                            INNER JOIN users u
+                            ON bl.blocked_user_id = u.id
+                            WHERE bl.user_id = ?
                         """;
-        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(query)){
-            List<BlockListEntity> blockListEntities = new ArrayList<>();
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                int blockedUserId = resultSet.getInt("blocked_user_id");
-                blockListEntities.add(new BlockListEntity(id ,userId, blockedUserId));
-            }
-            return blockListEntities;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return getUserEntities(userId, query);
     }
 
-    public List<BlockListEntity> findAllBlockersByBlockedUserId(Integer blockedUserId){
+    public List<UserEntity> findAllBlockersByBlockedUserId(Integer blockedUserId){
         String query = """
-                            SELECT * FROM block_list WHERE blocked_user_id =  ?
+                            SELECT u.* 
+                            FROM block_list bl
+                            INNER JOIN users u
+                            ON u.id = bl.user_id 
+                            WHERE bl.blocked_user_id = ?
                        """;
+        return getUserEntities(blockedUserId, query);
+    }
+
+    private List<UserEntity> getUserEntities(Integer blockedUserId, String query) {
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
-            List<BlockListEntity> blockListEntities = new ArrayList<>();
+            List<UserEntity> userEntities = new ArrayList<>();
             statement.setInt(1, blockedUserId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                int userId = resultSet.getInt("user_id");
-                blockListEntities.add(new BlockListEntity(id ,userId, blockedUserId));
+                userEntities.add(UserDao.resultSetToUserEntity(resultSet));
             }
-            return blockListEntities;
+            return userEntities;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

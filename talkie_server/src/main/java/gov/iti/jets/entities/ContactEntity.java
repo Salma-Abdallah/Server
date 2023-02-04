@@ -3,21 +3,14 @@ package gov.iti.jets.entities;
 public class ContactEntity {
     private Integer id;
     private Integer userId;
-    private Integer contactId;
+    private UserEntity contact;
     private String category;
 
-
-    public ContactEntity(Integer id, Integer userId, Integer contactId, String category) {
+    public ContactEntity(Integer id, Integer userId, UserEntity contact, String category) {
         this.id = id;
         this.userId = userId;
-        this.contactId = contactId;
+        this.contact = contact;
         this.category = category;
-    }
-
-    public ContactEntity(Integer userId, Integer contactId) {
-        this.userId = userId;
-        this.contactId = contactId;
-        this.category = "";
     }
 
     public Integer getId() {
@@ -36,12 +29,12 @@ public class ContactEntity {
         this.userId = userId;
     }
 
-    public Integer getContactId() {
-        return contactId;
+    public UserEntity getContact() {
+        return contact;
     }
 
-    public void setContactId(Integer contactId) {
-        this.contactId = contactId;
+    public void setContact(UserEntity contact) {
+        this.contact = contact;
     }
 
     public String getCategory() {
@@ -50,5 +43,15 @@ public class ContactEntity {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactEntity{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", contact=" + contact +
+                ", category='" + category + '\'' +
+                '}';
     }
 }

@@ -2,11 +2,8 @@ package gov.iti.jets.persistence;
 
 import gov.iti.jets.connection.DataSourceSingleton;
 import gov.iti.jets.entities.FriendRequestEntity;
-import gov.iti.jets.models.FriendRequest;
-import gov.iti.jets.models.User;
-
+import gov.iti.jets.entities.UserEntity;
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,38 +11,39 @@ import java.util.List;
 public class FriendRequestDao {
 
 
-    public FriendRequestEntity save(FriendRequestEntity friendRequestEntity){
+    public int save(Integer senderId, Integer receiverId){
         String query = """
                             INSERT INTO friend_request(sender_id, receiver_id, status, sent_at) VALUES (?, ?, ?, ?)
                         """;
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)){
-                statement.setInt(1, friendRequestEntity.getSenderId());
-                statement.setInt(2, friendRequestEntity.getReceiverId());
-                statement.setBoolean(3, friendRequestEntity.getStatus());
-                statement.setTimestamp(4, friendRequestEntity.getSentAt());
-                statement.executeUpdate();
-                return friendRequestEntity;
+                statement.setInt(1, senderId);
+                statement.setInt(2, receiverId);
+                statement.setBoolean(3, false);
+                statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+                return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public List<FriendRequestEntity> findSentFriendRequestByUserID(Integer userId) {
+    public List<FriendRequestEntity> findSentFriendRequestByUserID(UserEntity user) {
         String query = """
-                            SELECT id, receiver_id, status, sent_at
-                            FROM friend_request WHERE sender_id = ?
+                           SELECT fr.id fr_id, fr.status, fr.sent_at, u.* 
+                           FROM users u
+                           JOIN friend_request fr
+                           ON u.id = fr.receiver_id
+                           WHERE fr.sender_id = ?
                        """;
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setInt(1, userId);
+            statement.setInt(1, user.getId());
             ResultSet result = statement.executeQuery();
             List<FriendRequestEntity> friendRequests = new ArrayList<>();
             while (result.next()){
-                int id = result.getInt("id");
-                int receiverId = result.getInt("receiver_id");
+                int id = result.getInt("fr_id");
                 boolean requestStatus = result.getBoolean("status");
                 Timestamp sentAt = result.getTimestamp("sent_at");
-                friendRequests.add(new FriendRequestEntity(id, userId, receiverId, requestStatus, sentAt));
+                friendRequests.add(new FriendRequestEntity(id, user, UserDao.resultSetToUserEntity(result), requestStatus, sentAt));
             }
             return friendRequests;
         } catch (SQLException e) {
@@ -53,36 +51,39 @@ public class FriendRequestDao {
         }
     }
 
-    public List<FriendRequestEntity> findReceivedFriendRequestByUserID(Integer userId) {
+    public List<FriendRequestEntity> findReceivedFriendRequestByUserID(UserEntity receiver) {
         String query = """
-                           SELECT id, sender_id, status, sent_at
-                           FROM friend_request WHERE receiver_id = ?
+                            SELECT fr.id fr_id, fr.status, fr.sent_at, u.* 
+                            FROM users u
+                            JOIN friend_request fr
+                            ON u.id = fr.sender_id
+                            WHERE fr.receiver_id = ?;
                        """;
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
             List<FriendRequestEntity> friendRequests = new ArrayList<>();
-            statement.setInt(1, userId);
+            statement.setInt(1, receiver.getId());
             ResultSet result = statement.executeQuery();
             while (result.next()){
-                int id = result.getInt("id");
-                int senderId = result.getInt("sender_id");
+                int id = result.getInt("fr_id");
                 boolean requestStatus = result.getBoolean("status");
                 Timestamp sentAt = result.getTimestamp("sent_at");
-                friendRequests.add(new FriendRequestEntity(id, senderId, userId, requestStatus, sentAt));
+                friendRequests.add(new FriendRequestEntity(id, UserDao.resultSetToUserEntity(result), receiver, requestStatus, sentAt));
             }
             return friendRequests;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public int delete(FriendRequestEntity friendRequestEntity){
+    public int delete(Integer senderId, Integer receiverId){
         String query = """
-                            DELETE FROM friend_request WHERE sender_id = ? AND receiver_id = ?;
+                            DELETE FROM friend_request
+                            WHERE sender_id = ? AND receiver_id = ?;
                         """;
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, friendRequestEntity.getSenderId());
-            statement.setInt(2, friendRequestEntity.getReceiverId());
+            statement.setInt(1, senderId);
+            statement.setInt(2, receiverId);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

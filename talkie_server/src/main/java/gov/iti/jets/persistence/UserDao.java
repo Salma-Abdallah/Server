@@ -51,7 +51,7 @@ public class UserDao {
              PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                userEntities.add(resultSetToUser(result));
+                userEntities.add(resultSetToUserEntity(result));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -63,13 +63,12 @@ public class UserDao {
         String query = """
                         SELECT * FROM users where id = ?
                        """;
-        Optional<UserEntity> optional;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
             ResultSet result = statement.executeQuery();
             if(result.next()){
-                return Optional.of(resultSetToUser(result));
+                return Optional.of(resultSetToUserEntity(result));
             }
             return Optional.empty();
         } catch (SQLException e) {
@@ -104,7 +103,7 @@ public class UserDao {
         }
         return result;
     }
-    private UserEntity resultSetToUser(ResultSet resultSet) throws SQLException {
+    public static UserEntity resultSetToUserEntity(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String userName = resultSet.getString("username");
         String phoneNumber = resultSet.getString("phone_number");

@@ -12,7 +12,8 @@ public class GroupChatDao {
 
     public GroupChatEntity save(GroupChatEntity groupChatEntity){
         String query = """
-                            INSERT INTO group_chat(id, owner_id, name) values(?, ?, ?)
+                            INSERT INTO group_chat(id, owner_id, name)
+                            values(?, ?, ?)
                        """;
         String uuid = UUID.randomUUID().toString();
         ChatDao chatDao = new ChatDao();
@@ -34,7 +35,9 @@ public class GroupChatDao {
     public List<GroupChatEntity> findAllGroupChatsByOwnerId(Integer ownerId) {
         List<GroupChatEntity> groupChatEntities = new ArrayList<>();
         String query = """
-                           SELECT * FROM group_chat WHERE owner_id = ?
+                           SELECT *
+                           FROM group_chat
+                           WHERE owner_id = ?
                        """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -55,7 +58,9 @@ public class GroupChatDao {
 
     public Optional<GroupChatEntity> findGroupChatByOwnerIdAndChatName(Integer ownerId, String name) {
         String query = """
-                           SELECT * FROM group_chat WHERE owner_id = ? AND name = ?
+                           SELECT *
+                           FROM group_chat
+                           WHERE owner_id = ? AND name = ?
                        """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -75,7 +80,8 @@ public class GroupChatDao {
 
     public int delete(String id){
         String query = """
-                            DELETE FROM group_chat WHERE id = ?
+                            DELETE FROM group_chat
+                            WHERE id = ?
                         """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)){
