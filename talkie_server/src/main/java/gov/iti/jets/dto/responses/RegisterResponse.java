@@ -1,10 +1,13 @@
-package gov.iti.jets.entities;
-import java.sql.Timestamp;
+package gov.iti.jets.dto.responses;
+
+import gov.iti.jets.dto.validation.RegisterValidation;
+import gov.iti.jets.dto.validation.Validation;
+
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
 
-
-public class UserEntity {
-    private Integer id;
+public class RegisterResponse implements Serializable{
     private String userName;
     private String phoneNumber;
     private String email;
@@ -14,16 +17,16 @@ public class UserEntity {
     private LocalDate birthDate;
     private String onlineStatus;
     private String bio;
-    private String pictureUrl;
-    private Timestamp createdAt;
-    private String salt;
+    private byte[] picture;
+    private String pictureExtension;
 
-    public UserEntity() {}
+    private RegisterValidation validation;
 
-    public UserEntity(Integer id, String userName, String phoneNumber, String email, String password,
-                      String gender, String country, LocalDate birthDate, String onlineStatus,
-                      String bio, String pictureUrl, Timestamp createdAt, String salt) {
-        this.id = id;
+    public RegisterResponse() {}
+
+    public RegisterResponse(String userName, String phoneNumber, String email, String password, String gender,
+                            String country, LocalDate birthDate, String onlineStatus, String bio,
+                            byte[] picture, String pictureExtension, RegisterValidation validation) {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -33,17 +36,9 @@ public class UserEntity {
         this.birthDate = birthDate;
         this.onlineStatus = onlineStatus;
         this.bio = bio;
-        this.pictureUrl = pictureUrl;
-        this.createdAt = createdAt;
-        this.salt = salt;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.picture = picture;
+        this.pictureExtension = pictureExtension;
+        this.validation = validation;
     }
 
     public String getUserName() {
@@ -74,8 +69,8 @@ public class UserEntity {
         return password;
     }
 
-    public void setPassword(String passWord) {
-        this.password = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getGender() {
@@ -93,7 +88,6 @@ public class UserEntity {
     public void setCountry(String country) {
         this.country = country;
     }
-
 
     public LocalDate getBirthDate() {
         return birthDate;
@@ -119,35 +113,37 @@ public class UserEntity {
         this.bio = bio;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
+    public byte[] getPicture() {
+        return picture;
     }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public String getPictureExtension() {
+        return pictureExtension;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
+    public void setPictureExtension(String pictureExtension) {
+        this.pictureExtension = pictureExtension;
     }
 
-    public String getSalt() {
-        return salt;
+    public RegisterValidation getValidation() {
+        return validation;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setValidation(RegisterValidation validation) {
+        this.validation = validation;
     }
 
     @Override
     public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
+        if(picture == null){
+            picture = new byte[0];
+        }
+        return "RegisterResponse{" +
+                "userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -156,9 +152,9 @@ public class UserEntity {
                 ", birthDate=" + birthDate +
                 ", onlineStatus='" + onlineStatus + '\'' +
                 ", bio='" + bio + '\'' +
-                ", pictureUrl='" + pictureUrl + '\'' +
-                ", createdAt=" + createdAt +
-                ", salt='" + salt + '\'' +
+                ", picture=" + picture.length +
+                ", pictureExtension='" + pictureExtension + '\'' +
+                ", validation=" + validation +
                 '}';
     }
 }

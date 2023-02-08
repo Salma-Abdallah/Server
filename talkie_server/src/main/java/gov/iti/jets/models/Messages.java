@@ -1,15 +1,10 @@
 package gov.iti.jets.models;
 
-import com.mysql.cj.protocol.x.XMessage;
-
 import java.sql.Timestamp;
 
 public class Messages {
-
-
-    private int id;
-    private int authorId;
-    private int chatId;
+    private User author;
+    private String chatId;
     private String fontStyle;
     private String fontColor;
     private double fontSize;
@@ -21,11 +16,10 @@ public class Messages {
     private String content;
     private String fileUrl;
 
-    public Messages(int id, int authorId, int chatId, String fontStyle, String fontColor, double fontSize,
-                    boolean bold, boolean italic, boolean underlined, String textBackground,
+    public Messages(User author, String chatId, String fontStyle, String fontColor, double fontSize, boolean bold,
+                    boolean italic, boolean underlined, String textBackground,
                     Timestamp sentAt, String content, String fileUrl) {
-        this.id = id;
-        this.authorId = authorId;
+        this.author = author;
         this.chatId = chatId;
         this.fontStyle = fontStyle;
         this.fontColor = fontColor;
@@ -39,27 +33,19 @@ public class Messages {
         this.fileUrl = fileUrl;
     }
 
-    public int getId() {
-        return id;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
-
-    public int getChatId() {
+    public String getChatId() {
         return chatId;
     }
 
-    public void setChatId(int chatId) {
+    public void setChatId(String chatId) {
         this.chatId = chatId;
     }
 

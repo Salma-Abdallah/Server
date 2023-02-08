@@ -4,6 +4,7 @@ import gov.iti.jets.models.User;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 public interface UserController extends Remote {
 

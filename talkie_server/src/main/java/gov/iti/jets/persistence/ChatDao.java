@@ -1,12 +1,10 @@
 package gov.iti.jets.persistence;
 
-import gov.iti.jets.connection.DataSourceSingleton;
-import gov.iti.jets.entities.ChatEntity;
+import gov.iti.jets.persistence.connection.DataSourceSingleton;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
 
 public class ChatDao {
 

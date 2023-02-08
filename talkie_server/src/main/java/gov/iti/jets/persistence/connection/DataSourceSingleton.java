@@ -1,7 +1,6 @@
-package gov.iti.jets.connection;
+package gov.iti.jets.persistence.connection;
 
 import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
-import com.mysql.cj.jdbc.MysqlDataSource;
 import gov.iti.jets.TalkieApplication;
 
 import java.io.IOException;

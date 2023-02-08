@@ -1,9 +1,7 @@
 package gov.iti.jets.persistence;
 
-import gov.iti.jets.connection.DataSourceSingleton;
+import gov.iti.jets.persistence.connection.DataSourceSingleton;
 import gov.iti.jets.entities.ContactEntity;
-import gov.iti.jets.entities.UserEntity;
-import gov.iti.jets.models.Contact;
 
 import java.sql.*;
 import java.util.ArrayList;

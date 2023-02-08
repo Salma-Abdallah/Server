@@ -1,14 +1,18 @@
 package gov.iti.jets.models;
 
+import java.util.List;
+
 public class GroupChat {
     private String chatId;
-    private int ownerId;
+    private User ownerId;
     private String name;
+    private List<User> participants;
 
-    public GroupChat(String chatId, int ownerId, String name) {
+    public GroupChat(String chatId, User ownerId, String name, List<User> participants) {
         this.chatId = chatId;
         this.ownerId = ownerId;
         this.name = name;
+        this.participants = participants;
     }
 
     public String getChatId() {
@@ -19,11 +23,11 @@ public class GroupChat {
         this.chatId = chatId;
     }
 
-    public int getOwnerId() {
+    public User getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(User ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -33,5 +37,13 @@ public class GroupChat {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
     }
 }

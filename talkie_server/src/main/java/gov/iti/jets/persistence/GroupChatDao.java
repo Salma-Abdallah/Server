@@ -1,6 +1,6 @@
 package gov.iti.jets.persistence;
 
-import gov.iti.jets.connection.DataSourceSingleton;
+import gov.iti.jets.persistence.connection.DataSourceSingleton;
 import gov.iti.jets.entities.GroupChatEntity;
 import java.sql.*;
 import java.util.ArrayList;

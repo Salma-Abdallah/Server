@@ -1,18 +1,12 @@
 package gov.iti.jets.persistence;
 
-import gov.iti.jets.connection.DataSourceSingleton;
+import gov.iti.jets.persistence.connection.DataSourceSingleton;
 import gov.iti.jets.entities.GroupChatEntity;
-import gov.iti.jets.entities.RegularChatEntity;
 import gov.iti.jets.entities.UserEntity;
-import gov.iti.jets.models.GroupChat;
-import gov.iti.jets.models.User;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class UserGroupDao {
 

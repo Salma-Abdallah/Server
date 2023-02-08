@@ -1,10 +1,8 @@
 package gov.iti.jets.persistence;
 
-import gov.iti.jets.connection.DataSourceSingleton;
+import gov.iti.jets.persistence.connection.DataSourceSingleton;
 import gov.iti.jets.entities.UserEntity;
-import gov.iti.jets.models.User;
 
-import javax.swing.text.html.Option;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,16 +14,16 @@ public class UserDao {
 
     public UserEntity save(UserEntity userEntity) {
         String query = """
-                            INSERT INTO users (username,  phone_number, email, password, gender, country, birth_date,
+                            INSERT INTO users (username, phone_number, email, password, gender, country, birth_date,
                                                 online_status, bio, picture, created_at, salt)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, userEntity.getUserName());
-            statement.setString(2, userEntity.getPassword());
-            statement.setString(3, userEntity.getPhoneNumber());
-            statement.setString(4, userEntity.getEmail());
+            statement.setString(2, userEntity.getPhoneNumber());
+            statement.setString(3, userEntity.getEmail());
+            statement.setString(4, userEntity.getPassword());
             statement.setString(5, userEntity.getGender());
             statement.setString(6, userEntity.getCountry());
             statement.setString(7, userEntity.getBirthDate().toString());
@@ -118,5 +116,33 @@ public class UserDao {
         String salt = resultSet.getString("salt");
         String imageUrl = resultSet.getString("picture");
         return new UserEntity(id, userName, phoneNumber, email, password, gender, country, birthDate, onlineStatus, bio, imageUrl, createdAt, salt);
+    }
+
+    public Optional<UserEntity> findUserByPhoneNumber(String phoneNumber) {
+        String query = """
+                        SELECT * FROM users where phone_number = ?
+                       """;
+        return getUserEntity(phoneNumber, query);
+    }
+
+    public Optional<UserEntity> findUserByEmail(String email) {
+        String query = """
+                        SELECT * FROM users where email = ?
+                       """;
+        return getUserEntity(email, query);
+    }
+
+    private Optional<UserEntity> getUserEntity(String email, String query) {
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                return Optional.of(resultSetToUserEntity(result));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,36 +1,28 @@
 package gov.iti.jets.models;
 public class RegularChat {
-    private String id;
-    private int firstParticipantId;
-    private int secondParticipantId;
+    private String chatId;
+    private User firstParticipantId;
+    private User secondParticipantId;
 
-    public RegularChat(String id, int firstParticipantId, int secondParticipantId) {
-        this.id = id;
+    public RegularChat(String chatId, User firstParticipantId, User secondParticipantId) {
+        this.chatId = chatId;
         this.firstParticipantId = firstParticipantId;
         this.secondParticipantId = secondParticipantId;
     }
 
-    public String getId() {
-        return id;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
-    public int getFirstParticipantId() {
-        return firstParticipantId;
-    }
-
-    public void setFirstParticipantId(int firstParticipantId) {
+    public void setFirstParticipantId(User firstParticipantId) {
         this.firstParticipantId = firstParticipantId;
     }
 
-    public int getSecondParticipantId() {
-        return secondParticipantId;
-    }
-
-    public void setSecondParticipantId(int secondParticipantId) {
+    public void setSecondParticipantId(User secondParticipantId) {
         this.secondParticipantId = secondParticipantId;
     }
 }

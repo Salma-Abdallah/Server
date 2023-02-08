@@ -1,50 +1,51 @@
 package gov.iti.jets.models;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Arrays;
 
 
-
 public class User {
-    private int id;
     private String userName;
     private String phoneNumber;
     private String email;
     private String password;
+    private String salt;
     private String gender;
     private String country;
     private LocalDate birthDate;
     private String onlineStatus;
     private String bio;
-    private String pictureUrl;
-    private Timestamp createdAt;
-    private String salt;
+    private byte[] picture;
+    private String pictureExtension;
 
-    public User(int id, String userName, String phoneNumber, String email, String password,
-                String gender, String country, LocalDate birthDate, String onlineStatus,
-                String bio, String pictureUrl, Timestamp createdAt, String salt) {
-        this.id = id;
+    public User() {}
+
+    public User(String userName, String phoneNumber, String email, String password,
+                String salt, String gender, String country, LocalDate birthDate,
+                String onlineStatus, String bio, byte[] picture, String pictureExtension) {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.salt = salt;
         this.gender = gender;
         this.country = country;
         this.birthDate = birthDate;
         this.onlineStatus = onlineStatus;
         this.bio = bio;
-        this.pictureUrl = pictureUrl;
-        this.createdAt = createdAt;
+        this.picture = picture;
+        this.pictureExtension = pictureExtension;
+    }
+
+    public User(String userName, String phoneNumber, String email, String password,
+                String salt, String gender, String country, LocalDate birthDate) {
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
         this.salt = salt;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.gender = gender;
+        this.country = country;
+        this.birthDate = birthDate;
     }
 
     public String getUserName() {
@@ -77,6 +78,14 @@ public class User {
 
     public void setPassword(String passWord) {
         this.password = passWord;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getGender() {
@@ -120,46 +129,37 @@ public class User {
         this.bio = bio;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
+    public byte[] getPicture() {
+        return picture;
     }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public String getPictureExtension() {
+        return pictureExtension;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setPictureExtension(String pictureExtension) {
+        this.pictureExtension = pictureExtension;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
                 ", gender='" + gender + '\'' +
                 ", country='" + country + '\'' +
                 ", birthDate=" + birthDate +
                 ", onlineStatus='" + onlineStatus + '\'' +
                 ", bio='" + bio + '\'' +
-                ", pictureUrl=" + pictureUrl +
-                ", createdAt=" + createdAt +
-                ", salt='" + salt + '\'' +
+                ", picture=" + picture.length +
+                ", pictureExtension='" + pictureExtension + '\'' +
                 '}';
     }
 }

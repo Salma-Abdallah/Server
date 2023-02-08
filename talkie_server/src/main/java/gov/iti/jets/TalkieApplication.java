@@ -1,23 +1,25 @@
 package gov.iti.jets;
 
-import gov.iti.jets.connection.DataSourceSingleton;
-import gov.iti.jets.entities.*;
-import gov.iti.jets.models.Contact;
+import gov.iti.jets.dto.requests.LoginRequest;
+import gov.iti.jets.dto.requests.RegisterRequest;
+import gov.iti.jets.dto.responses.LoginResponse;
+import gov.iti.jets.dto.responses.RegisterResponse;
+import gov.iti.jets.entities.UserEntity;
 import gov.iti.jets.models.User;
-import gov.iti.jets.persistence.*;
+import gov.iti.jets.network.controllers.impl.AuthenticationControllerSingleton;
+import gov.iti.jets.network.manager.NetworkManager;
+import gov.iti.jets.persistence.UserDao;
+import gov.iti.jets.services.UserService;
+import gov.iti.jets.utils.ImageUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.*;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class TalkieApplication {
     public static void main(String[] args) {
+
+        NetworkManager.start();
+
     }
 }
