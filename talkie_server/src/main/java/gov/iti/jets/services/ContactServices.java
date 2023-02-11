@@ -15,21 +15,14 @@ public class ContactServices {
     private ContactDao contactDao = new ContactDao();
     ContactMapper contactMapper = new ContactMapper();
 
-    public int addNewContact(Integer userId, Integer contactId) {
-        return contactDao.save(userId, contactId);
+    public int addNewContact(String userPhoneNumber, String contactPhoneNumber) {
+        return contactMapper.save(userPhoneNumber,contactPhoneNumber);
     }
-    public List<Contact> getContactsByUserID(int userId) {
-        List <Contact> contactList = new ArrayList<>();
-        List <ContactEntity> contactEntities = contactDao.getContactsByUserID(userId);
-        ContactMapper contactMapper = new ContactMapper();
-
-        for (ContactEntity contactEntity : contactEntities ){
-            contactList.add(contactMapper.entityToModel(contactEntity));
-        }
-        return contactList;
+    public List<Contact> getContactsByUserID(String userPhoneNumber) {
+        return contactMapper.getContactsByUserID(userPhoneNumber);
     }
-    public int delectContact(Integer userId, Integer contactId) {
-        return contactDao.delete(userId, contactId);
+    public int deleteContact(String userPhoneNumber, String contactPhoneNumber) {
+        return contactMapper.delete(userPhoneNumber, contactPhoneNumber);
     }
 
 }

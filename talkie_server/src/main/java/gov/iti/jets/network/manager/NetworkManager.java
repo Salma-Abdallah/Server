@@ -13,7 +13,7 @@ import java.util.List;
 public class NetworkManager {
 
     private static Registry registry;
-    private static int port = 2100;
+    private static int port = 2200;
 
     static {
         try {

@@ -5,10 +5,14 @@ import gov.iti.jets.dto.requests.RegisterRequest;
 import gov.iti.jets.dto.responses.LoginResponse;
 import gov.iti.jets.dto.responses.RegisterResponse;
 import gov.iti.jets.entities.UserEntity;
+import gov.iti.jets.mappers.ContactMapper;
 import gov.iti.jets.models.User;
+import gov.iti.jets.network.controllers.ContactController;
 import gov.iti.jets.network.controllers.impl.AuthenticationControllerSingleton;
+import gov.iti.jets.network.controllers.impl.ContactControllerSingleton;
 import gov.iti.jets.network.manager.NetworkManager;
 import gov.iti.jets.persistence.UserDao;
+import gov.iti.jets.services.ContactServices;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.utils.ImageUtils;
 
@@ -20,6 +24,10 @@ public class TalkieApplication {
     public static void main(String[] args) {
 
         NetworkManager.start();
+//        System.out.println(ContactControllerSingleton.getInstance());
+
+
+
 
     }
 }

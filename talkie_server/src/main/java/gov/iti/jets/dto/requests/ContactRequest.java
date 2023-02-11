@@ -6,14 +6,27 @@ public class ContactRequest implements Serializable {
 
     private static final long serialVersionUID= -666612345432594L;
     private String category;
-    private String phoneNumber;
+    private String userPhoneNumber;
+    private String contactPhoneNumber;
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+
+    public ContactRequest() {}
+
+
+    public String getContactPhoneNumber() {
+        return contactPhoneNumber;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void setContactPhoneNumber(String contactPhoneNumber) {
+        this.contactPhoneNumber = contactPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
     }
 
     public void setCategory(String category) {
@@ -25,7 +38,7 @@ public class ContactRequest implements Serializable {
     }
     public String toString() {
         return "FriendReqRequest" +
-                "phoneNumber='" + phoneNumber + '\'' +
+                "phoneNumber='" + userPhoneNumber + '\'' +
                 "category='" + category + '\'' +
                 '}';
     }

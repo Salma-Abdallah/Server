@@ -1,7 +1,10 @@
 package gov.iti.jets.network.controllers.impl;
 
+import gov.iti.jets.dto.requests.ContactRequest;
+import gov.iti.jets.dto.responses.ContactResponse;
 import gov.iti.jets.models.Contact;
 
+import gov.iti.jets.network.controllers.ContactController;
 import gov.iti.jets.network.manager.NetworkManager;
 import gov.iti.jets.services.ContactServices;
 
@@ -11,6 +14,7 @@ import java.util.List;
 
 public class ContactControllerSingleton extends UnicastRemoteObject implements ContactController {
 
+
     private static ContactControllerSingleton instance;
     private ContactServices contactServices;
 
@@ -18,9 +22,28 @@ public class ContactControllerSingleton extends UnicastRemoteObject implements C
         super();
     }
 
-    public static ContactControllerSingleton getInstance(){
+
+
+    @Override
+    public ContactResponse addNewContact(ContactRequest contactRequest) {
+       return new ContactResponse(new ContactServices().addNewContact(contactRequest.getUserPhoneNumber(),contactRequest.getContactPhoneNumber()));
+    }
+
+
+    @Override
+    public ContactResponse getContactsByUserID(ContactRequest contactRequest) {
+        return  new ContactResponse(new ContactServices().getContactsByUserID(contactRequest.getUserPhoneNumber()));
+    }
+
+    @Override
+    public ContactResponse deleteContact(ContactRequest contactRequest) {
+        return new ContactResponse(new ContactServices().deleteContact(contactRequest.getUserPhoneNumber(),contactRequest.getContactPhoneNumber()));
+
+    }
+
+    public static ContactControllerSingleton getInstance() {
         try {
-            if(instance == null){
+            if (instance == null) {
                 instance = new ContactControllerSingleton();
             }
             NetworkManager.getRegistry().rebind("ContactController", instance);
@@ -30,23 +53,5 @@ public class ContactControllerSingleton extends UnicastRemoteObject implements C
         return instance;
     }
 
-    public  int addNewContact(Integer userId, Integer contactId) throws RemoteException{
-
-
-        return contactServices.addNewContact(userId, contactId);
-    }
-
-    public  List<Contact> getContactsByUserID(int userId) throws RemoteException{
-        return contactServices.getContactsByUserID(userId);
-
-
-    }
-    public int delectContact(Integer userId, Integer contactId) throws RemoteException{
-        return  contactServices.delectContact(userId,contactId);
-
-    }
-
-
-
-
 }
+
