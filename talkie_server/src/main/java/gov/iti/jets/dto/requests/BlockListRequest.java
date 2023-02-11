@@ -1,30 +1,40 @@
 package gov.iti.jets.dto.requests;
 
 
-import java.io.Serializable;
+public class BlockListRequest  {
+    //private static final long serialVersionUID = L;
 
-public class BlockListRequest implements Serializable {
-    private static final long serialVersionUID = -754635156489433394L;
+    private String userPhoneNumber;
+    private String blockedUserPhoneNumber;
 
-    private String phoneNumber;
-    public BlockListRequest(){ };
+    public BlockListRequest() { };
 
-    public BlockListRequest(String phoneNumber){
-        this.phoneNumber = phoneNumber;
+
+    public BlockListRequest(String userPhoneNumber){
+        this.userPhoneNumber = userPhoneNumber;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber=phoneNumber;
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public String getBlockedUserPhoneNumber() {
+        return blockedUserPhoneNumber;
+    }
+
+    public void setBlockedUserPhoneNumber(String blockedUserPhoneNumber) {
+        this.blockedUserPhoneNumber = blockedUserPhoneNumber;
     }
 
     @Override
     public String toString() {
-        return "BlockListRequest{"+
-                "phoneNumber='"+ phoneNumber + '\'';
+        return "BlockListRequest{" +
+                "userPhoneNumber='" + userPhoneNumber + '\'' +
+                ", blockedUserPhoneNumber='" + blockedUserPhoneNumber + '\'' +
+                '}';
     }
-
 }

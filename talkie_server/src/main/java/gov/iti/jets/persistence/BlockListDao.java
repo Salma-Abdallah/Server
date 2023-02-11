@@ -76,5 +76,6 @@ public class BlockListDao {
             throw new RuntimeException(e);
         }
     }
+
 }
 

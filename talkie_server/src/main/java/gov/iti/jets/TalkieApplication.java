@@ -21,5 +21,7 @@ public class TalkieApplication {
 
         NetworkManager.start();
 
+
+
     }
 }

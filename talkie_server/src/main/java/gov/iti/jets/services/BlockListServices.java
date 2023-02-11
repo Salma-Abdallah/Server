@@ -14,46 +14,28 @@ import java.util.Optional;
 
 public class BlockListServices {
     private BlockListMapper blockListMapper;
-    private BlockListDao blockListDao = new BlockListDao();
-    private BlockListEntity entity = new BlockListEntity();
+    private BlockListDao blockListDao ;
+    private BlockListEntity entity ;
     public BlockListServices() {
         this.blockListMapper= new BlockListMapper();
+        blockListDao = new BlockListDao();
+        entity = new BlockListEntity();
     }
 
 
-    public BlockList save (BlockList blockList) {
-        BlockListEntity blockListEntity = blockListMapper.modelToEntity(blockList);
-
-        return blockListMapper.entityToModel(blockListDao.save(blockListEntity));
+    public BlockList insert(String phoneNumber ,String blockedUserPhoneNumber){
+        return blockListMapper.insert(phoneNumber,blockedUserPhoneNumber);
     }
 
-    public int delete (BlockList blockList) {
-        BlockListEntity blockListEntity = blockListMapper.modelToEntity(blockList);
-
-        return blockListDao.delete(blockListEntity);
+    public int delete (String phoneNumber ,String blockedUserPhoneNumber) {
+        return blockListMapper.delete(phoneNumber,blockedUserPhoneNumber);
     }
 
-    public List<User> findAllBlockedUsersByUserId (Integer userId) {
-        List<User> users = new ArrayList<>();
-        List<UserEntity> userEntities = blockListDao.findAllBlockedUsersByUserId(userId);
-        UserMapper userMapper = new UserMapper();
-
-        for(UserEntity user:userEntities) {
-            users.add(userMapper.entityToModel(user));
-        }
-
-        return users;
+    public List<User> findAllBlockedUsersByUserId(String phoneNumber){
+        return blockListMapper.findAllBlockedUsersByUserId(phoneNumber);
     }
 
-    public List<User> findAllBlockersByBlockedUserId (Integer userId) {
-        List<User> users = new ArrayList<>();
-        List<UserEntity> userEntities = blockListDao.findAllBlockersByBlockedUserId(userId);
-        UserMapper userMapper = new UserMapper();
-
-        for(UserEntity user:userEntities) {
-            users.add(userMapper.entityToModel(user));
-        }
-
-        return users;
+    public List<User> findAllBlockersByBlockedUserId(String phoneNumber) {
+        return blockListMapper.findAllBlockersByBlockedUserId(phoneNumber);
     }
 }

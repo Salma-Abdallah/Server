@@ -1,5 +1,7 @@
 package gov.iti.jets.network.controllers.impl;
 
+import gov.iti.jets.dto.requests.BlockListRequest;
+import gov.iti.jets.dto.responses.BlockListResponse;
 import gov.iti.jets.models.BlockList;
 import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.BlockListController;
@@ -9,8 +11,6 @@ import gov.iti.jets.services.BlockListServices;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-
-import static sun.awt.image.PixelConverter.UshortGray.instance;
 
 public class BlockListControllerSingleton extends UnicastRemoteObject implements BlockListController {
     private static BlockListControllerSingleton instance;
@@ -24,30 +24,31 @@ public class BlockListControllerSingleton extends UnicastRemoteObject implements
             if(instance == null){
                 instance = new BlockListControllerSingleton();
             }
-            NetworkManager.getRegistry().rebind("UserController", instance);
+            NetworkManager.getRegistry().rebind("BlockListController", instance);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         return instance;
     }
+
     @Override
-    public BlockList addBlockedUser(BlockList blockList) throws RemoteException {
-        return blockListServices.save(blockList);
+    public BlockListResponse addBlockUser(BlockListRequest request) {
+        return new BlockListResponse(new BlockListServices().insert(request.getUserPhoneNumber(),request.getBlockedUserPhoneNumber()));
     }
 
     @Override
-    public int removeBlockedUser(BlockList blockList) throws RemoteException {
-        return blockListServices.delete(blockList);
+    public BlockListResponse removeBlockUser(BlockListRequest request) {
+        return new BlockListResponse(new BlockListServices().delete(request.getUserPhoneNumber(),request.getBlockedUserPhoneNumber()));
     }
 
     @Override
-    public List<User> findAllBlockedUsersByUserId(Integer userId) throws RemoteException {
-        return blockListServices.findAllBlockedUsersByUserId(userId);
+    public BlockListResponse findAllBlockedUsersByUserId(BlockListRequest request) {
+        return new BlockListResponse(new BlockListServices().findAllBlockedUsersByUserId(request.getUserPhoneNumber()));
     }
 
     @Override
-    public List<User> findAllBlockersByBlockedUserId(Integer userId) throws RemoteException {
-        return blockListServices.findAllBlockersByBlockedUserId(userId);
+    public BlockListResponse findAllBlockersByBlockedUserId(BlockListRequest request) {
+        return new BlockListResponse(new BlockListServices().findAllBlockersByBlockedUserId(request.getUserPhoneNumber()));
     }
 
 

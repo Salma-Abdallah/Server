@@ -1,48 +1,63 @@
 package gov.iti.jets.dto.responses;
 
-import gov.iti.jets.entities.BlockListEntity;
-import gov.iti.jets.mappers.BlockListMapper;
 import gov.iti.jets.models.BlockList;
 import gov.iti.jets.models.User;
-import gov.iti.jets.persistence.BlockListDao;
+
+import java.util.List;
 
 public class BlockListResponse {
+    private BlockList blockList;
+    private int deleteResult;
+    private List<User> userList;
 
-    private Integer userId;
-    private Integer blockedUserId;
-
-    private BlockListMapper blockListMapper;
-    private BlockListDao blockListDao;
-
-    public BlockListResponse() {}
-
-    public BlockListResponse(Integer userId ,Integer blockedUserId) {
-        this.userId = userId;
-        this.blockedUserId = blockedUserId;
+    public BlockListResponse(BlockList blockList, int deleteResult, List<User> userList) {
+        this.blockList = blockList;
+        this.deleteResult = deleteResult;
+        this.userList = userList;
     }
 
-    public void setUserId (Integer userId) {
-        this.userId = userId ;
+    public BlockListResponse(BlockList blockList) {
+        this.blockList = blockList;
     }
 
-    public Integer getUserId () {
-        return userId;
+    public BlockListResponse(int deleteResult) {
+        this.deleteResult = deleteResult;
     }
 
-    public void setBlockedUserId(Integer blockedUserId) {
-        this.blockedUserId = blockedUserId;
+    public BlockListResponse(List<User> userList) {
+        this.userList = userList;
     }
 
-    public Integer getBlockedUserId() {
-        return blockedUserId;
+    public BlockList getBlockList() {
+        return blockList;
     }
 
-    public String addToBlockList(BlockList blockList, User blockedUser ) {
-        BlockListEntity userEntity = blockListMapper.modelToEntity(blockList);
+    public void setBlockList(BlockList blockList) {
+        this.blockList = blockList;
+    }
 
+    public int getDeleteResult() {
+        return deleteResult;
+    }
 
-        //blockListDao.save(blockedEntity.getId() );
+    public void setDeleteResult(int deleteResult) {
+        this.deleteResult = deleteResult;
+    }
 
-        return "";
-    };
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    @Override
+    public String toString() {
+        return "BlockListResponse{" +
+                "blockList=" + blockList +
+                ", deleteResult=" + deleteResult +
+                ", userList=" + userList +
+                '}';
+    }
 }
