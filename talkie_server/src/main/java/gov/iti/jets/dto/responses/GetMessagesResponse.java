@@ -11,11 +11,11 @@ public class GetMessagesResponse implements Serializable{
 
     public GetMessagesResponse(){}
 
-    public GetMessagesResponse(List<Message> MessagesListList){
-        this.messageList=MessagesListList;
+    public GetMessagesResponse(List<Message> messageList){
+        this.messageList=messageList;
     }
 
-    public List<Message> getMessagesListList() {
+    public List<Message> getMessagesList() {
         return messageList;
     }
 
