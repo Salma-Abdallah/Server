@@ -1,5 +1,7 @@
 package gov.iti.jets.network.controllers;
 
+import gov.iti.jets.dto.requests.FriendReqRequest;
+import gov.iti.jets.dto.responses.FriendReqResponse;
 import gov.iti.jets.models.FriendRequest;
 import gov.iti.jets.models.User;
 
@@ -10,14 +12,13 @@ import java.util.List;
 public interface FriendRequestController extends Remote {
 
 
-    String sendFriendRequest (User user, User friend) throws RemoteException;
+    FriendReqResponse cancel (FriendReqRequest friendReqRequest);
+    FriendReqResponse refuse (FriendReqRequest friendReqRequest);
+    FriendReqResponse save(FriendReqRequest friendReqRequest);
+    FriendReqResponse getSentFriendRequestByUserID (FriendReqRequest friendReqRequest);
+    FriendReqResponse getReceivedFriendReqByUserID(FriendReqRequest friendReqRequest);
 
-    String acceptFriendRequest (User user, User friend) throws RemoteException;
 
-    String refuseFriendRequest (User user, User friend) throws RemoteException;
-    List<FriendRequest> findAllFriendRequests(User receiver) throws RemoteException;
-
-    String cancelRequest(User user, User friend) throws RemoteException;
 
 
 }

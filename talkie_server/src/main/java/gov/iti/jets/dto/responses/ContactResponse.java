@@ -9,9 +9,27 @@ public class ContactResponse implements Serializable {
 
     private static final long serialVersionUID= 546321469785312L;
     private String category;
-    private String phoneNumber;
-    private int result;
     private List<Contact> contactList;
+    private int result;
+    private String phoneNumber;
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+
+    public List<Contact> getContactList() {
+        return contactList;
+    }
+
+    public void setContactList(List<Contact> contactList) {
+        this.contactList = contactList;
+    }
+
 
     public ContactResponse(int result){
         this.result= result;

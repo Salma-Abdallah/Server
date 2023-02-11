@@ -37,6 +37,7 @@ public class ContactMapper {
     }
 
 
+
     public int delete(String userPhoneNumber, String contactPhoneNumber) {
 
         Optional<UserEntity> contactEntityOptional = userDao.findUserByPhoneNumber(contactPhoneNumber);
@@ -54,6 +55,8 @@ public class ContactMapper {
         }
         return 0;
     }
+
+
     public List<Contact> getContactsByUserID(String userPhoneNumber) {
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if (userEntityOptional.isPresent()) {
@@ -63,7 +66,6 @@ public class ContactMapper {
 
             for (ContactEntity contactEntity : contactEntities) {
                 contactList.add(entityToModel(contactEntity));
-
             }
             return contactList;
         }
@@ -80,8 +82,4 @@ public class ContactMapper {
         contactEntity.setCategory(contact.getCategory());
         return contactEntity;
     }
-
-
-
-
 }

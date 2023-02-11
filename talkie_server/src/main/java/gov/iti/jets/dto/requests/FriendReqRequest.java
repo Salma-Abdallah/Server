@@ -6,17 +6,29 @@ public class FriendReqRequest implements Serializable {
     private static final long serialVersionUID= -3339255849433394L;
 
 
-    private String phoneNumber;
 
-//    private UserEntity sender;
-//    private UserEntity receiver;
+
+    private String userPhoneNumber;
+    private String friendPhoneNumber;
     private boolean status;
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    //    private UserEntity sender;
+//    private UserEntity receiver;
+
+    public String getFriendPhoneNumber() {
+        return friendPhoneNumber;
     }
-    public String getPhoneNumber () {
-                return phoneNumber;
+
+    public void setFriendPhoneNumber(String friendPhoneNumber) {
+        this.friendPhoneNumber = friendPhoneNumber;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
     }
 
     public boolean isStatus() {
@@ -29,8 +41,10 @@ public class FriendReqRequest implements Serializable {
 
     public String toString() {
         return "FriendReqRequest" +
-                "phoneNumber='" + phoneNumber + '\'' +
+                "userPhoneNumber='" + userPhoneNumber + '\'' +
                 "status='" + status + '\''+
+                "friendPhoneNumber='" + friendPhoneNumber + '\'' +
+
                 '}';
     }
 }

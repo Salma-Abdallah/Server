@@ -1,11 +1,15 @@
 package gov.iti.jets.network.controllers.impl;
 
 
+import gov.iti.jets.dto.requests.FriendReqRequest;
+import gov.iti.jets.dto.responses.ContactResponse;
+import gov.iti.jets.dto.responses.FriendReqResponse;
 import gov.iti.jets.models.FriendRequest;
 import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.FriendRequestController;
 
 import gov.iti.jets.network.manager.NetworkManager;
+import gov.iti.jets.services.ContactServices;
 import gov.iti.jets.services.FriendResquestServices;
 
 import java.rmi.RemoteException;
@@ -38,36 +42,34 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
     protected FriendRequestControllerSingleton() throws RemoteException {
         super();
     }
-    @Override
-    public String sendFriendRequest(User user, User friend) throws RemoteException {
-        friendResquestServices.sendFriendRequest(user, friend);
-
-        return "Send Friend Request";
-    }
 
     @Override
-    public String acceptFriendRequest(User user, User friend) throws RemoteException {
-        friendResquestServices.acceptFriendRequest(user, friend);
-
-        return "Accepted Friend Request";
-    }
-
-    @Override
-    public String refuseFriendRequest(User user, User friend) throws RemoteException {
-        friendResquestServices.refuseFriendRequest(user, friend);
-
-        return "refused Friend Request";
-    }
-
-    @Override
-    public List<FriendRequest> findAllFriendRequests(User receiver) throws RemoteException {
-        return friendResquestServices.findAllFriendRequests(receiver);
+    public FriendReqResponse cancel(FriendReqRequest friendReqRequest) {
+        return new FriendReqResponse(new FriendResquestServices().cancel(friendReqRequest.getUserPhoneNumber(), friendReqRequest.getFriendPhoneNumber()));
 
     }
 
     @Override
-    public String cancelRequest(User user, User friend) throws RemoteException {
-        friendResquestServices.cancelRequest(user, friend);
-        return "Canceled Successfully";
+    public FriendReqResponse refuse(FriendReqRequest friendReqRequest) {
+        return new FriendReqResponse(new FriendResquestServices().refuse(friendReqRequest.getUserPhoneNumber(), friendReqRequest.getFriendPhoneNumber()));
+
+    }
+
+    @Override
+    public FriendReqResponse save(FriendReqRequest friendReqRequest) {
+        return new FriendReqResponse(new FriendResquestServices().save(friendReqRequest.getUserPhoneNumber(), friendReqRequest.getFriendPhoneNumber()));
+
+    }
+
+    @Override
+    public FriendReqResponse getSentFriendRequestByUserID (FriendReqRequest friendReqRequest) {
+        return new FriendReqResponse(new FriendResquestServices().getSentFriendRequestByUserID(friendReqRequest.getUserPhoneNumber()));
+
+    }
+
+    @Override
+    public FriendReqResponse getReceivedFriendReqByUserID (FriendReqRequest friendReqRequest) {
+        return new FriendReqResponse(new FriendResquestServices().getReceivedFriendReqByUserID(friendReqRequest.getUserPhoneNumber()));
+
     }
 }
