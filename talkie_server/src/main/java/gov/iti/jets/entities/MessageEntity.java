@@ -40,6 +40,23 @@ public class MessageEntity {
         this.fileUrl = fileUrl;
     }
 
+    public MessageEntity(UserEntity author, String chatId, String fontStyle, String fontColor, double fontSize,
+                         boolean bold, boolean italic, boolean underlined, String textBackground,
+                         Timestamp sentAt, String content, String fileUrl) {
+        this.author = author;
+        this.chatId = chatId;
+        this.fontStyle = fontStyle;
+        this.fontColor = fontColor;
+        this.fontSize = fontSize;
+        this.bold = bold;
+        this.italic = italic;
+        this.underlined = underlined;
+        this.textBackground = textBackground;
+        this.sentAt = sentAt;
+        this.content = content;
+        this.fileUrl = fileUrl;
+    }
+
     public Integer getId() {
         return id;
     }

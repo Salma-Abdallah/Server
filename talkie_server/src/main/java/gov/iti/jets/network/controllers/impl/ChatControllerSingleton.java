@@ -2,21 +2,12 @@ package gov.iti.jets.network.controllers.impl;
 
 import gov.iti.jets.dto.requests.GetChatsRequest;
 import gov.iti.jets.dto.responses.GetChatsResponse;
-import gov.iti.jets.mappers.RegularChatMapper;
-import gov.iti.jets.models.Chat;
-import gov.iti.jets.models.RegularChat;
-import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.ChatController;
-import gov.iti.jets.network.controllers.MessageController;
-import gov.iti.jets.network.controllers.UserController;
 import gov.iti.jets.network.manager.NetworkManager;
 import gov.iti.jets.services.ChatService;
-import gov.iti.jets.services.UserService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.List;
 
 public class ChatControllerSingleton extends UnicastRemoteObject implements ChatController {
 
