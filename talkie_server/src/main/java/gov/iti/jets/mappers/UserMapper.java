@@ -19,6 +19,7 @@ public class UserMapper {
     public Optional<UserEntity> getUserByPhoneNumber(String phoneNumber){
         return userDao.findUserByPhoneNumber(phoneNumber);
     }
+
     public Optional<UserEntity> getUserByEmail(String email){
         return userDao.findUserByEmail(email);
     }

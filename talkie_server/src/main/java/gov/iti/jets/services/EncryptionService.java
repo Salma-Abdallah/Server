@@ -1,10 +1,6 @@
 package gov.iti.jets.services;
 
-import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
 import gov.iti.jets.TalkieApplication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;

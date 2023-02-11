@@ -1,19 +1,19 @@
 package gov.iti.jets.entities;
 
+import gov.iti.jets.models.User;
+
 public class BlockListEntity {
     private Integer id;
-    private Integer userId;
-    private Integer blockedUserId;
+    private UserEntity user;
+    private UserEntity blockedUser;
 
-    public BlockListEntity(Integer id, Integer userId, Integer blockedUserId) {
-        this.id = id;
-        this.userId = userId;
-        this.blockedUserId = blockedUserId;
+    public BlockListEntity() {
     }
 
-    public BlockListEntity(Integer userId, Integer blockedUserId) {
-        this.userId = userId;
-        this.blockedUserId = blockedUserId;
+    public BlockListEntity(Integer id, UserEntity user, UserEntity blockedUser) {
+        this.id = id;
+        this.user = user;
+        this.blockedUser = blockedUser;
     }
 
     public Integer getId() {
@@ -24,28 +24,31 @@ public class BlockListEntity {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
-    public Integer getBlockedUserId() {
-        return blockedUserId;
+    public UserEntity getBlockedUser() {
+        return blockedUser;
     }
 
-    public void setBlockedUserId(Integer blockedUserId) {
-        this.blockedUserId = blockedUserId;
+    public void setBlockedUser(UserEntity blockedUser) {
+        this.blockedUser = blockedUser;
     }
 
     @Override
     public String toString() {
         return "BlockListEntity{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", blockedUserId=" + blockedUserId +
+                ", userEntity=" + user.toString() +
+                ", blockedUserEntity=" + blockedUser.toString() +
                 '}';
     }
+
+
+
 }
