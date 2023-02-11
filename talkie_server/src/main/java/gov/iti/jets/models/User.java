@@ -1,9 +1,10 @@
 package gov.iti.jets.models;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 
 
-public class User {
+public class User implements Serializable {
     private String userName;
     private String phoneNumber;
     private String email;

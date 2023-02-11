@@ -10,6 +10,7 @@ public class Contact {
         this.contactId = contactId;
         this.category = category;
     }
+    public Contact(){}
 
     public User getUserId() {
         return userId;

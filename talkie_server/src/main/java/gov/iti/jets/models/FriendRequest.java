@@ -16,6 +16,7 @@ public class FriendRequest {
         this.status = status;
         this.sentAt = sentAt;
     }
+    public FriendRequest(){}
 
     public User getSenderId() {
         return senderId;

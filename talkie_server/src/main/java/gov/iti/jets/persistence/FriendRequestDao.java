@@ -89,4 +89,19 @@ public class FriendRequestDao {
             throw new RuntimeException(e);
         }
     }
+    public int updateStatus(UserEntity receiver){
+        int result;
+        UserDao userDao = new UserDao();
+        String query = """
+                        UPDATE friend_request SET status = true where receiver_id = ?
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userDao.findUserByPhoneNumber(receiver.getPhoneNumber()).get().getId());
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

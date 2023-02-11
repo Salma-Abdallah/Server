@@ -1,10 +1,14 @@
 package gov.iti.jets.entities;
 
-public class ContactEntity {
+import java.io.Serializable;
+
+public class ContactEntity implements Serializable {
     private Integer id;
     private Integer userId;
     private UserEntity contact;
     private String category;
+
+    public ContactEntity(){}
 
     public ContactEntity(Integer id, Integer userId, UserEntity contact, String category) {
         this.id = id;

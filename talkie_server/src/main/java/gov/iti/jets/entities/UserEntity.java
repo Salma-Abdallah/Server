@@ -1,9 +1,10 @@
 package gov.iti.jets.entities;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
 
-public class UserEntity {
+public class UserEntity implements Serializable {
     private Integer id;
     private String userName;
     private String phoneNumber;

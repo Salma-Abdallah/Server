@@ -2,10 +2,11 @@ package gov.iti.jets.entities;
 
 import gov.iti.jets.persistence.UserDao;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-public class MessageEntity {
+public class MessageEntity implements Serializable {
 
     UserDao userDao = new UserDao();
     private Integer id;

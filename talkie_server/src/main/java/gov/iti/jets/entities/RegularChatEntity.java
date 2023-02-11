@@ -1,5 +1,8 @@
 package gov.iti.jets.entities;
-public class RegularChatEntity {
+
+import java.io.Serializable;
+
+public class RegularChatEntity implements Serializable {
     private String id;
     private Integer firstParticipantId;
     private Integer secondParticipantId;

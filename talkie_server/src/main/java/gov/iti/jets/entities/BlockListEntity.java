@@ -1,6 +1,8 @@
 package gov.iti.jets.entities;
 
-public class BlockListEntity {
+import java.io.Serializable;
+
+public class BlockListEntity implements Serializable {
     private Integer id;
     private Integer userId;
     private Integer blockedUserId;
