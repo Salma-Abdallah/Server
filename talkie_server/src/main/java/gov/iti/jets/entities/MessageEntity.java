@@ -6,8 +6,6 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 public class MessageEntity {
-
-    UserDao userDao = new UserDao();
     private Integer id;
 
     private UserEntity author;
@@ -144,5 +142,24 @@ public class MessageEntity {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "id=" + id +
+                ", author=" + author +
+                ", chatId='" + chatId + '\'' +
+                ", fontStyle='" + fontStyle + '\'' +
+                ", fontColor='" + fontColor + '\'' +
+                ", fontSize=" + fontSize +
+                ", bold=" + bold +
+                ", italic=" + italic +
+                ", underlined=" + underlined +
+                ", textBackground='" + textBackground + '\'' +
+                ", sentAt=" + sentAt +
+                ", content='" + content + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                '}';
     }
 }

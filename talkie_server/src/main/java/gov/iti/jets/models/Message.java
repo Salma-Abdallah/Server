@@ -1,8 +1,9 @@
 package gov.iti.jets.models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Messages {
+public class Message implements Serializable {
     private User author;
     private String chatId;
     private String fontStyle;
@@ -16,9 +17,9 @@ public class Messages {
     private String content;
     private String fileUrl;
 
-    public Messages(User author, String chatId, String fontStyle, String fontColor, double fontSize, boolean bold,
-                    boolean italic, boolean underlined, String textBackground,
-                    Timestamp sentAt, String content, String fileUrl) {
+    public Message(User author, String chatId, String fontStyle, String fontColor, double fontSize, boolean bold,
+                   boolean italic, boolean underlined, String textBackground,
+                   Timestamp sentAt, String content, String fileUrl) {
         this.author = author;
         this.chatId = chatId;
         this.fontStyle = fontStyle;
@@ -127,5 +128,23 @@ public class Messages {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "author=" + author +
+                ", chatId='" + chatId + '\'' +
+                ", fontStyle='" + fontStyle + '\'' +
+                ", fontColor='" + fontColor + '\'' +
+                ", fontSize=" + fontSize +
+                ", bold=" + bold +
+                ", italic=" + italic +
+                ", underlined=" + underlined +
+                ", textBackground='" + textBackground + '\'' +
+                ", sentAt=" + sentAt +
+                ", content='" + content + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                '}';
     }
 }

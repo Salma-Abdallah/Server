@@ -2,10 +2,10 @@ package gov.iti.jets.persistence;
 
 import gov.iti.jets.persistence.connection.DataSourceSingleton;
 import gov.iti.jets.entities.RegularChatEntity;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class RegularChatDao {
@@ -24,7 +24,7 @@ public class RegularChatDao {
             statement.setInt(2, regularChatEntity.getFirstParticipantId());
             statement.setInt(3, regularChatEntity.getSecondParticipantId());
             statement.executeUpdate();
-
+            regularChatEntity.setId(uuid);
             return regularChatEntity;
         } catch (SQLException e) {
             chatDao.delete(uuid);
@@ -67,6 +67,30 @@ public class RegularChatDao {
             statement.executeUpdate();
             return new ChatDao().delete(id);
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Optional<RegularChatEntity> findRegularChatByParticipantsIds(Integer firstParticipantId, Integer secondParticipantId ){
+        String query = """
+                            SELECT * FROM regular_chat rc
+                            WHERE (rc.first_participant_id = ? AND rc.second_participant_id = ?)
+                                    OR (rc.first_participant_id = ? AND rc.second_participant_id = ?)
+                        """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, firstParticipantId);
+            statement.setInt(2, secondParticipantId);
+            statement.setInt(3, secondParticipantId);
+            statement.setInt(4, firstParticipantId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                return Optional.of(new RegularChatEntity(resultSet.getString("id"),
+                                                         resultSet.getInt("first_participant_id"),
+                                                         resultSet.getInt("second_participant_id")));
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

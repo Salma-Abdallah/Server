@@ -1,25 +1,18 @@
 package gov.iti.jets;
 
-import gov.iti.jets.dto.requests.LoginRequest;
-import gov.iti.jets.dto.requests.RegisterRequest;
-import gov.iti.jets.dto.responses.LoginResponse;
-import gov.iti.jets.dto.responses.RegisterResponse;
-import gov.iti.jets.entities.UserEntity;
-import gov.iti.jets.models.User;
-import gov.iti.jets.network.controllers.impl.AuthenticationControllerSingleton;
-import gov.iti.jets.network.manager.NetworkManager;
-import gov.iti.jets.persistence.UserDao;
-import gov.iti.jets.services.UserService;
-import gov.iti.jets.utils.ImageUtils;
+import gov.iti.jets.persistence.MessageDao;
 
-import java.rmi.RemoteException;
-import java.time.LocalDate;
-import java.util.Optional;
 
 public class TalkieApplication {
     public static void main(String[] args) {
 
-        NetworkManager.start();
+//        NetworkManager.start();
 
+//        ChatService chatService = new ChatService();
+//        chatService.getAllChats("01278158298").forEach(System.out::println);
+//        UserGroupMapper userGroupMapper = new UserGroupMapper();
+//        userGroupMapper.addUserToGroupChat("01278158298", "a70d9e66-a91d-11ed-9d48-94b86d574bf8");
+        MessageDao messageDao = new MessageDao();
+        System.out.println(messageDao.findMessagesByChatID("83734688-1d3c-4943-8c86-21b1e72af8ae"));
     }
 }

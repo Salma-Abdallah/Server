@@ -1,6 +1,7 @@
 package gov.iti.jets.network.manager;
 
 import gov.iti.jets.network.controllers.impl.AuthenticationControllerSingleton;
+import gov.iti.jets.network.controllers.impl.ChatControllerSingleton;
 import gov.iti.jets.network.controllers.impl.UserControllerSingleton;
 
 import java.rmi.NotBoundException;
@@ -26,6 +27,7 @@ public class NetworkManager {
     public static void start(){
         AuthenticationControllerSingleton.getInstance();
         UserControllerSingleton.getInstance();
+        ChatControllerSingleton.getInstance();
     }
     public static void stop(){
         try {

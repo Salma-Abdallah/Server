@@ -10,6 +10,11 @@ public class RegularChatEntity {
         this.secondParticipantId = secondParticipantId;
     }
 
+    public RegularChatEntity(Integer firstParticipantId, Integer secondParticipantId) {
+        this.firstParticipantId = firstParticipantId;
+        this.secondParticipantId = secondParticipantId;
+    }
+
     public String getId() {
         return id;
     }
@@ -32,5 +37,14 @@ public class RegularChatEntity {
 
     public void setSecondParticipantId(Integer secondParticipantId) {
         this.secondParticipantId = secondParticipantId;
+    }
+
+    @Override
+    public String toString() {
+        return "RegularChatEntity{" +
+                "id='" + id + '\'' +
+                ", firstParticipantId=" + firstParticipantId +
+                ", secondParticipantId=" + secondParticipantId +
+                '}';
     }
 }
