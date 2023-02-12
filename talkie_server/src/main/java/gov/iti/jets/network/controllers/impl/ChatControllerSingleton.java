@@ -27,6 +27,8 @@ public class ChatControllerSingleton extends UnicastRemoteObject implements Chat
 
     @Override
     public GetChatsResponse getAllChat(GetChatsRequest request) {
-        return new GetChatsResponse(new ChatService().getAllChats(request.getPhoneNumber()));
+        ChatService chatService = new ChatService();
+        return new GetChatsResponse(chatService.getAllRegularChats(request.getPhoneNumber()),
+                chatService.getAllGroupChats(request.getPhoneNumber()));
     }
 }

@@ -4,6 +4,7 @@ import gov.iti.jets.mappers.GroupChatMapper;
 import gov.iti.jets.mappers.RegularChatMapper;
 import gov.iti.jets.mappers.UserGroupMapper;
 import gov.iti.jets.models.Chat;
+import gov.iti.jets.models.GroupChat;
 import gov.iti.jets.models.RegularChat;
 
 import java.util.ArrayList;
@@ -20,9 +21,13 @@ public class ChatService {
         userGroupMapper = new UserGroupMapper();
     }
 
-    public List<Chat> getAllChats(String phoneNumber){
-        List<Chat> chats = new ArrayList<>();
+    public List<RegularChat> getAllRegularChats(String phoneNumber){
+        List<RegularChat> chats = new ArrayList<>();
         chats.addAll(regularChatMapper.findAllRegularChatsByPhoneNumber(phoneNumber));
+        return chats;
+    }
+    public List<GroupChat> getAllGroupChats(String phoneNumber){
+        List<GroupChat> chats = new ArrayList<>();
         chats.addAll(groupChatMapper.findAllGroupChatsByOwnerId(phoneNumber));
         chats.addAll(userGroupMapper.findAllGroupChatsByPhoneNumber(phoneNumber));
         return chats;
