@@ -6,8 +6,6 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 public class MessageEntity {
-
-    UserDao userDao = new UserDao();
     private Integer id;
 
     private UserEntity author;
@@ -28,6 +26,23 @@ public class MessageEntity {
                          double fontSize, boolean bold, boolean italic, boolean underlined, String textBackground,
                          Timestamp sentAt, String content, String fileUrl) {
         this.id = id;
+        this.author = author;
+        this.chatId = chatId;
+        this.fontStyle = fontStyle;
+        this.fontColor = fontColor;
+        this.fontSize = fontSize;
+        this.bold = bold;
+        this.italic = italic;
+        this.underlined = underlined;
+        this.textBackground = textBackground;
+        this.sentAt = sentAt;
+        this.content = content;
+        this.fileUrl = fileUrl;
+    }
+
+    public MessageEntity(UserEntity author, String chatId, String fontStyle, String fontColor, double fontSize,
+                         boolean bold, boolean italic, boolean underlined, String textBackground,
+                         Timestamp sentAt, String content, String fileUrl) {
         this.author = author;
         this.chatId = chatId;
         this.fontStyle = fontStyle;
@@ -144,5 +159,24 @@ public class MessageEntity {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "id=" + id +
+                ", author=" + author +
+                ", chatId='" + chatId + '\'' +
+                ", fontStyle='" + fontStyle + '\'' +
+                ", fontColor='" + fontColor + '\'' +
+                ", fontSize=" + fontSize +
+                ", bold=" + bold +
+                ", italic=" + italic +
+                ", underlined=" + underlined +
+                ", textBackground='" + textBackground + '\'' +
+                ", sentAt=" + sentAt +
+                ", content='" + content + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                '}';
     }
 }

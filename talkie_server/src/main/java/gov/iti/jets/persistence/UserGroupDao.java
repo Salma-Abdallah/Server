@@ -10,13 +10,13 @@ import java.util.List;
 
 public class UserGroupDao {
 
-    public int addUserToGroupChat(int userId , String groupChatId){
+    public int addUserToGroupChat(int userId, String groupChatId) {
         String query = """
-                            INSERT INTO user_group(group_chat_id, user_id)
-                            values(?, ?)
-                       """;
+                     INSERT INTO user_group(group_chat_id, user_id)
+                     values(?, ?)
+                """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)){
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, groupChatId);
             statement.setInt(2, userId);
@@ -26,23 +26,22 @@ public class UserGroupDao {
             throw new RuntimeException(e);
         }
     }
+
     public List<UserEntity> findAllUsersByGroupChatId(String groupId) {
         List<UserEntity> users = new ArrayList<>();
-        UserDao userDao = new UserDao();
-
         String query = """
                 SELECT u.* FROM users u
                   INNER JOIN user_group ug
                   ON u.id = ug.user_id and ug.group_chat_id = ?
                   """;
 
-        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)){
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1,groupId);
+            statement.setString(1, groupId);
             ResultSet result = statement.executeQuery();
 
-            while (result.next()){
+            while (result.next()) {
                 users.add(UserDao.resultSetToUserEntity(result));
             }
         } catch (SQLException e) {
@@ -60,7 +59,7 @@ public class UserGroupDao {
 
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1,userId);
+            statement.setInt(1, userId);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 String groupChatId = result.getString("id");
@@ -69,19 +68,19 @@ public class UserGroupDao {
 
                 groupChatEntities.add(new GroupChatEntity(groupChatId, ownerId, groupName));
             }
-            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return groupChatEntities;
     }
-    public int deleteUserFromGroupChat(int userId , String groupChatId){
+
+    public int deleteUserFromGroupChat(int userId, String groupChatId) {
         String query = """
-                            DELETE FROM user_group WHERE group_chat_id = ? and user_id = ?
-                        """;
+                    DELETE FROM user_group WHERE group_chat_id = ? and user_id = ?
+                """;
 
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)){
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, groupChatId);
             statement.setInt(2, userId);

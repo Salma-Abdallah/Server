@@ -8,11 +8,12 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MessageDao {
 
     UserDao userDao = new UserDao();
-    public int saveMessage(MessageEntity messageEntity){
+    public Optional<MessageEntity> saveMessage(MessageEntity messageEntity){
         String query = """
                             INSERT INTO messages(chat_id, author_id, font_style, font_color,
                              font_size, bold, italic, text_background, underlined, sent_at, content, file_url)
@@ -20,8 +21,7 @@ public class MessageDao {
                        """;
 
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)){
-
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1, messageEntity.getChatId());
             statement.setInt(2, messageEntity.getAuthor().getId());
             statement.setString(3, messageEntity.getFontStyle());
@@ -34,10 +34,15 @@ public class MessageDao {
             statement.setTimestamp(10, messageEntity.getSentAt());
             statement.setString(11, messageEntity.getContent());
             statement.setString(12, messageEntity.getFileUrl());
-
-            return statement.executeUpdate();
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                messageEntity.setId(generatedKeys.getInt(1));
+            }
+            return Optional.of(messageEntity);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return Optional.empty();
         }
     }
     public List<MessageEntity> findMessagesByChatID(String chatId){

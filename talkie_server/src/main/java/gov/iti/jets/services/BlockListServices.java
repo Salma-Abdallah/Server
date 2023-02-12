@@ -2,15 +2,11 @@ package gov.iti.jets.services;
 
 import gov.iti.jets.entities.BlockListEntity;
 import gov.iti.jets.mappers.BlockListMapper;
-import gov.iti.jets.mappers.UserMapper;
 import gov.iti.jets.models.BlockList;
 import gov.iti.jets.models.User;
 import gov.iti.jets.persistence.BlockListDao;
-import gov.iti.jets.entities.UserEntity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class BlockListServices {
     private BlockListMapper blockListMapper;

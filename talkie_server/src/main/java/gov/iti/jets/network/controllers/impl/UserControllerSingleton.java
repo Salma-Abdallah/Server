@@ -1,7 +1,7 @@
 package gov.iti.jets.network.controllers.impl;
 
 import gov.iti.jets.models.User;
-import gov.iti.jets.network.controllers.MessageController;
+import gov.iti.jets.network.controllers.CallBackController;
 import gov.iti.jets.network.controllers.UserController;
 import gov.iti.jets.network.manager.NetworkManager;
 
@@ -39,8 +39,8 @@ public class UserControllerSingleton extends UnicastRemoteObject implements User
     }
 
     @Override
-    public void sendMessage(MessageController messageController) throws RemoteException {
-        messageController.send();
-        messageController.receive();
+    public void sendMessage(CallBackController callBackController) throws RemoteException {
+        callBackController.send();
+        callBackController.receive();
     }
 }

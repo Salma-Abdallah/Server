@@ -25,6 +25,7 @@ public class GroupChatDao {
             statement.setString(3, groupChatEntity.getName());
             statement.executeUpdate();
 
+            groupChatEntity.setChatId(uuid);
             return groupChatEntity;
         } catch (SQLException e) {
             chatDao.delete(uuid);
