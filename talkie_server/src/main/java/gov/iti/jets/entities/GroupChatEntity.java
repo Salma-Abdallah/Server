@@ -13,6 +13,11 @@ public class GroupChatEntity implements Serializable {
         this.name = name;
     }
 
+    public GroupChatEntity(Integer ownerId, String name) {
+        this.ownerId = ownerId;
+        this.name = name;
+    }
+
     public String getChatId() {
         return chatId;
     }

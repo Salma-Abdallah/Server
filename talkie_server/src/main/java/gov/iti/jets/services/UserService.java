@@ -12,7 +12,6 @@ public class UserService {
     public UserService() {
         this.userMapper = new UserMapper();
     }
-
     public Optional<User> getUserByPhoneNumber(String phoneNumber){
         Optional<UserEntity> entity = userMapper.getUserByPhoneNumber(phoneNumber);
         if(entity.isPresent()){

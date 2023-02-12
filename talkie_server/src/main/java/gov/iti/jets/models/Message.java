@@ -1,8 +1,11 @@
 package gov.iti.jets.models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Messages {
+public class Message implements Serializable {
+    private static final long serialVersionUID = 4609424488795724384L;
+    private Integer id;
     private User author;
     private String chatId;
     private String fontStyle;
@@ -16,9 +19,10 @@ public class Messages {
     private String content;
     private String fileUrl;
 
-    public Messages(User author, String chatId, String fontStyle, String fontColor, double fontSize, boolean bold,
-                    boolean italic, boolean underlined, String textBackground,
-                    Timestamp sentAt, String content, String fileUrl) {
+    public Message(Integer id, User author, String chatId, String fontStyle, String fontColor, double fontSize, boolean bold,
+                   boolean italic, boolean underlined, String textBackground,
+                   Timestamp sentAt, String content, String fileUrl) {
+        this.id = id;
         this.author = author;
         this.chatId = chatId;
         this.fontStyle = fontStyle;
@@ -31,6 +35,31 @@ public class Messages {
         this.sentAt = sentAt;
         this.content = content;
         this.fileUrl = fileUrl;
+    }
+
+    public Message(User author, String chatId, String fontStyle, String fontColor, double fontSize, boolean bold,
+                   boolean italic, boolean underlined, String textBackground, Timestamp sentAt,
+                   String content, String fileUrl) {
+        this.author = author;
+        this.chatId = chatId;
+        this.fontStyle = fontStyle;
+        this.fontColor = fontColor;
+        this.fontSize = fontSize;
+        this.bold = bold;
+        this.italic = italic;
+        this.underlined = underlined;
+        this.textBackground = textBackground;
+        this.sentAt = sentAt;
+        this.content = content;
+        this.fileUrl = fileUrl;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public User getAuthor() {
@@ -127,5 +156,24 @@ public class Messages {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", author=" + author +
+                ", chatId='" + chatId + '\'' +
+                ", fontStyle='" + fontStyle + '\'' +
+                ", fontColor='" + fontColor + '\'' +
+                ", fontSize=" + fontSize +
+                ", bold=" + bold +
+                ", italic=" + italic +
+                ", underlined=" + underlined +
+                ", textBackground='" + textBackground + '\'' +
+                ", sentAt=" + sentAt +
+                ", content='" + content + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                '}';
     }
 }
