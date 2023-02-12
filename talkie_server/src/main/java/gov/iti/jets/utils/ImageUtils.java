@@ -17,6 +17,7 @@ public class ImageUtils {
             if (!Files.exists(parent)) {
                 Files.createDirectories(parent);
             }
+
             Files.write(filePath,
                     user.getPicture(),
                     StandardOpenOption.CREATE,

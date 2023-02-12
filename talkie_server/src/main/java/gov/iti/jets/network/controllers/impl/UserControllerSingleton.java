@@ -14,6 +14,7 @@ public class UserControllerSingleton extends UnicastRemoteObject implements User
     private static UserControllerSingleton instance;
     private HashMap<String, User> users = new HashMap<>();
     private UserControllerSingleton() throws RemoteException {}
+
     public static UserControllerSingleton getInstance(){
         try {
             if(instance == null){
@@ -25,6 +26,7 @@ public class UserControllerSingleton extends UnicastRemoteObject implements User
         }
         return instance;
     }
+
     @Override
     public User register(User user) throws RemoteException {
         System.out.println(user);
