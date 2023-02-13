@@ -1,10 +1,14 @@
 package gov.iti.jets.mappers;
 
 import gov.iti.jets.entities.FriendRequestEntity;
+import gov.iti.jets.entities.RegularChatEntity;
 import gov.iti.jets.entities.UserEntity;
 import gov.iti.jets.models.FriendRequest;
+import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.models.User;
+import gov.iti.jets.persistence.ChatDao;
 import gov.iti.jets.persistence.FriendRequestDao;
+import gov.iti.jets.persistence.RegularChatDao;
 import gov.iti.jets.persistence.UserDao;
 
 import java.util.ArrayList;
@@ -15,6 +19,11 @@ public class FriendRequestMapper {
 
 
     private FriendRequestDao friendRequestDao;
+    private ChatDao chatDao;
+    private RegularChatDao regularChatDao;
+    private RegularChatMapper regularChatMapper;
+    private RegularChatEntity regularChatEntity;
+    private RegularChat regularChat;
     private UserDao userDao;
 
     public FriendRequestMapper() {
@@ -56,7 +65,7 @@ public class FriendRequestMapper {
     }
 
 
-    public int save(String userPhoneNumber, String friendPhoneNumber) {
+    public RegularChat save(String userPhoneNumber, String friendPhoneNumber) {
 
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if(userEntityOptional.isPresent()){
@@ -64,11 +73,16 @@ public class FriendRequestMapper {
             Optional<UserEntity> friendEntityOptional = userDao.findUserByPhoneNumber(friendPhoneNumber);
             if(friendEntityOptional.isPresent()) {
                 UserEntity friendEntity = friendEntityOptional.get();
-                return friendRequestDao.save(userEntity.getId(),friendEntity.getId());
+                 regularChatEntity.getFirstParticipantId();
+                 regularChatEntity.getSecondParticipantId();
+                RegularChatEntity regularChatEntity1 = regularChatDao.save(regularChatEntity);
+
+                return regularChatEntity1.getRegularChat();
             }
         }
-        return 0;
+        return null;
     }
+
     public int refuse (String userPhoneNumber, String friendPhoneNumber) {
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if (userEntityOptional.isPresent()) {

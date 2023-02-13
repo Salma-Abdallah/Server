@@ -1,7 +1,9 @@
 package gov.iti.jets.mappers;
 
+import gov.iti.jets.entities.FriendRequestEntity;
 import gov.iti.jets.entities.RegularChatEntity;
 import gov.iti.jets.entities.UserEntity;
+import gov.iti.jets.models.FriendRequest;
 import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.models.User;
 import gov.iti.jets.persistence.RegularChatDao;
@@ -80,4 +82,5 @@ public class RegularChatMapper {
         }
         return 0;
     }
+
 }

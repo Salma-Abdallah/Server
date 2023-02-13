@@ -1,7 +1,9 @@
 package gov.iti.jets.network.controllers;
 
 import gov.iti.jets.dto.requests.FriendReqRequest;
+import gov.iti.jets.dto.requests.LoadFriendReqRequest;
 import gov.iti.jets.dto.responses.FriendReqResponse;
+import gov.iti.jets.dto.responses.LoadFriendReqResponse;
 import gov.iti.jets.models.FriendRequest;
 import gov.iti.jets.models.User;
 
@@ -15,8 +17,8 @@ public interface FriendRequestController extends Remote {
     FriendReqResponse cancel (FriendReqRequest friendReqRequest);
     FriendReqResponse refuse (FriendReqRequest friendReqRequest);
     FriendReqResponse save(FriendReqRequest friendReqRequest);
-    FriendReqResponse getSentFriendRequestByUserID (FriendReqRequest friendReqRequest);
-    FriendReqResponse getReceivedFriendReqByUserID(FriendReqRequest friendReqRequest);
+    LoadFriendReqResponse getSentFriendRequestByUserID (LoadFriendReqRequest loadFriendReqRequest);
+    LoadFriendReqResponse getReceivedFriendReqByUserID(LoadFriendReqRequest loadFriendReqRequest);
 
 
 
