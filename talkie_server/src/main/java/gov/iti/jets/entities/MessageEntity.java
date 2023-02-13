@@ -6,9 +6,7 @@ import java.sql.Timestamp;
 public class MessageEntity {
 
     private Integer id;
-
     private UserEntity author;
-
     private String chatId;
     private String fontStyle;
     private String fontColor;
@@ -20,10 +18,11 @@ public class MessageEntity {
     private Timestamp sentAt;
     private String content;
     private String fileUrl;
+    private boolean seen;
 
     public MessageEntity(Integer id, UserEntity author, String chatId, String fontStyle, String fontColor,
                          double fontSize, boolean bold, boolean italic, boolean underlined, String textBackground,
-                         Timestamp sentAt, String content, String fileUrl) {
+                         Timestamp sentAt, String content, String fileUrl, boolean seen) {
         this.id = id;
         this.author = author;
         this.chatId = chatId;
@@ -37,11 +36,12 @@ public class MessageEntity {
         this.sentAt = sentAt;
         this.content = content;
         this.fileUrl = fileUrl;
+        this.seen = seen;
     }
 
     public MessageEntity(UserEntity author, String chatId, String fontStyle, String fontColor, double fontSize,
                          boolean bold, boolean italic, boolean underlined, String textBackground,
-                         Timestamp sentAt, String content, String fileUrl) {
+                         Timestamp sentAt, String content, String fileUrl, boolean seen) {
         this.author = author;
         this.chatId = chatId;
         this.fontStyle = fontStyle;
@@ -54,6 +54,7 @@ public class MessageEntity {
         this.sentAt = sentAt;
         this.content = content;
         this.fileUrl = fileUrl;
+        this.seen = seen;
     }
 
     public Integer getId() {
@@ -160,6 +161,14 @@ public class MessageEntity {
         this.fileUrl = fileUrl;
     }
 
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
+
     @Override
     public String toString() {
         return "MessageEntity{" +
@@ -176,6 +185,7 @@ public class MessageEntity {
                 ", sentAt=" + sentAt +
                 ", content='" + content + '\'' +
                 ", fileUrl='" + fileUrl + '\'' +
+                ", seen='" + seen + '\''+
                 '}';
     }
 }

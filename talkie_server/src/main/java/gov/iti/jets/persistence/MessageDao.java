@@ -51,7 +51,8 @@ public class MessageDao {
                             FROM messages m
                             INNER JOIN users u
                             ON u.id = m.author_id
-                            WHERE chat_id = ?;
+                            WHERE chat_id = ?
+                            ORDER BY m.sent_at
                        """;
         List<MessageEntity> messageEntities = new ArrayList<>();
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
@@ -88,13 +89,31 @@ public class MessageDao {
                 Timestamp sentAt = result.getTimestamp("sent_at");
                 String content = result.getString("content");
                 String fileUrl = result.getString("file_url");
-
-                messageEntities.add(new MessageEntity(id, author, chatId, fontStyle, fontColor, fontSize, isBold, isItalic, isUnderlined, textBackground, sentAt , content, fileUrl));
+                boolean seen = result.getBoolean("seen");
+                messageEntities.add(new MessageEntity(id, author, chatId, fontStyle, fontColor, fontSize, isBold, isItalic, isUnderlined, textBackground, sentAt , content, fileUrl, seen));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return messageEntities;
+    }
+    public int updateMessageStatusByPhoneNumberAndChatId(String phoneNumber, String chatId){
+        String query = """
+                        update messages
+                        set seen = 1
+                        where chatId = ? AND author_id = 	(	select id
+                        										from users
+                        										where phone_number = ?
+                        									);
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)){
+                statement.setString(1, chatId);
+                statement.setString(2, phoneNumber);
+                return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

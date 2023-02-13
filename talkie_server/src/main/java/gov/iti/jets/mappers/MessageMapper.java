@@ -29,21 +29,23 @@ public class MessageMapper {
             new Message(messageEntity.getId(), userMapper.entityToModel(messageEntity.getAuthor()),
                     chatId, messageEntity.getFontStyle(), messageEntity.getFontColor(), messageEntity.getFontSize(),
                     messageEntity.isBold(), messageEntity.isItalic(), messageEntity.isUnderlined(), messageEntity.getTextBackground(),
-                    messageEntity.getSentAt(), messageEntity.getContent(), messageEntity.getFileUrl())
+                    messageEntity.getSentAt(), messageEntity.getContent(), messageEntity.getFileUrl(), messageEntity.isSeen())
         ).toList();
     }
-
     public Optional<Message> insert(Message message){
         UserEntity author = userMapper.getUserByPhoneNumber(message.getAuthor().getPhoneNumber()).get();
         Optional<MessageEntity> messageEntityOptional = messageDao.saveMessage(new MessageEntity(author, message.getChatId(),
                                                 message.getFontStyle(), message.getFontColor(), message.getFontSize(),
                                                 message.isBold(), message.isItalic(), message.isUnderlined(),
                                                 message.getTextBackground(), message.getSentAt(), message.getContent(),
-                                                message.getFileUrl()));
+                                                message.getFileUrl(), message.isSeen()));
         if(messageEntityOptional.isPresent()){
             message.setId(messageEntityOptional.get().getId());
             return Optional.of(message);
         }
         return Optional.empty();
+    }
+    public int updateMessageStatusByPhoneNumberAndChatId(String phoneNumber, String chatId){
+        return messageDao.updateMessageStatusByPhoneNumberAndChatId(phoneNumber, chatId);
     }
 }

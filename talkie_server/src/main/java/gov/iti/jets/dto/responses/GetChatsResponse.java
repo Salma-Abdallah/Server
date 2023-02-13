@@ -9,6 +9,8 @@ import java.util.List;
 
 public class GetChatsResponse implements Serializable{
 
+    private static final long serialVersionUID = 5773299112415985829L;
+
     private List<RegularChat> allRegularChatsList;
     private List<GroupChat> allGroupChatsList;
 
