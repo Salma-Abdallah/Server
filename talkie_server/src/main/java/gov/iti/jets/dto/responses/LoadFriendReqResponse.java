@@ -31,11 +31,5 @@ public class LoadFriendReqResponse implements Serializable {
     public LoadFriendReqResponse( List<FriendRequest> FriendRequestList) {
         this.receivedFriendRequestList = FriendRequestList;
     }
-//    public LoadFriendReqResponse (List<FriendRequest> friendRequestList){
-//        this.friendRequestList = friendRequestList;
-//    }
-
-
-
 
 }

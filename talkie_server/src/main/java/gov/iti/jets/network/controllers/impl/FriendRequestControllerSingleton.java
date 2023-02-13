@@ -1,7 +1,6 @@
 package gov.iti.jets.network.controllers.impl;
 
 
-import gov.iti.jets.dto.requests.FriendReqRequest;
 import gov.iti.jets.dto.requests.LoadFriendReqRequest;
 import gov.iti.jets.dto.responses.FriendReqResponse;
 import gov.iti.jets.dto.responses.LoadFriendReqResponse;
@@ -64,17 +63,17 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
 //    }
 
     @Override
-    public FriendReqResponse cancel(FriendReqRequest friendReqRequest) {
+    public FriendReqResponse cancel(LoadFriendReqRequest friendReqRequest) {
         return null;
     }
 
     @Override
-    public FriendReqResponse refuse(FriendReqRequest friendReqRequest) {
+    public FriendReqResponse refuse(LoadFriendReqRequest friendReqRequest) {
         return null;
     }
 
     @Override
-    public FriendReqResponse save(FriendReqRequest friendReqRequest) {
+    public FriendReqResponse save(LoadFriendReqRequest friendReqRequest) {
         return null;
     }
 
