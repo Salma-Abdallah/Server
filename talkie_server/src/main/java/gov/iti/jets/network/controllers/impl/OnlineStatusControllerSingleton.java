@@ -1,10 +1,10 @@
 package gov.iti.jets.network.controllers.impl;
 
 
+import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.CallbackController;
 import gov.iti.jets.network.controllers.OnlineStatusController;
-import org.example.models.User;
-import org.example.network.manager.NetworkManager;
+import gov.iti.jets.network.manager.NetworkManager;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

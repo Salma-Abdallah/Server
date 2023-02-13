@@ -8,5 +8,5 @@ import java.rmi.RemoteException;
 public interface UserController extends Remote {
     User register(User user) throws RemoteException;
     User edit(User user) throws RemoteException;
-    void sendMessage(CallBackController callBackController) throws RemoteException;
+    void sendMessage(CallbackController callBackController) throws RemoteException;
 }

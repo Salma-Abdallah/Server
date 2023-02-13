@@ -1,6 +1,7 @@
 package gov.iti.jets.network.controllers;
 
-import org.example.models.User;
+
+import gov.iti.jets.models.User;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
