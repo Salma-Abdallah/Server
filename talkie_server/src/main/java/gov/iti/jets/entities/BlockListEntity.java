@@ -1,8 +1,5 @@
 package gov.iti.jets.entities;
 
-import java.io.Serializable;
-
-
 public class BlockListEntity {
     private Integer id;
     private UserEntity user;
@@ -49,7 +46,5 @@ public class BlockListEntity {
                 ", blockedUserEntity=" + blockedUser.toString() +
                 '}';
     }
-
-
 
 }

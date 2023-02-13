@@ -1,16 +1,18 @@
 package gov.iti.jets.dto.requests;
 
-
-public class BlockListRequest  {
-    //private static final long serialVersionUID = L;
-
+public class RemoveBlockedUserRequest {
     private String userPhoneNumber;
     private String blockedUserPhoneNumber;
 
-    public BlockListRequest() { };
+    public RemoveBlockedUserRequest() {
+    }
 
+    public RemoveBlockedUserRequest(String userPhoneNumber, String blockedUserPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+        this.blockedUserPhoneNumber = blockedUserPhoneNumber;
+    }
 
-    public BlockListRequest(String userPhoneNumber){
+    public RemoveBlockedUserRequest(String userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
     }
 
@@ -28,13 +30,5 @@ public class BlockListRequest  {
 
     public void setBlockedUserPhoneNumber(String blockedUserPhoneNumber) {
         this.blockedUserPhoneNumber = blockedUserPhoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "BlockListRequest{" +
-                "userPhoneNumber='" + userPhoneNumber + '\'' +
-                ", blockedUserPhoneNumber='" + blockedUserPhoneNumber + '\'' +
-                '}';
     }
 }

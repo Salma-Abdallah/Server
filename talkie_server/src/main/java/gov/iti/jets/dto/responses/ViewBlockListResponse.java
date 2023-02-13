@@ -5,26 +5,26 @@ import gov.iti.jets.models.User;
 
 import java.util.List;
 
-public class BlockListResponse {
+public class ViewBlockListResponse {
     private BlockList blockList;
     private int deleteResult;
     private List<User> userList;
 
-    public BlockListResponse(BlockList blockList, int deleteResult, List<User> userList) {
+    public ViewBlockListResponse(BlockList blockList, int deleteResult, List<User> userList) {
         this.blockList = blockList;
         this.deleteResult = deleteResult;
         this.userList = userList;
     }
 
-    public BlockListResponse(BlockList blockList) {
+    public ViewBlockListResponse(BlockList blockList) {
         this.blockList = blockList;
     }
 
-    public BlockListResponse(int deleteResult) {
+    public ViewBlockListResponse(int deleteResult) {
         this.deleteResult = deleteResult;
     }
 
-    public BlockListResponse(List<User> userList) {
+    public ViewBlockListResponse(List<User> userList) {
         this.userList = userList;
     }
 
@@ -53,7 +53,7 @@ public class BlockListResponse {
     }
 
     @Override
-    public String toString() {
+    public String  toString() {
         return "BlockListResponse{" +
                 "blockList=" + blockList +
                 ", deleteResult=" + deleteResult +

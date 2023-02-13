@@ -23,7 +23,7 @@ public class BlockListMapper {
         userMapper = new UserMapper();
         userDao = new UserDao();
         blockListEntity = new BlockListEntity();
-        blockListMapper = new BlockListMapper();
+        //blockListMapper = new BlockListMapper();
     }
 
     public BlockList insert (String phoneNumber ,String blockedUserPhoneNumber) {
@@ -109,6 +109,7 @@ public class BlockListMapper {
         blockListEntity.setBlockedUser(userMapper.modelToEntity(blockList.getBlockedUser()));
 
         return blockListEntity;
+
     }
 
 
