@@ -3,7 +3,7 @@ package gov.iti.jets.network.manager;
 import gov.iti.jets.network.controllers.impl.AuthenticationControllerSingleton;
 import gov.iti.jets.network.controllers.impl.ChatControllerSingleton;
 import gov.iti.jets.network.controllers.impl.MessageControllerSingleton;
-import gov.iti.jets.network.controllers.impl.UserControllerSingleton;
+import gov.iti.jets.network.controllers.impl.OnlineStatusControllerSingleton;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -26,10 +26,14 @@ public class NetworkManager {
     }
 
     public static void start(){
-        AuthenticationControllerSingleton.getInstance();
-        UserControllerSingleton.getInstance();
-        ChatControllerSingleton.getInstance();
-        MessageControllerSingleton.getInstance();
+        try {
+            AuthenticationControllerSingleton.getInstance();
+            ChatControllerSingleton.getInstance();
+            MessageControllerSingleton.getInstance();
+            OnlineStatusControllerSingleton.getInstance().ping();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void stop(){
         try {
