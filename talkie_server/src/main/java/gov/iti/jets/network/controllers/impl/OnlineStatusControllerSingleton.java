@@ -8,6 +8,8 @@ import gov.iti.jets.network.manager.NetworkManager;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -28,6 +30,9 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
         return instance;
     }
 
+    public Map<String, CallbackController> getUsers() {
+        return Collections.unmodifiableMap(users);
+    }
 
     @Override
     public void connect(User user, CallbackController callbackController) throws RemoteException {
