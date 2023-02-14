@@ -1,27 +1,30 @@
 package gov.iti.jets.models;
 
 public class BlockList {
-    private int userId;
-    private int blockedUserId;
+    private User user;
+    private User blockedUser;
 
-    public BlockList(int userId, int blockedUserId) {
-        this.userId = userId;
-        this.blockedUserId = blockedUserId;
+
+    public BlockList() {}
+
+    public BlockList(User user, User blockedUser) {
+        this.user = user;
+        this.blockedUser = blockedUser;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getBlockedUserId() {
-        return blockedUserId;
+    public User getBlockedUser() {
+        return blockedUser;
     }
 
-    public void setBlockedUserId(int blockedUserId) {
-        this.blockedUserId = blockedUserId;
+    public void setBlockedUser(User blockedUser) {
+        this.blockedUser = blockedUser;
     }
 }

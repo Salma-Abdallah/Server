@@ -1,11 +1,36 @@
 package gov.iti.jets.entities;
-public class RegularChatEntity {
+
+import gov.iti.jets.models.RegularChat;
+
+import java.io.Serializable;
+
+public class RegularChatEntity implements Serializable {
     private String id;
     private Integer firstParticipantId;
     private Integer secondParticipantId;
+    private RegularChat regularChat;
+
+
+    public RegularChat getRegularChat() {
+        return regularChat;
+    }
+
+    public void setRegularChat(RegularChat regularChat) {
+        this.regularChat = regularChat;
+    }
+
 
     public RegularChatEntity(String id, Integer firstParticipantId, Integer secondParticipantId) {
         this.id = id;
+        this.firstParticipantId = firstParticipantId;
+        this.secondParticipantId = secondParticipantId;
+
+    }
+    public RegularChatEntity (RegularChat regularChat){
+        this.regularChat = regularChat;
+    }
+
+    public RegularChatEntity(Integer firstParticipantId, Integer secondParticipantId) {
         this.firstParticipantId = firstParticipantId;
         this.secondParticipantId = secondParticipantId;
     }
@@ -32,5 +57,14 @@ public class RegularChatEntity {
 
     public void setSecondParticipantId(Integer secondParticipantId) {
         this.secondParticipantId = secondParticipantId;
+    }
+
+    @Override
+    public String toString() {
+        return "RegularChatEntity{" +
+                "id='" + id + '\'' +
+                ", firstParticipantId=" + firstParticipantId +
+                ", secondParticipantId=" + secondParticipantId +
+                '}';
     }
 }

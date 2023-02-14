@@ -14,9 +14,5 @@ public class AdminControllerSingleton implements AdminController {
         return null;
     }
 
-    @Override
-    public void sendMessage(MessageController messageController) throws RemoteException {
-        messageController.send();
-        messageController.receive();
-    }
+
 }

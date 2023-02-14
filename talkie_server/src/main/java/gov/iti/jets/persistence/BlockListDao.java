@@ -16,14 +16,30 @@ public class BlockListDao {
                         """;
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)){
-                statement.setInt(1, blockListEntity.getUserId());
-                statement.setInt(2, blockListEntity.getBlockedUserId());
+                statement.setInt(1, blockListEntity.getUser().getId());
+                statement.setInt(2, blockListEntity.getBlockedUser().getId());
                 statement.executeUpdate();
                 return blockListEntity;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public int delete(BlockListEntity blockListEntity){
+        String query = """
+                            DELETE FROM block_list 
+                            where user_id = ? AND blocked_user_id = ?
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, blockListEntity.getUser().getId());
+            statement.setInt(2, blockListEntity.getBlockedUser().getId());
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<UserEntity> findAllBlockedUsersByUserId(Integer userId) {
         String query = """
                             SELECT u.* FROM block_list bl
@@ -45,6 +61,7 @@ public class BlockListDao {
         return getUserEntities(blockedUserId, query);
     }
 
+
     private List<UserEntity> getUserEntities(Integer blockedUserId, String query) {
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
@@ -59,5 +76,6 @@ public class BlockListDao {
             throw new RuntimeException(e);
         }
     }
+
 }
 

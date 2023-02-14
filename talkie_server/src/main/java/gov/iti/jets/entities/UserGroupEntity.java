@@ -1,6 +1,8 @@
 package gov.iti.jets.entities;
 
-public class UserGroupEntity {
+import java.io.Serializable;
+
+public class UserGroupEntity implements Serializable {
 
     private String userId;
     private Integer userGroupId;

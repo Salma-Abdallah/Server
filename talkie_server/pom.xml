@@ -40,6 +40,7 @@
             <artifactId>javafx-base</artifactId>
             <version>20-ea+11</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

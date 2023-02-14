@@ -8,5 +8,4 @@ import java.rmi.RemoteException;
 
 public interface AdminController extends Remote {
     Admin register(AdminEntity adminEntity);
-    void sendMessage(MessageController messageController) throws RemoteException;
 }

@@ -22,9 +22,7 @@ import java.util.Optional;
 public class AuthenticationControllerSingleton extends UnicastRemoteObject implements AuthenticationController {
 
     private static AuthenticationControllerSingleton instance;
-    private AuthenticationControllerSingleton() throws RemoteException {
-
-    }
+    private AuthenticationControllerSingleton() throws RemoteException {}
     public static AuthenticationControllerSingleton getInstance(){
         try {
             if(instance == null){

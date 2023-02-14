@@ -12,11 +12,12 @@ public class ImageUtils {
 
     public static String storeImage(User user){
         try {
-            Path filePath = Paths.get("appdata/" + user.getPhoneNumber() + "/profile" + user.getPictureExtension());
+            Path filePath = Paths.get("appdata/" + user.getPhoneNumber() + "/profile" +"."+ user.getPictureExtension());
             Path parent = filePath.getParent();
             if (!Files.exists(parent)) {
                 Files.createDirectories(parent);
             }
+
             Files.write(filePath,
                     user.getPicture(),
                     StandardOpenOption.CREATE,

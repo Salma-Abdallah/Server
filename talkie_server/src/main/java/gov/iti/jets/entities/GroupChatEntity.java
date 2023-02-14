@@ -1,12 +1,19 @@
 package gov.iti.jets.entities;
 
-public class GroupChatEntity {
+import java.io.Serializable;
+
+public class GroupChatEntity implements Serializable {
     private String chatId;
     private Integer ownerId;
     private String name;
 
     public GroupChatEntity(String chatId, Integer ownerId, String name) {
         this.chatId = chatId;
+        this.ownerId = ownerId;
+        this.name = name;
+    }
+
+    public GroupChatEntity(Integer ownerId, String name) {
         this.ownerId = ownerId;
         this.name = name;
     }

@@ -1,7 +1,9 @@
 package gov.iti.jets.network.manager;
 
 import gov.iti.jets.network.controllers.impl.AuthenticationControllerSingleton;
-import gov.iti.jets.network.controllers.impl.UserControllerSingleton;
+import gov.iti.jets.network.controllers.impl.ChatControllerSingleton;
+import gov.iti.jets.network.controllers.impl.MessageControllerSingleton;
+import gov.iti.jets.network.controllers.impl.OnlineStatusControllerSingleton;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -13,7 +15,7 @@ import java.util.List;
 public class NetworkManager {
 
     private static Registry registry;
-    private static int port = 2100;
+    private static int port = 2200;
 
     static {
         try {
@@ -24,8 +26,14 @@ public class NetworkManager {
     }
 
     public static void start(){
-        AuthenticationControllerSingleton.getInstance();
-        UserControllerSingleton.getInstance();
+        try {
+            AuthenticationControllerSingleton.getInstance();
+            ChatControllerSingleton.getInstance();
+            MessageControllerSingleton.getInstance();
+            OnlineStatusControllerSingleton.getInstance().ping();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void stop(){
         try {

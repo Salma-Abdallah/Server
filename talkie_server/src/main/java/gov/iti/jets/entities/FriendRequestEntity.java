@@ -19,6 +19,7 @@ public class FriendRequestEntity {
         this.status = status;
         this.sentAt = sentAt;
     }
+    public FriendRequestEntity(){}
 
     public Integer getId() {
         return id;
