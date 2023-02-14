@@ -12,7 +12,7 @@ public class AdminService {
     private AdminDao adminDao;
 
 
-    public Optional<Admin> getUserByPhoneNumber(String phoneNumber){
+    public Optional<Admin> getAdminByPhoneNumber(String phoneNumber){
         Optional<AdminEntity> adminEntity = adminDao.findAdminByPhoneNumber(phoneNumber);
         if(adminEntity.isPresent()){
             return Optional.of(adminMapper.entityToModel(adminEntity.get()));

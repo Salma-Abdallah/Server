@@ -1,19 +1,21 @@
 package gov.iti.jets.entities;
 
 public class StatisticEntity {
-    String data;
+    String country;
     int count;
 
-    public StatisticEntity(String data, int count) {
-        this.data = data;
+
+    public StatisticEntity(String country, int count) {
+        this.country = country;
         this.count = count;
     }
-    public String getData() {
-        return data;
+
+    public String getCountry() {
+        return country;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public int getCount() {
@@ -26,10 +28,9 @@ public class StatisticEntity {
 
     @Override
     public String toString() {
-        return "StatisticEntity{" +
-                "data='" + data + '\'' +
+        return "Statistic{" +
+                "country='" + country + '\'' +
                 ", count=" + count +
                 '}';
     }
-
 }

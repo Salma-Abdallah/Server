@@ -7,13 +7,21 @@ import java.util.List;
 
 
 public class StatisticService {
-    private StatisticDao statisticDao;
+    private StatisticDao statisticDao = new StatisticDao();
 
-    public List<StatisticEntity> getOnlineOfflineStatistics(){
-        return statisticDao.getOnlineOfflineUsers();
+
+    public int getNumberOfAllUsers(){
+        return statisticDao.getNumberOfAllUsers();
     }
-    public List<StatisticEntity> getGenderStatistics(){
-        return statisticDao.getDataByGender();
+    public int getNumberOfAllMsg(){
+        return statisticDao.getNumberOfAllMsg();
+    }
+
+    public int getNumberOfOfflineUsers(){
+        return statisticDao.getNumberOfOfflineUsers();
+    }
+    public int getNumberOfMaleUsers(){
+        return statisticDao.getNumberOfMaleUsers();
     }
     public List<StatisticEntity> getCountryStatistics(){
         return statisticDao.getDataByCountry();

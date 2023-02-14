@@ -1,56 +1,84 @@
 package gov.iti.jets.persistence;
 
 import gov.iti.jets.entities.StatisticEntity;
-import gov.iti.jets.entities.UserEntity;
 import gov.iti.jets.persistence.connection.DataSourceSingleton;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticDao {
-    public List<StatisticEntity> getOnlineOfflineUsers() {
-        List<StatisticEntity> statisticEntities = new ArrayList<>();
+    public int getNumberOfAllUsers() {
+        int count = 0;
         String query = """
-                SELECT status,COUNT(*) count
-                FROM users
-                GROUP BY gender
-                HAVING online_status="online" OR online_status="offline";
+                SELECT COUNT(*) count
+                FROM users;
                 """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                String data = result.getString("status");
-                int count = result.getInt("count");
-                statisticEntities.add(new StatisticEntity(data, count));
+                count = result.getInt("count");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return statisticEntities;
+        return count;
     }
-    public List<StatisticEntity> getDataByGender() {
-        List<StatisticEntity> statisticEntities = new ArrayList<>();
+    public int getNumberOfAllMsg() {
+        int count = 0;
+        String query = """
+                SELECT COUNT(*) count
+                FROM messages;
+                """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                count = result.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public int getNumberOfOfflineUsers() {
+        int count = 0;
+        String query = """
+                SELECT COUNT(*) count
+                FROM users
+                GROUP BY online_status
+                HAVING online_status="offline";
+                """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                count = result.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public int getNumberOfMaleUsers() {
+        int count = 0;
         String query = """
                 SELECT gender,COUNT(*) count
                 FROM users
-                GROUP BY gender;
+                GROUP BY gender
+                HAVING gender='M';
                 """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                String data = result.getString("gender");
-                int count = result.getInt("count");
-                statisticEntities.add(new StatisticEntity(data, count));
+                count = result.getInt("count");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return statisticEntities;
+        return count;
     }
     public List<StatisticEntity> getDataByCountry() {
         List<StatisticEntity> statisticEntities = new ArrayList<>();
@@ -72,6 +100,4 @@ public class StatisticDao {
         }
         return statisticEntities;
     }
-
-
 }
