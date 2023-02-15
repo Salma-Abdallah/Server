@@ -35,7 +35,7 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
     }
 
     private FriendRequestControllerSingleton() throws RemoteException {}
-
+    @Override
     public SendFriendReqResponse sendFriendRequest (SendFriendReqRequest request) {
         String senderPhoneNumber = request.getSenderPhoneNumber();
         String receiverPhoneNumber = request.getReceiverPhoneNumber();
@@ -58,19 +58,20 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
         }
         return new SendFriendReqResponse(null, null);
     }
+    @Override
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) {
         return new CancelFriendRequestResponse(new FriendRequestServices().cancel(cancelFriendRequest.getUserPhoneNumber(),cancelFriendRequest.getFriendPhoneNumber()));
     }
 
-
+    @Override
     public RefuseFriendFriendResponse refuse(RefuseFriendRequest refuseFriendRequest) {
         return new RefuseFriendFriendResponse(new FriendRequestServices().refuse(refuseFriendRequest.getUserPhoneNumber(),refuseFriendRequest.getFriendPhoneNumber()));
     }
-
+    @Override
     public AcceptFriendResponse accept(AcceptFriendRequest acceptFriendRequest) {
         return new AcceptFriendResponse(new FriendRequestServices().accept(acceptFriendRequest.getUserPhoneNumber(), acceptFriendRequest.getFriendPhoneNumber()));
     }
-
+    @Override
     public LoadFriendReqResponse getSentFriendRequestByUserID (LoadFriendReqRequest loadFriendReqRequest) {
         return new LoadFriendReqResponse(new FriendRequestServices().getSentFriendRequestByUsePhoneNumber(loadFriendReqRequest.getUserPhoneNumber()));
     }
