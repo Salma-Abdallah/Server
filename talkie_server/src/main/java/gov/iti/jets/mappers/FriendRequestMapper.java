@@ -19,21 +19,18 @@ public class FriendRequestMapper {
 
 
     private FriendRequestDao friendRequestDao;
-    private ChatDao chatDao;
-    private RegularChatDao regularChatDao;
-    private RegularChatMapper regularChatMapper;
-    private RegularChatEntity regularChatEntity;
-    private RegularChat regularChat;
     private UserDao userDao;
     private UserMapper userMapper;
+    private RegularChatDao regularChatDao;
 
     public FriendRequestMapper() {
         friendRequestDao = new FriendRequestDao();
         userDao = new UserDao();
         userMapper = new UserMapper();
+        regularChatDao = new RegularChatDao();
     }
 
-    public List<FriendRequest> getReceivedFriendReqByUserID(String userPhoneNumber) {
+    public List<FriendRequest> getReceivedFriendReqByUserPhoneNumber(String userPhoneNumber) {
 
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if(userEntityOptional.isPresent()) {
@@ -45,11 +42,10 @@ public class FriendRequestMapper {
                 friendRequestList.add(entityToModel(friendRequestEntity));
             }
             return friendRequestList;
-
         }
         return null;
     }
-    public List<FriendRequest> getSentFriendRequestByUserID (String userPhoneNumber) {
+    public List<FriendRequest> getSentFriendRequestByUserPhoneNumber (String userPhoneNumber) {
 
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if(userEntityOptional.isPresent()) {
@@ -58,61 +54,34 @@ public class FriendRequestMapper {
             List<FriendRequest> friendRequestList = new ArrayList<>();
             for (FriendRequestEntity friendRequestEntity : friendEntities) {
                 friendRequestList.add(entityToModel(friendRequestEntity));
-
             }
             return friendRequestList;
         }
         return null;
     }
-
-
-    public RegularChat accept (String userPhoneNumber, String friendPhoneNumber) {
-
-        Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
-        if(userEntityOptional.isPresent()){
-            UserEntity userEntity = userEntityOptional.get();
-            Optional<UserEntity> friendEntityOptional = userDao.findUserByPhoneNumber(friendPhoneNumber);
-            if(friendEntityOptional.isPresent()) {
-                UserEntity friendEntity = friendEntityOptional.get();
-                 regularChatEntity.getFirstParticipantId();
-                 regularChatEntity.getSecondParticipantId();
-                RegularChatEntity regularChatEntity1 = regularChatDao.save(regularChatEntity);
-                return regularChatEntity1.getRegularChat();
-            }
-        }
-        return null;
+    public RegularChat accept (String senderPhoneNumber, String receiverPhoneNumber) {
+        UserEntity senderUserEntity = userDao.findUserByPhoneNumber(senderPhoneNumber).get();
+        UserEntity receiverUserEntity = userDao.findUserByPhoneNumber(receiverPhoneNumber).get();
+        friendRequestDao.delete(senderUserEntity.getId(), receiverUserEntity.getId());
+        RegularChatEntity regularChatEntity = regularChatDao.save(new RegularChatEntity(senderUserEntity.getId(), receiverUserEntity.getId()));
+        return new RegularChat(regularChatEntity.getId(), userMapper.entityToModel(senderUserEntity), userMapper.entityToModel(receiverUserEntity));
     }
 
-    public String refuse (String userPhoneNumber, String friendPhoneNumber) {
-        Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
-        if (userEntityOptional.isPresent()) {
-            UserEntity userEntity = userEntityOptional.get();
-            Optional<UserEntity> friendEntityOptional = userDao.findUserByPhoneNumber(friendPhoneNumber);
-            if (friendEntityOptional.isPresent()) {
-                UserEntity friendEntity = friendEntityOptional.get();
-                int result = friendRequestDao.refuse(userEntity.getId(), friendEntity.getId());
-                if (result != -1) {
-                    return "refused successfully";
-                }
-            }
+    public boolean refuse (String senderPhoneNumber, String receiverPhoneNumber){
+        UserEntity senderUserEntity = userDao.findUserByPhoneNumber(senderPhoneNumber).get();
+        UserEntity receiverUserEntity = userDao.findUserByPhoneNumber(receiverPhoneNumber).get();
+        if(friendRequestDao.delete(receiverUserEntity.getId(), senderUserEntity.getId()) != 0){
+            return true;
         }
-        return null;
+        return false;
     }
-
-    public String cancel (String userPhoneNumber, String friendPhoneNumber) {
-        Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
-        if (userEntityOptional.isPresent()) {
-            UserEntity userEntity = userEntityOptional.get();
-            Optional<UserEntity> friendEntityOptional = userDao.findUserByPhoneNumber(friendPhoneNumber);
-            if (friendEntityOptional.isPresent()) {
-                UserEntity friendEntity = friendEntityOptional.get();
-                int result = friendRequestDao.cancel(userEntity.getId(), friendEntity.getId());
-                if (result != -1) {
-                    return "request deleted successfully";
-                }
-            }
+    public boolean cancel (String senderPhoneNumber, String receiverPhoneNumber) {
+        UserEntity senderUserEntity = userDao.findUserByPhoneNumber(senderPhoneNumber).get();
+        UserEntity receiverUserEntity = userDao.findUserByPhoneNumber(receiverPhoneNumber).get();
+        if(friendRequestDao.delete(senderUserEntity.getId(), receiverUserEntity.getId()) != 0){
+            return true;
         }
-        return "";
+        return false;
     }
 
 

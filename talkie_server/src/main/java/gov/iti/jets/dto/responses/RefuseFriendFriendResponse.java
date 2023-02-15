@@ -4,24 +4,17 @@ import java.io.Serializable;
 
 public class RefuseFriendFriendResponse implements Serializable {
 
-    private String alert;
+    private boolean refused;
 
-    @Override
-    public String toString() {
-        return "RefuseFriendFriendResponse{" +
-                "alert='" + alert + '\'' +
-                '}';
+    public RefuseFriendFriendResponse(boolean refused) {
+        this.refused = refused;
     }
 
-    public String getAlert() {
-        return alert;
+    public boolean isRefused() {
+        return refused;
     }
 
-    public void setAlert(String alert) {
-        this.alert = alert;
-    }
-
-    public RefuseFriendFriendResponse(String alert) {
-        this.alert = alert;
+    public void setRefused(boolean refused) {
+        this.refused = refused;
     }
 }

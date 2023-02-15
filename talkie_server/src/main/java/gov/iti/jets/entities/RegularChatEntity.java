@@ -8,17 +8,6 @@ public class RegularChatEntity implements Serializable {
     private String id;
     private Integer firstParticipantId;
     private Integer secondParticipantId;
-    private RegularChat regularChat;
-
-
-    public RegularChat getRegularChat() {
-        return regularChat;
-    }
-
-    public void setRegularChat(RegularChat regularChat) {
-        this.regularChat = regularChat;
-    }
-
 
     public RegularChatEntity(String id, Integer firstParticipantId, Integer secondParticipantId) {
         this.id = id;
@@ -26,10 +15,6 @@ public class RegularChatEntity implements Serializable {
         this.secondParticipantId = secondParticipantId;
 
     }
-    public RegularChatEntity (RegularChat regularChat){
-        this.regularChat = regularChat;
-    }
-
     public RegularChatEntity(Integer firstParticipantId, Integer secondParticipantId) {
         this.firstParticipantId = firstParticipantId;
         this.secondParticipantId = secondParticipantId;

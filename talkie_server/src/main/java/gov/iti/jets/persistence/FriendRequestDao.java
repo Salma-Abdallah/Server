@@ -77,30 +77,15 @@ public class FriendRequestDao {
             throw new RuntimeException(e);
         }
     }
-    public int cancel (Integer userId, Integer friendId){
+    public int delete (Integer senderId, Integer receiverId){
         String query = """
                             DELETE FROM friend_request
                             WHERE sender_id = ? AND receiver_id = ?;
                         """;
         try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
-            statement.setInt(2, friendId);
-            return statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public int refuse (Integer userId, Integer friendId){
-        String query = """
-                            DELETE FROM friend_request
-                            WHERE sender_id = ? AND receiver_id = ?;
-                            
-                        """;
-        try(Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, friendId);
-            statement.setInt(2, userId);
+            statement.setInt(1, senderId);
+            statement.setInt(2, receiverId);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

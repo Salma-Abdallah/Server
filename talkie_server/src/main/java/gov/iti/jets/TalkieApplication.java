@@ -1,7 +1,6 @@
 package gov.iti.jets;
 
 import gov.iti.jets.network.controllers.impl.BlockListControllerSingleton;
-import gov.iti.jets.network.controllers.impl.UserProfileControllerSingleton;
 import gov.iti.jets.network.manager.NetworkManager;
 
 public class TalkieApplication {
@@ -18,7 +17,6 @@ public class TalkieApplication {
                 }
             }
         }).start();
-
 
     }
 }

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class OnlineStatusControllerSingleton extends UnicastRemoteObject implements OnlineStatusController {
 
     private static OnlineStatusControllerSingleton instance;
-    private ConcurrentMap<String, CallbackController> users = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, CallbackController> users = new ConcurrentHashMap<>();
     ChatService chatService = new ChatService();
     UserService userService = new UserService();
     private OnlineStatusControllerSingleton() throws RemoteException {}
@@ -36,7 +36,7 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
         return instance;
     }
 
-    public Map<String, CallbackController> getUsers() {
+    public static Map<String, CallbackController> getUsers() {
         return Collections.unmodifiableMap(users);
     }
 

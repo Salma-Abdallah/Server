@@ -4,23 +4,17 @@ import java.io.Serializable;
 
 public class CancelFriendRequestResponse implements Serializable {
 
-    private String alert;
+    private boolean cancelled;
 
-    public CancelFriendRequestResponse(String alert) {
-        this.alert = alert;
-    }
-    @Override
-    public String toString() {
-        return "CancelFriendRequestResponse{" +
-                "alert='" + alert + '\'' +
-                '}';
+    public CancelFriendRequestResponse(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
-    public String getAlert() {
-        return alert;
+    public boolean isCancelled() {
+        return cancelled;
     }
 
-    public void setAlert(String alert) {
-        this.alert = alert;
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

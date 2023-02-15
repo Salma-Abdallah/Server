@@ -20,16 +20,6 @@ import java.rmi.server.UnicastRemoteObject;
 public class FriendRequestControllerSingleton extends UnicastRemoteObject implements FriendRequestController {
 
     private static FriendRequestControllerSingleton instance;
-
-    private FriendRequestServices friendResquestServices;
-    private FriendRequest friendRequest = new FriendRequest();
-    private User user = new User();
-    private User friend = new User();
-    private LoadFriendReqRequest loadFriendReqRequest;
-
-
-
-
     public static FriendRequestControllerSingleton getInstance(){
         try {
             if(instance == null){
@@ -42,10 +32,7 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
         return instance;
     }
 
-    private FriendRequestControllerSingleton() throws RemoteException {
-
-    }
-
+    private FriendRequestControllerSingleton() throws RemoteException {}
 
 
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) {
@@ -55,23 +42,18 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
 
     public RefuseFriendFriendResponse refuse(RefuseFriendRequest refuseFriendRequest) {
         return new RefuseFriendFriendResponse(new FriendRequestServices().refuse(refuseFriendRequest.getUserPhoneNumber(),refuseFriendRequest.getFriendPhoneNumber()));
-
     }
 
-
     public AcceptFriendResponse accept(AcceptFriendRequest acceptFriendRequest) {
-
         return new AcceptFriendResponse(new FriendRequestServices().accept(acceptFriendRequest.getUserPhoneNumber(), acceptFriendRequest.getFriendPhoneNumber()));
     }
 
     public LoadFriendReqResponse getSentFriendRequestByUserID (LoadFriendReqRequest loadFriendReqRequest) {
-        return new LoadFriendReqResponse(new FriendRequestServices().getSentFriendRequestByUserID(loadFriendReqRequest.getUserPhoneNumber()));
-
+        return new LoadFriendReqResponse(new FriendRequestServices().getSentFriendRequestByUsePhoneNumber(loadFriendReqRequest.getUserPhoneNumber()));
     }
 
     @Override
     public LoadFriendReqResponse getReceivedFriendReqByUserID (LoadFriendReqRequest loadFriendReqRequest) {
-        return new LoadFriendReqResponse(new FriendRequestServices().getReceivedFriendReqByUserID(loadFriendReqRequest.getUserPhoneNumber()));
-
+        return new LoadFriendReqResponse(new FriendRequestServices().getReceivedFriendReqByUserPhoneNumber(loadFriendReqRequest.getUserPhoneNumber()));
     }
 }
