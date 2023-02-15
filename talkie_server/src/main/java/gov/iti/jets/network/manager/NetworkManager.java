@@ -29,6 +29,10 @@ public class NetworkManager {
             MessageControllerSingleton.getInstance();
             OnlineStatusControllerSingleton.getInstance().ping();
             FriendRequestControllerSingleton.getInstance();
+            BlockListControllerSingleton.getInstance();
+            UserProfileControllerSingleton.getInstance();
+            ContactControllerSingleton.getInstance();
+
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
