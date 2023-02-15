@@ -24,14 +24,6 @@ public class RegularChat extends Chat{
         this.chatId = chatId;
     }
 
-    public void setFirstParticipantId(User firstParticipant) {
-        this.firstParticipant = firstParticipant;
-    }
-
-    public void setSecondParticipantId(User secondParticipant) {
-        this.secondParticipant = secondParticipant;
-    }
-
     public User getFirstParticipant() {
         return firstParticipant;
     }
