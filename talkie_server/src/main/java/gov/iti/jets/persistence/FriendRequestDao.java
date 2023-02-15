@@ -41,9 +41,10 @@ public class FriendRequestDao {
             List<FriendRequestEntity> friendRequests = new ArrayList<>();
             while (result.next()){
                 int id = result.getInt("fr_id");
+                int senderId = result.getInt("id");
                 boolean requestStatus = result.getBoolean("status");
                 Timestamp sentAt = result.getTimestamp("sent_at");
-                friendRequests.add(new FriendRequestEntity(id, user, UserDao.resultSetToUserEntity(result), requestStatus, sentAt));
+                friendRequests.add(new FriendRequestEntity(id, user, new UserDao().findUserById(senderId).get(), requestStatus, sentAt));
             }
             return friendRequests;
         } catch (SQLException e) {
@@ -66,9 +67,10 @@ public class FriendRequestDao {
             ResultSet result = statement.executeQuery();
             while (result.next()){
                 int id = result.getInt("fr_id");
+                int recieverId = result.getInt("id");
                 boolean requestStatus = result.getBoolean("status");
                 Timestamp sentAt = result.getTimestamp("sent_at");
-                friendRequests.add(new FriendRequestEntity(id, UserDao.resultSetToUserEntity(result), receiver, requestStatus, sentAt));
+                friendRequests.add(new FriendRequestEntity(id,new UserDao().findUserById(recieverId).get(), receiver, requestStatus, sentAt));
             }
             return friendRequests;
         } catch (SQLException e) {

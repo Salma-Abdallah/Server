@@ -30,7 +30,7 @@ public class FriendRequestMapper {
     public FriendRequestMapper() {
         friendRequestDao = new FriendRequestDao();
         userDao = new UserDao();
-
+        userMapper = new UserMapper();
     }
 
     public List<FriendRequest> getReceivedFriendReqByUserID(String userPhoneNumber) {
@@ -120,20 +120,19 @@ public class FriendRequestMapper {
     public FriendRequest entityToModel(FriendRequestEntity friendRequestEntity) {
 
         FriendRequest friendRequest = new FriendRequest();
-
-        friendRequest.setStatus(friendRequestEntity.isStatus());
-        friendRequest.setSentAt(friendRequestEntity.getSentAt());
         friendRequest.setSenderId(userMapper.entityToModel(friendRequestEntity.getSender()));
         friendRequest.setReceiverId(userMapper.entityToModel(friendRequestEntity.getReceiver()));
+        friendRequest.setStatus(friendRequestEntity.isStatus());
+        friendRequest.setSentAt(friendRequestEntity.getSentAt());
         return friendRequest;
     }
 
     public FriendRequestEntity modelToEntity(FriendRequest friendRequest) {
         FriendRequestEntity friendRequestEntity = new FriendRequestEntity();
+        friendRequestEntity.setSender(userMapper.modelToEntity(friendRequest.getSenderId()));
+        friendRequestEntity.setReceiver(userMapper.modelToEntity(friendRequest.getReceiverId()));
         friendRequestEntity.setStatus(friendRequest.isStatus());
         friendRequestEntity.setSentAt(friendRequest.getSentAt());
-
-
         return friendRequestEntity;
     }
 }

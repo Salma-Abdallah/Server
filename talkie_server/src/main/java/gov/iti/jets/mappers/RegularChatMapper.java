@@ -67,7 +67,6 @@ public class RegularChatMapper {
                     .toList();
         } else return new ArrayList<>();
     }
-
     public int delete(String firstPhoneNumber, String secondPhoneNumber) {
         Optional<UserEntity> firstParticipantOptional = userDao.findUserByPhoneNumber(firstPhoneNumber);
         Optional<UserEntity> secondParticipantOptional = userDao.findUserByPhoneNumber(secondPhoneNumber);

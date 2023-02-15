@@ -5,12 +5,13 @@ import gov.iti.jets.dto.responses.ContactResponse;
 import gov.iti.jets.models.Contact;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public interface ContactController extends Remote {
 
-    ContactResponse addNewContact(ContactRequest contactRequest);
-    ContactResponse getContactsByUserID(ContactRequest contactRequest);
-    ContactResponse deleteContact(ContactRequest contactRequest);
+    ContactResponse addNewContact(ContactRequest contactRequest) throws RemoteException;
+    ContactResponse getContactsByUserID(ContactRequest contactRequest) throws RemoteException;
+    ContactResponse deleteContact(ContactRequest contactRequest) throws RemoteException;
 
 }

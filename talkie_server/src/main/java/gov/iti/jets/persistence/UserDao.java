@@ -19,7 +19,7 @@ public class UserDao {
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, userEntity.getUserName());
             statement.setString(2, userEntity.getPhoneNumber());
             statement.setString(3, userEntity.getEmail());
@@ -95,6 +95,22 @@ public class UserDao {
             statement.setString(10, userEntity.getBio());
             statement.setString(11, userEntity.getPictureUrl());
             statement.setInt(12, id);
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public int updateStatusByUserPhoneNumber(String phoneNumber, String onlineStatus){
+        int result;
+        String query = """
+                        UPDATE users SET online_status = ?,  WHERE phone_number = ?
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, onlineStatus);
+            statement.setString(2, phoneNumber);
             result = statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

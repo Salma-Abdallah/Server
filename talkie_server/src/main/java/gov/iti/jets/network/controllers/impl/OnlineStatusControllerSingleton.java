@@ -1,14 +1,18 @@
 package gov.iti.jets.network.controllers.impl;
 
 
+import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.CallbackController;
 import gov.iti.jets.network.controllers.OnlineStatusController;
 import gov.iti.jets.network.manager.NetworkManager;
+import gov.iti.jets.services.ChatService;
+import gov.iti.jets.services.UserService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -17,6 +21,8 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
 
     private static OnlineStatusControllerSingleton instance;
     private ConcurrentMap<String, CallbackController> users = new ConcurrentHashMap<>();
+    ChatService chatService = new ChatService();
+    UserService userService = new UserService();
     private OnlineStatusControllerSingleton() throws RemoteException {}
     public static OnlineStatusControllerSingleton getInstance(){
         try {
@@ -36,12 +42,29 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
 
     @Override
     public void connect(User user, CallbackController callbackController) throws RemoteException {
+        List<RegularChat> chats = chatService.getAllRegularChats(user.getPhoneNumber());
+        userService.updateStatusByUserPhoneNumber(user.getPhoneNumber(), "Available");
+        for(RegularChat chat : chats){
+            CallbackController cb = users.get(chat.getFirstParticipant().getPhoneNumber());
+            if(cb != null){
+                cb.friendOnlineStatus(chat.getChatId(), "Available");
+            }
+
+        }
         users.put(user.getPhoneNumber(), callbackController);
     }
 
     @Override
-    public void disconnect(User user) throws RemoteException {
-        users.remove(user.getPhoneNumber());
+    public void disconnect(String phoneNumber) throws RemoteException {
+        List<RegularChat> chats = chatService.getAllRegularChats(phoneNumber);
+        userService.updateStatusByUserPhoneNumber(phoneNumber, "Offline");
+        for(RegularChat chat : chats){
+            CallbackController cb = users.get(chat.getFirstParticipant().getPhoneNumber());
+            if(cb != null){
+                cb.friendOnlineStatus(chat.getChatId(), "Offline");
+            }
+        }
+        users.remove(phoneNumber);
     }
 
     @Override
@@ -54,7 +77,11 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
                         value.respond();
                     } catch (RemoteException e) {
                         System.out.println("[INFO] Connection: " + "["+key+"]" + "disconnected.");
-                        users.remove(key);
+                        try {
+                            disconnect(key);
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 });
                 try {

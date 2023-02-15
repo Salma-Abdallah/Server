@@ -49,7 +49,7 @@ public class BlockListControllerSingleton extends UnicastRemoteObject implements
 
     @Override
     public ViewBlockListResponse findAllBlockedUsersByUserId(ViewBlockListRequest request) {
-        return new ViewBlockListResponse(new BlockListServices().findAllBlockedUsersByUserId(request.getUserPhoneNumber()));
+        return new ViewBlockListResponse(new BlockListServices().findAllBlockedUsersByUserPhoneNumber(request.getUserPhoneNumber()));
     }
 
 

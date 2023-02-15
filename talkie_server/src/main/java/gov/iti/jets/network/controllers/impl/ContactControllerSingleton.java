@@ -13,23 +13,13 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class ContactControllerSingleton extends UnicastRemoteObject implements ContactController {
-
-
     private static ContactControllerSingleton instance;
-    private ContactServices contactServices;
-
-    protected ContactControllerSingleton() throws RemoteException {
-        super();
-    }
-
-
+    protected ContactControllerSingleton() throws RemoteException {}
 
     @Override
     public ContactResponse addNewContact(ContactRequest contactRequest) {
        return new ContactResponse(new ContactServices().addNewContact(contactRequest.getUserPhoneNumber(),contactRequest.getContactPhoneNumber()));
     }
-
-
     @Override
     public ContactResponse getContactsByUserID(ContactRequest contactRequest) {
         return  new ContactResponse(new ContactServices().getContactsByUserID(contactRequest.getUserPhoneNumber()));
@@ -52,6 +42,5 @@ public class ContactControllerSingleton extends UnicastRemoteObject implements C
         }
         return instance;
     }
-
 }
 

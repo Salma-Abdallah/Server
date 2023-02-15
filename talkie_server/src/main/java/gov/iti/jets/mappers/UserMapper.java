@@ -31,7 +31,9 @@ public class UserMapper {
         entity.setSalt(user.getSalt());
         return entityToModel(userDao.save(entity));
     }
-
+    public int updateStatusByUserPhoneNumber(String phoneNumber, String onlineStatus){
+        return userDao.updateStatusByUserPhoneNumber(phoneNumber, onlineStatus);
+    }
     public UserEntity modelToEntity(User user){
         UserEntity userEntity = new UserEntity();
         if(user.getPicture() == null){

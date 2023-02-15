@@ -2,18 +2,18 @@ package gov.iti.jets.models;
 public class RegularChat extends Chat{
     private static final long serialVersionUID = 5887637195618767821L;
 
-    private User firstParticipantId;
-    private User secondParticipantId;
+    private User firstParticipant;
+    private User secondParticipant;
 
-    public RegularChat(String chatId, User firstParticipantId, User secondParticipantId) {
+    public RegularChat(String chatId, User firstParticipant, User secondParticipant) {
         this.chatId = chatId;
-        this.firstParticipantId = firstParticipantId;
-        this.secondParticipantId = secondParticipantId;
+        this.firstParticipant = firstParticipant;
+        this.secondParticipant = secondParticipant;
     }
 
-    public RegularChat(String chatId, User firstParticipantId) {
+    public RegularChat(String chatId, User firstParticipant) {
         this.chatId = chatId;
-        this.firstParticipantId = firstParticipantId;
+        this.firstParticipant = firstParticipant;
     }
 
     public String getChatId() {
@@ -24,28 +24,35 @@ public class RegularChat extends Chat{
         this.chatId = chatId;
     }
 
-    public void setFirstParticipantId(User firstParticipantId) {
-        this.firstParticipantId = firstParticipantId;
+    public void setFirstParticipantId(User firstParticipant) {
+        this.firstParticipant = firstParticipant;
     }
 
-    public void setSecondParticipantId(User secondParticipantId) {
-        this.secondParticipantId = secondParticipantId;
+    public void setSecondParticipantId(User secondParticipant) {
+        this.secondParticipant = secondParticipant;
     }
 
-    public User getFirstParticipantId() {
-        return firstParticipantId;
+    public User getFirstParticipant() {
+        return firstParticipant;
+    }
+    public void setFirstParticipant(User firstParticipant) {
+        this.firstParticipant = firstParticipant;
     }
 
-    public User getSecondParticipantId() {
-        return secondParticipantId;
+    public User getSecondParticipant() {
+        return secondParticipant;
+    }
+
+    public void setSecondParticipant(User secondParticipant) {
+        this.secondParticipant = secondParticipant;
     }
 
     @Override
     public String toString() {
         return "RegularChat{" +
-                "chatId='" + chatId + '\'' +
-                ", firstParticipantId=" + firstParticipantId +
-                ", secondParticipantId=" + secondParticipantId +
+                "firstParticipant=" + firstParticipant +
+                ", secondParticipant=" + secondParticipant +
+                ", chatId='" + chatId + '\'' +
                 '}';
     }
 }

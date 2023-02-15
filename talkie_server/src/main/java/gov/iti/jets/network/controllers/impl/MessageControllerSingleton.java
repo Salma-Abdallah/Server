@@ -28,7 +28,7 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
             if(instance == null){
                 instance = new MessageControllerSingleton();
             }
-            NetworkManager.getRegistry().rebind("MessageController", instance);
+            //NetworkManager.getRegistry().rebind("MessageController", instance);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -45,33 +45,70 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
     public SendMessageResponse sendMessage(SendMessageRequest request) throws RemoteException {
         MessageService messageService = new MessageService();
         ChatService chatService = new ChatService();
-        Optional<Message> messageOptional = messageService.insert(request.getMessage());
+        System.out.println(request.getMessage());
+        Optional<Message> messageOptional = sendMessageToRegularChat(messageService, chatService, request);
         if(messageOptional.isPresent()){
-            Message message = messageOptional.get();
-            List<RegularChat> regularChats = chatService.getAllRegularChats(message.getAuthor().getPhoneNumber());
-            List<GroupChat> groupChats = chatService.getAllGroupChats(message.getAuthor().getPhoneNumber());
-            for(RegularChat regularChat : regularChats){
-                if(regularChat.getChatId().equals(message.getChatId())){
-                    CallbackController callbackController = OnlineStatusControllerSingleton.getInstance().getUsers()
-                            .get(regularChat.getFirstParticipantId().getPhoneNumber());
-                    if(callbackController != null){
-                        callbackController.receiveNewMessage(message);
-                    }
-                }
-            }
-            for(GroupChat groupChat : groupChats){
-                if(groupChat.getChatId().equals(message.getChatId())){
-                    for(User user : groupChat.getParticipants()){
-                        CallbackController callbackController = OnlineStatusControllerSingleton.getInstance()
-                                                                        .getUsers().get(user.getPhoneNumber());
-                        if(callbackController != null){
-                            callbackController.receiveNewMessage(message);
-                        }
-                    }
-                }
-            }
-            return new SendMessageResponse(message);
+            return new SendMessageResponse(messageOptional.get());
+        }
+        messageOptional = sendMessageToGroupChat(messageService, chatService, request);
+        if(messageOptional.isPresent()){
+            return new SendMessageResponse(messageOptional.get());
         }
         return new SendMessageResponse(null);
+    }
+
+    public SendMessageResponse doShit(SendMessageRequest request) throws RemoteException {
+        MessageService messageService = new MessageService();
+        ChatService chatService = new ChatService();
+        System.out.println(request.getMessage());
+        Optional<Message> messageOptional = sendMessageToRegularChat(messageService, chatService, request);
+        if(messageOptional.isPresent()){
+            return new SendMessageResponse(messageOptional.get());
+        }
+        messageOptional = sendMessageToGroupChat(messageService, chatService, request);
+        if(messageOptional.isPresent()){
+            return new SendMessageResponse(messageOptional.get());
+        }
+        return new SendMessageResponse(null);
+    }
+
+    private Optional<Message> sendMessageToRegularChat(MessageService messageService, ChatService chatService, SendMessageRequest request) throws RemoteException {
+        List<RegularChat> regularChats = chatService.getAllRegularChats(request.getMessage().getAuthor().getPhoneNumber());
+        for(RegularChat regularChat : regularChats){
+            if(regularChat.getChatId().equals(request.getMessage().getChatId())){
+                if(!messageService.isReceiverBlocked(request.getMessage().getAuthor().getPhoneNumber(), regularChat.getFirstParticipant().getPhoneNumber())
+                        && !messageService.isSenderBlocked(request.getMessage().getAuthor().getPhoneNumber(), regularChat.getFirstParticipant().getPhoneNumber())){
+                    Optional<Message> messageOptional = messageService.insert(request.getMessage());
+                    CallbackController callbackController = OnlineStatusControllerSingleton.getInstance().getUsers()
+                            .get(regularChat.getFirstParticipant().getPhoneNumber());
+                    if(callbackController != null){
+                        callbackController.receiveNewMessage(request.getMessage());
+                    }
+                    return messageOptional;
+                }
+            }
+        }
+        return Optional.empty();
+    }
+    private Optional<Message> sendMessageToGroupChat(MessageService messageService, ChatService chatService, SendMessageRequest request) throws RemoteException {
+        User author = request.getMessage().getAuthor();
+        List<GroupChat> groupChats = chatService.getAllGroupChats(author.getPhoneNumber());
+        for(GroupChat groupChat : groupChats){
+            if(groupChat.getChatId().equals(request.getMessage().getChatId())){
+                Optional<Message> messageOptional = messageService.insert(request.getMessage());
+                for(User user : groupChat.getParticipants()){
+                    CallbackController callbackController = OnlineStatusControllerSingleton.getInstance()
+                            .getUsers().get(user.getPhoneNumber());
+                    if(callbackController != null){
+                        callbackController.receiveNewMessage(request.getMessage());
+                    }
+                    return messageOptional;
+                }
+                if(groupChat.getOwner().getPhoneNumber().equals(request.getMessage().getAuthor().getPhoneNumber())){
+                    return messageOptional;
+                }
+            }
+        }
+        return Optional.empty();
     }
 }

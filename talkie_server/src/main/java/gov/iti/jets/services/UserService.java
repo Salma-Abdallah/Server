@@ -19,7 +19,9 @@ public class UserService {
         }
         return Optional.empty();
     }
-
+    public int updateStatusByUserPhoneNumber(String phoneNumber, String onlineStatus){
+        return userMapper.updateStatusByUserPhoneNumber(phoneNumber, onlineStatus);
+    }
     public User insertUser(User user) throws RuntimeException{
         return userMapper.save(user);
     }

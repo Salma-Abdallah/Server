@@ -27,11 +27,11 @@ public class BlockListServices {
         return blockListMapper.delete(phoneNumber,blockedUserPhoneNumber);
     }
 
-    public List<User> findAllBlockedUsersByUserId(String phoneNumber){
-        return blockListMapper.findAllBlockedUsersByUserId(phoneNumber);
+    public List<User> findAllBlockedUsersByUserPhoneNumber(String phoneNumber){
+        return blockListMapper.findAllBlockedUsersByUserPhoneNumber(phoneNumber);
     }
 
-    public List<User> findAllBlockersByBlockedUserId(String phoneNumber) {
-        return blockListMapper.findAllBlockersByBlockedUserId(phoneNumber);
+    public List<User> findAllBlockersByBlockedUserPhoneNumber(String phoneNumber) {
+        return blockListMapper.findAllBlockersByBlockedUserPhoneNumber(phoneNumber);
     }
 }

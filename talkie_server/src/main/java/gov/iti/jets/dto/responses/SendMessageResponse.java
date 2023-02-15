@@ -16,4 +16,11 @@ public class SendMessageResponse {
     public void setMessage(Message message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "SendMessageResponse{" +
+                "message=" + message +
+                '}';
+    }
 }

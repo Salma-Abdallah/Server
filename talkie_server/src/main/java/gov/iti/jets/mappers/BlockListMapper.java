@@ -16,14 +16,12 @@ public class BlockListMapper {
     private UserMapper userMapper;
     private UserDao userDao;
     private BlockListEntity blockListEntity;
-    private BlockListMapper blockListMapper;
 
     public BlockListMapper() {
         blockListDao = new BlockListDao();
         userMapper = new UserMapper();
         userDao = new UserDao();
         blockListEntity = new BlockListEntity();
-        //blockListMapper = new BlockListMapper();
     }
 
     public BlockList insert (String phoneNumber ,String blockedUserPhoneNumber) {
@@ -38,7 +36,7 @@ public class BlockListMapper {
             blockListEntity.setUser(userEntity);
             blockListEntity.setBlockedUser(blockedUserEntity);
 
-            return blockListMapper.entityToModel(blockListDao.save(blockListEntity));
+            return entityToModel(blockListDao.save(blockListEntity));
         }
 
         return null;
@@ -62,14 +60,14 @@ public class BlockListMapper {
         return 0;
     }
 
-    public List<User> findAllBlockedUsersByUserId(String phoneNumber) {
+    public List<User> findAllBlockedUsersByUserPhoneNumber(String phoneNumber) {
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(phoneNumber);
-
+        List<User> usersList = new ArrayList<>();
         if(userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
 
             List<UserEntity> userEntityList = blockListDao.findAllBlockedUsersByUserId(userEntity.getId()) ;
-            List<User> usersList = new ArrayList<>();
+
 
             for(UserEntity user : userEntityList) {
                 usersList.add(userMapper.entityToModel(user));
@@ -78,17 +76,16 @@ public class BlockListMapper {
             return  usersList;
         }
 
-        return null;
+        return usersList;
     }
 
-    public List<User> findAllBlockersByBlockedUserId(String phoneNumber) {
+    public List<User> findAllBlockersByBlockedUserPhoneNumber(String phoneNumber) {
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(phoneNumber);
-
+        List<User> usersList = new ArrayList<>();
         if(userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
 
             List<UserEntity> userEntityList = blockListDao.findAllBlockersByBlockedUserId(userEntity.getId()) ;
-            List<User> usersList = new ArrayList<>();
 
             for(UserEntity user : userEntityList) {
                 usersList.add(userMapper.entityToModel(user));
@@ -97,10 +94,15 @@ public class BlockListMapper {
             return  usersList;
         }
 
-        return null;
+        return usersList;
     }
 
-
+    public boolean isUserBlocked(String senderPhoneNumber, String receiverPhoneNumber){
+        List<User> users = findAllBlockersByBlockedUserPhoneNumber(senderPhoneNumber).stream()
+                .filter((user)-> user.getPhoneNumber().equals(receiverPhoneNumber)
+                ).toList();
+        return users.size() != 0;
+    }
 
     public BlockListEntity modelToEntity (BlockList blockList) {
         BlockListEntity blockListEntity = new BlockListEntity();
