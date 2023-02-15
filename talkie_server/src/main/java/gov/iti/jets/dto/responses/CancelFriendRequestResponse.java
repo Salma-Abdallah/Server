@@ -3,18 +3,18 @@ package gov.iti.jets.dto.responses;
 import java.io.Serializable;
 
 public class CancelFriendRequestResponse implements Serializable {
+    private static final long serialVersionUID = -6546150382426913517L;
+    private String phoneNumber;
 
-    private boolean cancelled;
-
-    public CancelFriendRequestResponse(boolean cancelled) {
-        this.cancelled = cancelled;
+    public CancelFriendRequestResponse(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isCancelled() {
-        return cancelled;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

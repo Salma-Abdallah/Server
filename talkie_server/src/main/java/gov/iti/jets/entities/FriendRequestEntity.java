@@ -61,6 +61,7 @@ public class FriendRequestEntity {
         this.sentAt = sentAt;
     }
 
+
     @Override
     public String toString() {
         return "FriendRequestEntity{" +

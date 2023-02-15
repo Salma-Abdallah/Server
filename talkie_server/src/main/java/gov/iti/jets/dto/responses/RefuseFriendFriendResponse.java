@@ -3,18 +3,18 @@ package gov.iti.jets.dto.responses;
 import java.io.Serializable;
 
 public class RefuseFriendFriendResponse implements Serializable {
+    private static final long serialVersionUID = -652405811389313082L;
+    private String phoneNumber;
 
-    private boolean refused;
-
-    public RefuseFriendFriendResponse(boolean refused) {
-        this.refused = refused;
+    public RefuseFriendFriendResponse(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isRefused() {
-        return refused;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setRefused(boolean refused) {
-        this.refused = refused;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

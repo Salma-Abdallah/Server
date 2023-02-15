@@ -7,6 +7,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FriendRequestDao {
 
@@ -106,5 +107,28 @@ public class FriendRequestDao {
             throw new RuntimeException(e);
         }
         return result;
+    }
+    public Optional<FriendRequestEntity> findFriendRequestBySenderIdAndReceiverId (Integer userId, Integer friendId){
+        UserDao userDao = new UserDao();
+        String query =  """
+                            select * from friend_request where sender_id = ? and receiver_id = ?;
+                        """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, friendId);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                Integer id = result.getInt("id");
+                Integer senderId = result.getInt("sender_id");
+                Integer receiverId = result.getInt("receiver_id");
+                boolean status = result.getBoolean("status");
+                Timestamp sentAt = result.getTimestamp("sent_at");
+                return Optional.of(new FriendRequestEntity(id, userDao.findUserById(senderId).get(), userDao.findUserById(receiverId).get(), status, sentAt));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,20 +1,22 @@
 package gov.iti.jets.network.controllers.impl;
 
 
-import gov.iti.jets.dto.requests.AcceptFriendRequest;
-import gov.iti.jets.dto.requests.CancelFriendRequest;
-import gov.iti.jets.dto.requests.LoadFriendReqRequest;
-import gov.iti.jets.dto.requests.RefuseFriendRequest;
+import gov.iti.jets.dto.requests.*;
 import gov.iti.jets.dto.responses.*;
+import gov.iti.jets.mappers.RegularChatMapper;
 import gov.iti.jets.models.FriendRequest;
+import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.FriendRequestController;
 
 import gov.iti.jets.network.manager.NetworkManager;
+import gov.iti.jets.services.ChatService;
 import gov.iti.jets.services.FriendRequestServices;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Optional;
 
 
 public class FriendRequestControllerSingleton extends UnicastRemoteObject implements FriendRequestController {
@@ -34,7 +36,28 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
 
     private FriendRequestControllerSingleton() throws RemoteException {}
 
-
+    public SendFriendReqResponse sendFriendRequest (SendFriendReqRequest request) {
+        String senderPhoneNumber = request.getSenderPhoneNumber();
+        String receiverPhoneNumber = request.getReceiverPhoneNumber();
+        FriendRequestServices friendRequestService = new FriendRequestServices();
+        RegularChatMapper regularChatMapper = new RegularChatMapper();
+        List<RegularChat> chats = regularChatMapper.findAllRegularChatsByPhoneNumber(senderPhoneNumber);
+        chats = chats.stream().filter((chat) -> chat.getFirstParticipant().getPhoneNumber().equals(receiverPhoneNumber)).toList();
+        if(friendRequestService.findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(senderPhoneNumber, receiverPhoneNumber).isPresent()){
+            return new SendFriendReqResponse(null, null);
+        }
+        else if(friendRequestService.findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(receiverPhoneNumber, senderPhoneNumber).isPresent()){
+            friendRequestService.delete(receiverPhoneNumber, senderPhoneNumber);
+            Optional<RegularChat> regularChat = regularChatMapper.insert(senderPhoneNumber, receiverPhoneNumber);
+            return new SendFriendReqResponse(null, regularChat.get());
+        } else if (chats.size() == 0) {
+            Optional<FriendRequest> friendRequest = friendRequestService.insert(senderPhoneNumber, receiverPhoneNumber);
+            if(friendRequest.isPresent()){
+                return new SendFriendReqResponse(friendRequest.get(), null);
+            }
+        }
+        return new SendFriendReqResponse(null, null);
+    }
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) {
         return new CancelFriendRequestResponse(new FriendRequestServices().cancel(cancelFriendRequest.getUserPhoneNumber(),cancelFriendRequest.getFriendPhoneNumber()));
     }

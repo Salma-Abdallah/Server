@@ -31,10 +31,8 @@ public class FriendRequestMapper {
     }
 
     public List<FriendRequest> getReceivedFriendReqByUserPhoneNumber(String userPhoneNumber) {
-
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if(userEntityOptional.isPresent()) {
-
             UserEntity userEntity = userEntityOptional.get();
             List<FriendRequestEntity> friendEntities = friendRequestDao.findReceivedFriendRequestByUserID(userEntity);
             List<FriendRequest> friendRequestList = new ArrayList<>();
@@ -84,8 +82,42 @@ public class FriendRequestMapper {
         return false;
     }
 
+    public int delete (String senderPhoneNumber, String receiverPhoneNumber) {
+        UserEntity senderUserEntity = userDao.findUserByPhoneNumber(senderPhoneNumber).get();
+        UserEntity receiverUserEntity = userDao.findUserByPhoneNumber(receiverPhoneNumber).get();
+        return friendRequestDao.delete(senderUserEntity.getId(), receiverUserEntity.getId());
 
-
+    }
+    public Optional<FriendRequest> insert(String senderPhoneNumber, String receiverPhoneNumber){
+        Optional<UserEntity> senderEntityOptional = userDao.findUserByPhoneNumber(senderPhoneNumber);
+        Optional<UserEntity> receiverEntityOptional = userDao.findUserByPhoneNumber(receiverPhoneNumber);
+        if(senderEntityOptional.isPresent() && receiverEntityOptional.isPresent()){
+            UserEntity senderEntity = senderEntityOptional.get();
+            UserEntity receiverEntity = receiverEntityOptional.get();
+            friendRequestDao.save(senderEntity.getId(), receiverEntity.getId());
+            FriendRequestEntity friendRequestEntity = friendRequestDao.findFriendRequestBySenderIdAndReceiverId(senderEntity.getId(), receiverEntity.getId()).get();
+            return Optional.of(new FriendRequest(userMapper.entityToModel(friendRequestEntity.getSender()),
+                                                    userMapper.entityToModel(friendRequestEntity.getReceiver()),
+                                                    friendRequestEntity.isStatus(), friendRequestEntity.getSentAt()));
+        }
+        return Optional.empty();
+    }
+    public Optional<FriendRequest> findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber (String senderPhoneNumber, String receiverPhoneNumber){
+        Optional<UserEntity> senderEntityOptional = userDao.findUserByPhoneNumber(senderPhoneNumber);
+        Optional<UserEntity> receiverEntityOptional = userDao.findUserByPhoneNumber(receiverPhoneNumber);
+        if(senderEntityOptional.isPresent() && receiverEntityOptional.isPresent()){
+            UserEntity senderEntity = senderEntityOptional.get();
+            UserEntity receiverEntity = receiverEntityOptional.get();
+            Optional<FriendRequestEntity> friendRequestEntityOptional = friendRequestDao.findFriendRequestBySenderIdAndReceiverId(senderEntity.getId(), receiverEntity.getId());
+            if(friendRequestEntityOptional.isPresent()){
+                FriendRequestEntity friendRequestEntity = friendRequestEntityOptional.get();
+                return Optional.of(new FriendRequest(userMapper.entityToModel(friendRequestEntity.getSender()),
+                        userMapper.entityToModel(friendRequestEntity.getReceiver()),
+                        friendRequestEntity.isStatus(), friendRequestEntity.getSentAt()));
+            }
+        }
+        return Optional.empty();
+    }
     public FriendRequest entityToModel(FriendRequestEntity friendRequestEntity) {
 
         FriendRequest friendRequest = new FriendRequest();

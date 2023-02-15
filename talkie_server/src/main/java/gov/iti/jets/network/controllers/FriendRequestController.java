@@ -1,9 +1,6 @@
 package gov.iti.jets.network.controllers;
 
-import gov.iti.jets.dto.requests.AcceptFriendRequest;
-import gov.iti.jets.dto.requests.CancelFriendRequest;
-import gov.iti.jets.dto.requests.LoadFriendReqRequest;
-import gov.iti.jets.dto.requests.RefuseFriendRequest;
+import gov.iti.jets.dto.requests.*;
 import gov.iti.jets.dto.responses.*;
 
 import java.rmi.Remote;
@@ -11,7 +8,7 @@ import java.rmi.RemoteException;
 
 public interface FriendRequestController extends Remote {
 
-
+   SendFriendReqResponse sendFriendRequest (SendFriendReqRequest sendFriendReqRequest) throws  RemoteException;
    CancelFriendRequestResponse cancel (CancelFriendRequest cancelFriendRequest) throws RemoteException;
    RefuseFriendFriendResponse refuse (RefuseFriendRequest refuseFriendRequest) throws RemoteException;
    AcceptFriendResponse accept (AcceptFriendRequest acceptFriendRequest) throws  RemoteException;

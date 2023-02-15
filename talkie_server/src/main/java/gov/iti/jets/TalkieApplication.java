@@ -1,6 +1,8 @@
 package gov.iti.jets;
 
+import gov.iti.jets.dto.requests.SendFriendReqRequest;
 import gov.iti.jets.network.controllers.impl.BlockListControllerSingleton;
+import gov.iti.jets.network.controllers.impl.FriendRequestControllerSingleton;
 import gov.iti.jets.network.manager.NetworkManager;
 
 public class TalkieApplication {
@@ -17,6 +19,5 @@ public class TalkieApplication {
                 }
             }
         }).start();
-
     }
-}
+}git a
