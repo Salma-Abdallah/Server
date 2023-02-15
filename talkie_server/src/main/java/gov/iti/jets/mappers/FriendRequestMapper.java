@@ -25,6 +25,7 @@ public class FriendRequestMapper {
     private RegularChatEntity regularChatEntity;
     private RegularChat regularChat;
     private UserDao userDao;
+    private UserMapper userMapper;
 
     public FriendRequestMapper() {
         friendRequestDao = new FriendRequestDao();
@@ -65,7 +66,7 @@ public class FriendRequestMapper {
     }
 
 
-    public RegularChat save(String userPhoneNumber, String friendPhoneNumber) {
+    public RegularChat accept (String userPhoneNumber, String friendPhoneNumber) {
 
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if(userEntityOptional.isPresent()){
@@ -76,37 +77,45 @@ public class FriendRequestMapper {
                  regularChatEntity.getFirstParticipantId();
                  regularChatEntity.getSecondParticipantId();
                 RegularChatEntity regularChatEntity1 = regularChatDao.save(regularChatEntity);
-
                 return regularChatEntity1.getRegularChat();
             }
         }
         return null;
     }
 
-    public int refuse (String userPhoneNumber, String friendPhoneNumber) {
+    public String refuse (String userPhoneNumber, String friendPhoneNumber) {
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
             Optional<UserEntity> friendEntityOptional = userDao.findUserByPhoneNumber(friendPhoneNumber);
             if (friendEntityOptional.isPresent()) {
                 UserEntity friendEntity = friendEntityOptional.get();
-                return friendRequestDao.refuse(userEntity.getId(), friendEntity.getId());
+                int result = friendRequestDao.refuse(userEntity.getId(), friendEntity.getId());
+                if (result != -1) {
+                    return "refused successfully";
+                }
             }
         }
-        return 0;
+        return null;
     }
-    public int cancel (String userPhoneNumber, String friendPhoneNumber) {
+
+    public String cancel (String userPhoneNumber, String friendPhoneNumber) {
         Optional<UserEntity> userEntityOptional = userDao.findUserByPhoneNumber(userPhoneNumber);
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
             Optional<UserEntity> friendEntityOptional = userDao.findUserByPhoneNumber(friendPhoneNumber);
             if (friendEntityOptional.isPresent()) {
                 UserEntity friendEntity = friendEntityOptional.get();
-                return friendRequestDao.cancel(userEntity.getId(), friendEntity.getId());
+                int result = friendRequestDao.cancel(userEntity.getId(), friendEntity.getId());
+                if (result != -1) {
+                    return "request deleted successfully";
+                }
             }
         }
-        return 0;
+        return "";
     }
+
+
 
     public FriendRequest entityToModel(FriendRequestEntity friendRequestEntity) {
 
@@ -114,6 +123,8 @@ public class FriendRequestMapper {
 
         friendRequest.setStatus(friendRequestEntity.isStatus());
         friendRequest.setSentAt(friendRequestEntity.getSentAt());
+        friendRequest.setSenderId(userMapper.entityToModel(friendRequestEntity.getSender()));
+        friendRequest.setReceiverId(userMapper.entityToModel(friendRequestEntity.getReceiver()));
         return friendRequest;
     }
 

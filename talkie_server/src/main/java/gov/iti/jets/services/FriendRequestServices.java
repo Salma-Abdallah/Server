@@ -5,6 +5,7 @@ import gov.iti.jets.entities.UserEntity;
 import gov.iti.jets.mappers.FriendRequestMapper;
 import gov.iti.jets.mappers.UserMapper;
 import gov.iti.jets.models.FriendRequest;
+import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.persistence.ContactDao;
 import gov.iti.jets.persistence.FriendRequestDao;
 
@@ -45,16 +46,18 @@ public class FriendRequestServices {
         return friendRequestMapper.getSentFriendRequestByUserID(userPhoneNumber);
     }
 
-//    public int save(String userPhoneNumber, String friendPhoneNumber) {
-//        return friendRequestMapper.save(userPhoneNumber, friendPhoneNumber);
-//    }
-    public int refuse (String userPhoneNumber, String friendPhoneNumber) {
 
-        return friendRequestMapper.refuse(userPhoneNumber, friendPhoneNumber);
+
+    public RegularChat accept (String userPhoneNumber, String friendPhoneNumber) {
+        return friendRequestMapper.accept(userPhoneNumber, friendPhoneNumber);
     }
 
 
-    public int cancel (String userPhoneNumber, String friendPhoneNumber) {
+    public String refuse (String userPhoneNumber, String friendPhoneNumber) {
+        return friendRequestMapper.refuse(userPhoneNumber, friendPhoneNumber);
+    }
+
+    public String cancel (String userPhoneNumber, String friendPhoneNumber) {
         return friendRequestMapper.cancel(userPhoneNumber, friendPhoneNumber);
 
     }
