@@ -28,7 +28,7 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
             if(instance == null){
                 instance = new MessageControllerSingleton();
             }
-            //NetworkManager.getRegistry().rebind("MessageController", instance);
+            NetworkManager.getRegistry().rebind("MessageController", instance);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

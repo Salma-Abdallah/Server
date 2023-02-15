@@ -103,19 +103,17 @@ public class UserDao {
     }
 
     public int updateStatusByUserPhoneNumber(String phoneNumber, String onlineStatus){
-        int result;
         String query = """
-                        UPDATE users SET online_status = ?,  WHERE phone_number = ?
+                        UPDATE users SET online_status = ?  WHERE phone_number = ?
                        """;
         try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, onlineStatus);
             statement.setString(2, phoneNumber);
-            result = statement.executeUpdate();
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return result;
     }
     public static UserEntity resultSetToUserEntity(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
