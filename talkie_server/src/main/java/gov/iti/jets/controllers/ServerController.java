@@ -3,7 +3,6 @@ package gov.iti.jets.controllers;
 import gov.iti.jets.network.controllers.AdminMessageController;
 import gov.iti.jets.network.controllers.impl.AdminMessageControllerSingleton;
 import gov.iti.jets.network.manager.NetworkManager;
-import gov.iti.jets.services.AdminService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -71,8 +69,7 @@ public class ServerController implements Initializable {
             throw new RuntimeException(e);
         }
         scroll.vvalueProperty().bind(vBox.heightProperty());
-        AdminMessageController adminMessageController = null;
-//        adminMessageController.sendMessage(msgTxt.getText());
+        AdminMessageControllerSingleton.getInstance().sendMessage(msgTxt.getText());
         msgTxt.clear();
     }
 }
