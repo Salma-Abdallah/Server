@@ -76,9 +76,8 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
     }
     @Override
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) throws RemoteException {
-        System.out.println(cancelFriendRequest);
         String senderPhoneNumber = cancelFriendRequest.getFriendPhoneNumber();
-        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(senderPhoneNumber);
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(cancelFriendRequest.getUserPhoneNumber());
         if(cb != null){
             cb.deleteRecievedFriendRequest(senderPhoneNumber);
         }
@@ -87,18 +86,21 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
 
     @Override
     public RefuseFriendFriendResponse refuse(RefuseFriendRequest refuseFriendRequest) throws RemoteException {
-        System.out.println(refuseFriendRequest);
         String receiverPhoneNumber = refuseFriendRequest.getUserPhoneNumber();
-        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(receiverPhoneNumber);
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(refuseFriendRequest.getFriendPhoneNumber());
         if(cb != null){
             cb.deleteRecievedFriendRequest(receiverPhoneNumber);
         }
         return new RefuseFriendFriendResponse(new FriendRequestServices().refuse(refuseFriendRequest.getUserPhoneNumber(),refuseFriendRequest.getFriendPhoneNumber()));
     }
     @Override
-    public AcceptFriendResponse accept(AcceptFriendRequest acceptFriendRequest) {
-        //TODO: 2 Different Callbacks
-        return new AcceptFriendResponse(new FriendRequestServices().accept(acceptFriendRequest.getUserPhoneNumber(), acceptFriendRequest.getFriendPhoneNumber()));
+    public AcceptFriendResponse accept(AcceptFriendRequest acceptFriendRequest) throws RemoteException {
+        RegularChat regularChat = new FriendRequestServices().accept(acceptFriendRequest.getUserPhoneNumber(), acceptFriendRequest.getFriendPhoneNumber());
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(acceptFriendRequest.getFriendPhoneNumber());
+        if(cb != null){
+            cb.createNewRegularChat(regularChat);
+        }
+        return new AcceptFriendResponse(regularChat);
     }
     @Override
     public LoadFriendReqResponse getSentFriendRequestByUserID (LoadFriendReqRequest loadFriendReqRequest) {

@@ -39,7 +39,7 @@ public class UserProfileControllerSingleton extends UnicastRemoteObject implemen
 
         UserProfileValidation validation = new UserProfileValidation(request);
         boolean isValidRequest = validationService.userProfileValidate(validation);
-        UserProfileResponse response=new UserProfileResponse();
+        UserProfileResponse response = new UserProfileResponse();
 
         if(isValidRequest) {
             byte[] saltBytes =new byte[24];
