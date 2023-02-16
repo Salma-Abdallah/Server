@@ -21,5 +21,5 @@ public interface CallbackController extends Remote {
     void addCurrentUserToGroupChat(GroupChat chat) throws RemoteException;
 
     // when a notification is sent on broadcast to all online users.
-    void broadcastNotification() throws RemoteException;
+    void broadcastNotification(String message) throws RemoteException;
 }
