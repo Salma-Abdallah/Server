@@ -57,6 +57,29 @@ public class GroupChatDao {
         return groupChatEntities;
     }
 
+    public Optional<GroupChatEntity> findGroupChatByChatId(String chatId) {
+        String query = """
+                           SELECT *
+                           FROM group_chat
+                           WHERE id = ?
+                       """;
+        try (Connection connection = DataSourceSingleton.INSTANCE.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, chatId);
+            ResultSet result = statement.executeQuery();
+            if(result.next()) {
+                String groupChatId = result.getString("id");
+                Integer ownerId = result.getInt("owner_id");
+                String groupName = result.getString("name");
+                return Optional.of(new GroupChatEntity(groupChatId, ownerId, groupName));
+            }
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
+    }
     public Optional<GroupChatEntity> findGroupChatByOwnerIdAndChatName(Integer ownerId, String name) {
         String query = """
                            SELECT *

@@ -9,6 +9,7 @@ import gov.iti.jets.models.RegularChat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ChatService {
     private RegularChatMapper regularChatMapper;
@@ -31,5 +32,9 @@ public class ChatService {
         chats.addAll(groupChatMapper.findAllGroupChatsByOwnerId(phoneNumber));
         chats.addAll(userGroupMapper.findAllGroupChatsByPhoneNumber(phoneNumber));
         return chats;
+    }
+
+    public Optional<GroupChat> createGroupChat(String phoneNumber, String groupName){
+        return groupChatMapper.insert(phoneNumber, groupName);
     }
 }
