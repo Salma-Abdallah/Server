@@ -61,16 +61,18 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
         List<RegularChat> regularChats = chatService.getAllRegularChats(request.getMessage().getAuthor().getPhoneNumber());
         for(RegularChat regularChat : regularChats){
             if(regularChat.getChatId().equals(request.getMessage().getChatId())){
-                OnlineStatusControllerSingleton.getUsers().get(request.getMessage().getAuthor().getPhoneNumber()).receiveNewMessage(request.getMessage());
                 if(!messageService.isReceiverBlocked(request.getMessage().getAuthor().getPhoneNumber(), regularChat.getFirstParticipant().getPhoneNumber())
                         && !messageService.isSenderBlocked(request.getMessage().getAuthor().getPhoneNumber(), regularChat.getFirstParticipant().getPhoneNumber())){
                     Optional<Message> messageOptional = messageService.insert(request.getMessage());
-                    CallbackController callbackController = OnlineStatusControllerSingleton.getUsers()
-                            .get(regularChat.getFirstParticipant().getPhoneNumber());
-                    if(callbackController != null){
-                        callbackController.receiveNewMessage(messageOptional.get());
+                    if(messageOptional.isPresent()){
+                        OnlineStatusControllerSingleton.getUsers().get(request.getMessage().getAuthor().getPhoneNumber()).receiveNewMessage(request.getMessage());
+                        CallbackController callbackController = OnlineStatusControllerSingleton.getUsers()
+                                .get(regularChat.getFirstParticipant().getPhoneNumber());
+                        if(callbackController != null){
+                            callbackController.receiveNewMessage(messageOptional.get());
+                        }
+                        return messageOptional;
                     }
-                    return messageOptional;
                 }
             }
         }
@@ -81,17 +83,19 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
         List<GroupChat> groupChats = chatService.getAllGroupChats(author.getPhoneNumber());
         for(GroupChat groupChat : groupChats){
             if(groupChat.getChatId().equals(request.getMessage().getChatId())){
-                OnlineStatusControllerSingleton.getUsers().get(request.getMessage().getAuthor().getPhoneNumber()).receiveNewMessage(request.getMessage());
                 Optional<Message> messageOptional = messageService.insert(request.getMessage());
-                for(User user : groupChat.getParticipants()){
-                    CallbackController callbackController = OnlineStatusControllerSingleton.getUsers().get(user.getPhoneNumber());
-                    if(callbackController != null){
-                        callbackController.receiveNewMessage(messageOptional.get());
+                if(messageOptional.isPresent()){
+                    OnlineStatusControllerSingleton.getUsers().get(request.getMessage().getAuthor().getPhoneNumber()).receiveNewMessage(messageOptional.get());
+                    for(User user : groupChat.getParticipants()){
+                        CallbackController callbackController = OnlineStatusControllerSingleton.getUsers().get(user.getPhoneNumber());
+                        if(callbackController != null){
+                            callbackController.receiveNewMessage(messageOptional.get());
+                        }
+                        return messageOptional;
                     }
-                    return messageOptional;
-                }
-                if(groupChat.getOwner().getPhoneNumber().equals(request.getMessage().getAuthor().getPhoneNumber())){
-                    return messageOptional;
+                    if(groupChat.getOwner().getPhoneNumber().equals(request.getMessage().getAuthor().getPhoneNumber())){
+                        return messageOptional;
+                    }
                 }
             }
         }
