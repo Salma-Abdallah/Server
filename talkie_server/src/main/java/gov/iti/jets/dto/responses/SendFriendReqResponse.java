@@ -10,10 +10,12 @@ public class SendFriendReqResponse implements Serializable {
 
     private FriendRequest friendRequest;
     private RegularChat regularChat;
+    private String error;
 
-    public SendFriendReqResponse(FriendRequest friendRequest, RegularChat regularChat) {
+    public SendFriendReqResponse(FriendRequest friendRequest, RegularChat regularChat, String error) {
         this.friendRequest = friendRequest;
         this.regularChat = regularChat;
+        this.error = error;
     }
 
     public FriendRequest getFriendRequest() {
@@ -30,6 +32,14 @@ public class SendFriendReqResponse implements Serializable {
 
     public void setRegularChat(RegularChat regularChat) {
         this.regularChat = regularChat;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     @Override

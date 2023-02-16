@@ -12,6 +12,7 @@ import gov.iti.jets.network.controllers.FriendRequestController;
 import gov.iti.jets.network.manager.NetworkManager;
 import gov.iti.jets.services.ChatService;
 import gov.iti.jets.services.FriendRequestServices;
+import gov.iti.jets.services.UserService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -41,22 +42,26 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
         String receiverPhoneNumber = request.getReceiverPhoneNumber();
         FriendRequestServices friendRequestService = new FriendRequestServices();
         RegularChatMapper regularChatMapper = new RegularChatMapper();
+        UserService userService = new UserService();
         List<RegularChat> chats = regularChatMapper.findAllRegularChatsByPhoneNumber(senderPhoneNumber);
         chats = chats.stream().filter((chat) -> chat.getFirstParticipant().getPhoneNumber().equals(receiverPhoneNumber)).toList();
+        if(userService.getUserByPhoneNumber(receiverPhoneNumber).isEmpty()){
+            return new new SendFriendReqResponse(null, null, "User not found");
+        }
         if(friendRequestService.findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(senderPhoneNumber, receiverPhoneNumber).isPresent()){
-            return new SendFriendReqResponse(null, null);
+            return new SendFriendReqResponse(null, null, "Request already sent.");
         }
         else if(friendRequestService.findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(receiverPhoneNumber, senderPhoneNumber).isPresent()){
             friendRequestService.delete(receiverPhoneNumber, senderPhoneNumber);
             Optional<RegularChat> regularChat = regularChatMapper.insert(senderPhoneNumber, receiverPhoneNumber);
-            return new SendFriendReqResponse(null, regularChat.get());
+            return new SendFriendReqResponse(null, regularChat.get(), null);
         } else if (chats.size() == 0) {
             Optional<FriendRequest> friendRequest = friendRequestService.insert(senderPhoneNumber, receiverPhoneNumber);
             if(friendRequest.isPresent()){
-                return new SendFriendReqResponse(friendRequest.get(), null);
+                return new SendFriendReqResponse(friendRequest.get(), null, null);
             }
         }
-        return new SendFriendReqResponse(null, null);
+        return new SendFriendReqResponse(null, null, "Already in your friend list");
     }
     @Override
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) {
