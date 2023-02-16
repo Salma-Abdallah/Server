@@ -1,20 +1,12 @@
 package gov.iti.jets;
 
 import gov.iti.jets.network.controllers.impl.BlockListControllerSingleton;
-import gov.iti.jets.network.controllers.impl.UserProfileControllerSingleton;
 import gov.iti.jets.network.manager.NetworkManager;
-import gov.iti.jets.persistence.UserDao;
-import gov.iti.jets.services.UserService;
-import gov.iti.jets.utils.ImageUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.rmi.RemoteException;
-import java.time.LocalDate;
-import java.util.Optional;
 
 
 public class TalkieApplication extends Application{
@@ -40,9 +32,10 @@ public class TalkieApplication extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Home");
-        Parent home = FXMLLoader.load(getClass().getResource("/views/server.fxml"));
+        Parent home = FXMLLoader.load(getClass().getResource("/views/login-page-username.fxml"));
         Scene scene = new Scene(home);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

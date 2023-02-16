@@ -23,7 +23,7 @@
         </image>
     </ImageView>
     <Text fx:id="msgCount" fill="#095e68" layoutX="340.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 Message" textAlignment="center" wrappingWidth="93.98307228088379" />
-    <BarChart fx:id="barChart" layoutX="59.0" layoutY="230.0" prefHeight="380.0" prefWidth="292.0">
+    <BarChart fx:id="barChart" layoutX="59.0" layoutY="230.0" prefHeight="380.0" prefWidth="268.0">
         <xAxis>
             <CategoryAxis label="Status" side="BOTTOM" />
         </xAxis>

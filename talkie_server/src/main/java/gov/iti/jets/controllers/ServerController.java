@@ -1,7 +1,9 @@
 package gov.iti.jets.controllers;
 
-import gov.iti.jets.models.User;
+import gov.iti.jets.network.controllers.AdminMessageController;
+import gov.iti.jets.network.controllers.impl.AdminMessageControllerSingleton;
 import gov.iti.jets.network.manager.NetworkManager;
+import gov.iti.jets.services.AdminService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class ServerController implements Initializable {
@@ -56,7 +59,7 @@ public class ServerController implements Initializable {
         }
     }
 
-    public void sendMsg(ActionEvent actionEvent) {
+    public void sendMsg(ActionEvent actionEvent) throws RemoteException {
         if (msgTxt.getText() == null || msgTxt.getText().trim().equals(""))
             return;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/text.fxml"));
@@ -67,9 +70,9 @@ public class ServerController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         scroll.vvalueProperty().bind(vBox.heightProperty());
+        AdminMessageController adminMessageController = null;
+//        adminMessageController.sendMessage(msgTxt.getText());
         msgTxt.clear();
-//            serverImp.tellOthers(msgTxt);
     }
 }

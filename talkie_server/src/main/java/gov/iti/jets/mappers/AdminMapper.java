@@ -17,7 +17,6 @@ public class AdminMapper {
         adminEntity.setAdminName(admin.getAdminName());
         adminEntity.setPhoneNumber(admin.getPhoneNumber());
         adminEntity.setPassword(admin.getPassword());
-        adminEntity.setSalt(admin.getSalt());
 
         return adminEntity;
     }
@@ -27,7 +26,6 @@ public class AdminMapper {
         admin.setAdminName(adminEntity.getAdminName());
         admin.setPhoneNumber(adminEntity.getPhoneNumber());
         admin.setPassword(adminEntity.getPassword());
-        admin.setSalt(adminEntity.getSalt());
 
         return admin;
     }
