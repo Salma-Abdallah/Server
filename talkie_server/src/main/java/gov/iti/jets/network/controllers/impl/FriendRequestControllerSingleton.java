@@ -76,20 +76,20 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
     }
     @Override
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) throws RemoteException {
-        String receiverPhoneNumber = cancelFriendRequest.getFriendPhoneNumber();
-        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(receiverPhoneNumber);
+        String senderPhoneNumber = cancelFriendRequest.getUserPhoneNumber();
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(senderPhoneNumber);
         if(cb != null){
-            cb.deleteRecievedFriendRequest(receiverPhoneNumber);
+            cb.deleteRecievedFriendRequest(senderPhoneNumber);
         }
         return new CancelFriendRequestResponse(new FriendRequestServices().cancel(cancelFriendRequest.getUserPhoneNumber(),cancelFriendRequest.getFriendPhoneNumber()));
     }
 
     @Override
     public RefuseFriendFriendResponse refuse(RefuseFriendRequest refuseFriendRequest) throws RemoteException {
-        String senderPhoneNumber = refuseFriendRequest.getUserPhoneNumber();
-        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(senderPhoneNumber);
+        String receiverPhoneNumber = refuseFriendRequest.getFriendPhoneNumber();
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(receiverPhoneNumber);
         if(cb != null){
-            cb.deleteRecievedFriendRequest(senderPhoneNumber);
+            cb.deleteRecievedFriendRequest(receiverPhoneNumber);
         }
         return new RefuseFriendFriendResponse(new FriendRequestServices().refuse(refuseFriendRequest.getUserPhoneNumber(),refuseFriendRequest.getFriendPhoneNumber()));
     }
