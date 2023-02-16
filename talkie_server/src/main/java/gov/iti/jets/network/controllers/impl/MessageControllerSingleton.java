@@ -68,7 +68,7 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
                     CallbackController callbackController = OnlineStatusControllerSingleton.getUsers()
                             .get(regularChat.getFirstParticipant().getPhoneNumber());
                     if(callbackController != null){
-                        callbackController.receiveNewMessage(request.getMessage());
+                        callbackController.receiveNewMessage(messageOptional.get());
                     }
                     return messageOptional;
                 }
@@ -86,7 +86,7 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
                 for(User user : groupChat.getParticipants()){
                     CallbackController callbackController = OnlineStatusControllerSingleton.getUsers().get(user.getPhoneNumber());
                     if(callbackController != null){
-                        callbackController.receiveNewMessage(request.getMessage());
+                        callbackController.receiveNewMessage(messageOptional.get());
                     }
                     return messageOptional;
                 }
