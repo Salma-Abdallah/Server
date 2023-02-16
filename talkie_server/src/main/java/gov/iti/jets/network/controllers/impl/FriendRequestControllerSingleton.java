@@ -46,7 +46,7 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
         List<RegularChat> chats = regularChatMapper.findAllRegularChatsByPhoneNumber(senderPhoneNumber);
         chats = chats.stream().filter((chat) -> chat.getFirstParticipant().getPhoneNumber().equals(receiverPhoneNumber)).toList();
         if(userService.getUserByPhoneNumber(receiverPhoneNumber).isEmpty()){
-            return new new SendFriendReqResponse(null, null, "User not found");
+            return new SendFriendReqResponse(null, null, "User not found");
         }
         if(friendRequestService.findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(senderPhoneNumber, receiverPhoneNumber).isPresent()){
             return new SendFriendReqResponse(null, null, "Request already sent.");
