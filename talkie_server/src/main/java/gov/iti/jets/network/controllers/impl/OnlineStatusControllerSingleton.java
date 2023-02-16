@@ -1,6 +1,8 @@
 package gov.iti.jets.network.controllers.impl;
 
 
+import gov.iti.jets.dto.requests.ChangeUserStatusRequest;
+import gov.iti.jets.dto.responses.ChangeUserStatusResponse;
 import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.models.User;
 import gov.iti.jets.network.controllers.CallbackController;
@@ -42,28 +44,15 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
 
     @Override
     public void connect(User user, CallbackController callbackController) throws RemoteException {
-        List<RegularChat> chats = chatService.getAllRegularChats(user.getPhoneNumber());
         userService.updateStatusByUserPhoneNumber(user.getPhoneNumber(), "Available");
-        for(RegularChat chat : chats){
-            CallbackController cb = users.get(chat.getFirstParticipant().getPhoneNumber());
-            if(cb != null){
-                cb.friendOnlineStatus(chat.getChatId(), "Available");
-            }
-
-        }
+        updateStatusCallback(user.getPhoneNumber(), "Available");
         users.put(user.getPhoneNumber(), callbackController);
     }
 
     @Override
     public void disconnect(String phoneNumber) throws RemoteException {
-        List<RegularChat> chats = chatService.getAllRegularChats(phoneNumber);
         userService.updateStatusByUserPhoneNumber(phoneNumber, "Offline");
-        for(RegularChat chat : chats){
-            CallbackController cb = users.get(chat.getFirstParticipant().getPhoneNumber());
-            if(cb != null){
-                cb.friendOnlineStatus(chat.getChatId(), "Offline");
-            }
-        }
+        updateStatusCallback(phoneNumber, "Offline");
         users.remove(phoneNumber);
     }
 
@@ -93,4 +82,21 @@ public class OnlineStatusControllerSingleton extends UnicastRemoteObject impleme
         }).start();
     }
 
+    @Override
+    public ChangeUserStatusResponse changeStatus(ChangeUserStatusRequest request) throws RemoteException {
+        String phoneNumber = request.getCurrentUserPhoneNumber();
+        String status = request.getStatus();
+        userService.updateStatusByUserPhoneNumber(phoneNumber, status);
+        updateStatusCallback(phoneNumber, status);
+        return new ChangeUserStatusResponse(true);
+    }
+
+    private void updateStatusCallback(String phoneNumber, String status) throws RemoteException {
+        for(RegularChat chat : chatService.getAllRegularChats(phoneNumber)){
+            CallbackController cb = users.get(chat.getFirstParticipant().getPhoneNumber());
+            if(cb != null){
+                cb.friendOnlineStatus(chat.getChatId(), status);
+            }
+        }
+    }
 }

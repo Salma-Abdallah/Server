@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 public class ChangeUserStatusRequest implements Serializable{
     private String currentUserPhoneNumber;
+    private String status;
 
-    public ChangeUserStatusRequest(String currentUserPhoneNumber){
+    public ChangeUserStatusRequest(String currentUserPhoneNumber, String status) {
         this.currentUserPhoneNumber = currentUserPhoneNumber;
+        this.status = status;
     }
 
     public String getCurrentUserPhoneNumber() {
@@ -17,8 +19,19 @@ public class ChangeUserStatusRequest implements Serializable{
         this.currentUserPhoneNumber = currentUserPhoneNumber;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "ChangeUserStatusRequest [currentUserPhoneNumber=" + currentUserPhoneNumber + "]";
+        return "ChangeUserStatusRequest{" +
+                "currentUserPhoneNumber='" + currentUserPhoneNumber + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

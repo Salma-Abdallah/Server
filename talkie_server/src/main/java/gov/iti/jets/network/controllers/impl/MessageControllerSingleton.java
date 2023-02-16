@@ -93,11 +93,11 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
                         }
                         return messageOptional;
                     }
+                    CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(groupChat.getOwner().getPhoneNumber());
+                    if(cb != null){
+                        cb.receiveNewMessage(messageOptional.get());
+                    }
                     if(groupChat.getOwner().getPhoneNumber().equals(request.getMessage().getAuthor().getPhoneNumber())){
-                        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(groupChat.getOwner().getPhoneNumber());
-                        if(cb != null){
-                            cb.receiveNewMessage(messageOptional.get());
-                        }
                         return messageOptional;
                     }
                 }
