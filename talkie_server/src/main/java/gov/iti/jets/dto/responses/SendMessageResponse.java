@@ -2,7 +2,9 @@ package gov.iti.jets.dto.responses;
 
 import gov.iti.jets.models.Message;
 
-public class SendMessageResponse {
+import java.io.Serializable;
+
+public class SendMessageResponse implements Serializable {
     private Message message;
 
     public SendMessageResponse(Message message) {
