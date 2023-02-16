@@ -36,6 +36,9 @@ public class ChartsController implements Initializable {
     ObservableList<PieChart.Data> genderData = FXCollections.observableArrayList();
     ObservableList<PieChart.Data> countryData = FXCollections.observableArrayList();
     ObservableList<XYChart.Series<String, Number>> Online_OfflineUsers = FXCollections.observableArrayList();
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateData();
@@ -47,6 +50,7 @@ public class ChartsController implements Initializable {
     }
 
     public void updateData(){
+
         userCount.setText(statisticService.getNumberOfAllUsers() + " Users");
         msgCount.setText(statisticService.getNumberOfAllMsg() + " Messages");
 
@@ -60,8 +64,8 @@ public class ChartsController implements Initializable {
             countryData.add(new PieChart.Data(countryStatistic.getCountry(), countryStatistic.getCount()));
         countryPieChart.setData(countryData);
 
-        Online_OfflineUsers.clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
+        Online_OfflineUsers.clear();
         series.getData().addAll(new XYChart.Data<>("Online", statisticService.getNumberOfAllUsers() - statisticService.getNumberOfOfflineUsers()),
                 new XYChart.Data<>("Offline", statisticService.getNumberOfOfflineUsers()));
         Online_OfflineUsers.add(series);

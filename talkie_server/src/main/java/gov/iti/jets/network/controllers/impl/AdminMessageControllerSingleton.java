@@ -18,10 +18,9 @@ public class AdminMessageControllerSingleton extends UnicastRemoteObject impleme
     @Override
     public void sendMessage(String message){
         Map<String, CallbackController> callbackUsers = OnlineStatusControllerSingleton.getInstance().getUsers();
-        List<String> users = new ArrayList<>();
         if(callbackUsers != null){
             callbackUsers.forEach((key, value)->{
-                users.add(key);
+//                value.receiveNewMessage(message);
             });
         }
     }

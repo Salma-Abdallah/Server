@@ -30,8 +30,4 @@ public class AdminService {
         return Optional.empty();
     }
 
-
-    public Admin insertAdmin(AdminEntity adminEntity){
-        return adminMapper.entityToModel(adminDao.save(adminEntity));
-    }
 }
