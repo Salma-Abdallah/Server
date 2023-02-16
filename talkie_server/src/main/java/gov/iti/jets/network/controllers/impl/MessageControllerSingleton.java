@@ -86,16 +86,16 @@ public class MessageControllerSingleton extends UnicastRemoteObject implements M
                 Optional<Message> messageOptional = messageService.insert(request.getMessage());
                 if(messageOptional.isPresent()){
                     OnlineStatusControllerSingleton.getUsers().get(request.getMessage().getAuthor().getPhoneNumber()).receiveNewMessage(messageOptional.get());
+                    CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(groupChat.getOwner().getPhoneNumber());
+                    if(cb != null){
+                        cb.receiveNewMessage(messageOptional.get());
+                    }
                     for(User user : groupChat.getParticipants()){
                         CallbackController callbackController = OnlineStatusControllerSingleton.getUsers().get(user.getPhoneNumber());
                         if(callbackController != null){
                             callbackController.receiveNewMessage(messageOptional.get());
                         }
                         return messageOptional;
-                    }
-                    CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(groupChat.getOwner().getPhoneNumber());
-                    if(cb != null){
-                        cb.receiveNewMessage(messageOptional.get());
                     }
                     if(groupChat.getOwner().getPhoneNumber().equals(request.getMessage().getAuthor().getPhoneNumber())){
                         return messageOptional;

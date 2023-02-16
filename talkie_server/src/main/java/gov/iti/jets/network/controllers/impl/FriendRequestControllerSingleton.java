@@ -7,6 +7,7 @@ import gov.iti.jets.mappers.RegularChatMapper;
 import gov.iti.jets.models.FriendRequest;
 import gov.iti.jets.models.RegularChat;
 import gov.iti.jets.models.User;
+import gov.iti.jets.network.controllers.CallbackController;
 import gov.iti.jets.network.controllers.FriendRequestController;
 
 import gov.iti.jets.network.manager.NetworkManager;
@@ -37,7 +38,7 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
 
     private FriendRequestControllerSingleton() throws RemoteException {}
     @Override
-    public SendFriendReqResponse sendFriendRequest (SendFriendReqRequest request) {
+    public SendFriendReqResponse sendFriendRequest (SendFriendReqRequest request) throws RemoteException {
         String senderPhoneNumber = request.getSenderPhoneNumber();
         String receiverPhoneNumber = request.getReceiverPhoneNumber();
         FriendRequestServices friendRequestService = new FriendRequestServices();
@@ -54,26 +55,47 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
         else if(friendRequestService.findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(receiverPhoneNumber, senderPhoneNumber).isPresent()){
             friendRequestService.delete(receiverPhoneNumber, senderPhoneNumber);
             Optional<RegularChat> regularChat = regularChatMapper.insert(senderPhoneNumber, receiverPhoneNumber);
+            CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(senderPhoneNumber);
+            if(cb != null){
+                cb.createNewRegularChat(regularChat.get());
+            }
             return new SendFriendReqResponse(null, regularChat.get(), null);
         } else if (chats.size() == 0) {
             Optional<FriendRequest> friendRequest = friendRequestService.insert(senderPhoneNumber, receiverPhoneNumber);
             if(friendRequest.isPresent()){
+                CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(receiverPhoneNumber);
+                if(cb != null){
+                    cb.createNewFriendRequest(friendRequestService
+                            .findFriendRequestBySenderPhoneNumberAndReceiverPhoneNumber(senderPhoneNumber, receiverPhoneNumber)
+                            .get());
+                }
                 return new SendFriendReqResponse(friendRequest.get(), null, null);
             }
         }
         return new SendFriendReqResponse(null, null, "Already in your friend list");
     }
     @Override
-    public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) {
+    public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) throws RemoteException {
+        String receiverPhoneNumber = cancelFriendRequest.getFriendPhoneNumber();
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(receiverPhoneNumber);
+        if(cb != null){
+            cb.deleteRecievedFriendRequest(receiverPhoneNumber);
+        }
         return new CancelFriendRequestResponse(new FriendRequestServices().cancel(cancelFriendRequest.getUserPhoneNumber(),cancelFriendRequest.getFriendPhoneNumber()));
     }
 
     @Override
-    public RefuseFriendFriendResponse refuse(RefuseFriendRequest refuseFriendRequest) {
+    public RefuseFriendFriendResponse refuse(RefuseFriendRequest refuseFriendRequest) throws RemoteException {
+        String senderPhoneNumber = refuseFriendRequest.getUserPhoneNumber();
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(senderPhoneNumber);
+        if(cb != null){
+            cb.deleteRecievedFriendRequest(senderPhoneNumber);
+        }
         return new RefuseFriendFriendResponse(new FriendRequestServices().refuse(refuseFriendRequest.getUserPhoneNumber(),refuseFriendRequest.getFriendPhoneNumber()));
     }
     @Override
     public AcceptFriendResponse accept(AcceptFriendRequest acceptFriendRequest) {
+        //TODO: 2 Different Callbacks
         return new AcceptFriendResponse(new FriendRequestServices().accept(acceptFriendRequest.getUserPhoneNumber(), acceptFriendRequest.getFriendPhoneNumber()));
     }
     @Override
