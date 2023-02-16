@@ -76,7 +76,7 @@ public class FriendRequestControllerSingleton extends UnicastRemoteObject implem
     }
     @Override
     public CancelFriendRequestResponse cancel(CancelFriendRequest cancelFriendRequest) throws RemoteException {
-        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(cancelFriendRequest.getUserPhoneNumber());
+        CallbackController cb = OnlineStatusControllerSingleton.getUsers().get(cancelFriendRequest.getFriendPhoneNumber());
         if(cb != null){
             cb.deleteRecievedFriendRequest(cancelFriendRequest.getUserPhoneNumber());
         }
