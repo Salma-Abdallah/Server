@@ -8,9 +8,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.effect.DropShadow?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../style/login-style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.jets.controllers.LoginPageUsernameFxmlController">
    <center>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" opacity="0.94" prefHeight="386.0" prefWidth="370.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+         <effect>
+            <DropShadow color="gray" blurType="THREE_PASS_BOX" />
+         </effect>
          <center>
             <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                <children>

@@ -2,10 +2,11 @@ package gov.iti.jets.dto.responses;
 
 import gov.iti.jets.dto.validation.UserProfileValidation;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-public class UserProfileResponse {
+public class UserProfileResponse implements Serializable {
     private String userName;
     private String phoneNumber;
     private String password;

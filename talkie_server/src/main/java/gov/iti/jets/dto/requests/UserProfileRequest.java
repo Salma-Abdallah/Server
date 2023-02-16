@@ -1,9 +1,10 @@
 package gov.iti.jets.dto.requests;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-public class UserProfileRequest {
+public class UserProfileRequest implements Serializable {
     private String userName;
     private String oldPhoneNumber;
     private String newPhoneNumber;
