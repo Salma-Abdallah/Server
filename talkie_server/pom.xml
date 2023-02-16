@@ -20,6 +20,33 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.31</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>20-ea+11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>20-ea+11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>20-ea+11</version>
+        </dependency>
+        <dependency>
+            <artifactId>com.google</artifactId>
+            <groupId>Ab</groupId>
+            <version>0.0.4.3</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/Ab.jar</systemPath>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
